@@ -14,14 +14,16 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     room.cpp \
-    round.cpp
+    round.cpp \
+    server.cpp
 
 HEADERS += \
     canvas.h \
     client.h \
     mainwindow.h \
     room.h \
-    round.h
+    round.h \
+    server.h
 
 FORMS += \
     mainwindow.ui
