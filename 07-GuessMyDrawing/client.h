@@ -9,7 +9,9 @@ class Client
 public:
   Client(QString name);
 
-  void send();
+  void connectToServer(const QHostAddress &adress, quint16 port);
+  void disconnectFromHost();
+  void send(const QString &text);
   void recieve();
 
 private:
