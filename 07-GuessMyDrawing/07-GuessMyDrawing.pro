@@ -10,12 +10,18 @@ CONFIG += c++11
 
 SOURCES += \
     canvas.cpp \
+    client.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    room.cpp \
+    round.cpp
 
 HEADERS += \
     canvas.h \
-    mainwindow.h
+    client.h \
+    mainwindow.h \
+    room.h \
+    round.h
 
 FORMS += \
     mainwindow.ui
