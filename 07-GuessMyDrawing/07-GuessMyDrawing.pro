@@ -11,11 +11,15 @@ CONFIG += c++11
 SOURCES += \
     client.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    room.cpp \
+    round.cpp
 
 HEADERS += \
     client.h \
-    mainwindow.h
+    mainwindow.h \
+    room.h \
+    round.h
 
 FORMS += \
     mainwindow.ui
