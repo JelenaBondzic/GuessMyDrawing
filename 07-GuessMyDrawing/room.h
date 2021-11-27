@@ -8,11 +8,6 @@
 #include "round.h"
 //#include "client.h"
 
-class Client{
-public:
-    std::string name;
-};
-
 class Timer{
 public :
     void end();
