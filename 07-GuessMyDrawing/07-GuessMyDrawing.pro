@@ -18,7 +18,8 @@ SOURCES += \
     room.cpp \
     round.cpp \
     server.cpp \
-    settings.cpp
+    settings.cpp \
+    thread.cpp
 
 HEADERS += \
     canvas.h \
@@ -29,7 +30,8 @@ HEADERS += \
     room.h \
     round.h \
     server.h \
-    settings.h
+    settings.h \
+    thread.h
 
 FORMS += \
     existingrooms.ui \
