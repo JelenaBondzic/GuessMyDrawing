@@ -15,7 +15,8 @@ SOURCES += \
     mainwindow.cpp \
     room.cpp \
     round.cpp \
-    server.cpp
+    server.cpp \
+    thread.cpp
 
 HEADERS += \
     canvas.h \
@@ -23,7 +24,8 @@ HEADERS += \
     mainwindow.h \
     room.h \
     round.h \
-    server.h
+    server.h \
+    thread.h
 
 FORMS += \
     mainwindow.ui

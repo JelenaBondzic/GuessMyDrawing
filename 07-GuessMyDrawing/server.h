@@ -2,16 +2,30 @@
 #define SERVER_H
 
 #include "QString"
+#include "room.h"
 #include <map>
+#include <QDebug>
+#include <QTcpServer>
+#include <QTcpSocket>
+#include "thread.h"
 
-class Server {
+class Server : public QTcpServer {
+ Q_OBJECT
  public:
-    Server() {}
-    void broadcast(/*Message*/);
+    explicit Server(QObject *parent = 0);
+    void startServer();
+    void broadcast(QString/*Message*/ message);
     void joinRoom(QString room_name);
-    void /*Room**/ createRoom(QString room_name);
+    Room* createRoom(QString room_name);
+
+ signals:
+
+ public slots:
+
+ protected:
+    void incomingConnection(qintptr socketDescriptor);
  private:
-    std::map<QString, QString/*Room**/> rooms;
+    std::map<QString, Room*> _rooms;
 };
 
 #endif // SERVER_H
