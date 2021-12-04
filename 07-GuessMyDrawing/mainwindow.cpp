@@ -30,11 +30,11 @@ MainWindow::~MainWindow()
   delete ui;
 }
 
-void MainWindow::attemptConnection()
+void MainWindow::attemptConnection(qint16 port)
 {
   // Update
   // Possibly static adres and port from server?
-  chatClient->connectToServer(QHostAddress::LocalHost, 1234);
+  chatClient->connectToServer(QHostAddress::LocalHost, port);
 }
 
 void MainWindow::connectToServer()
@@ -45,7 +45,7 @@ void MainWindow::connectToServer()
 
 void MainWindow::messageRecieved(const QString &sender, const QString &text)
 {
-  std::cout << sender.toStdString() << " " << text.toStdString() << std::endl;
+//  std::cout << sender.toStdString() << " " << text.toStdString() << std::endl;
   int newRow = mChatModel->rowCount();
   mChatModel->insertRow(newRow);
   mChatModel->setData(mChatModel->index(newRow,0), sender + " : " + text);

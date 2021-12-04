@@ -22,12 +22,10 @@ Client::Client(QString name, QObject *parent):
 
 void Client::connectToServer(const QHostAddress &adress, quint16 port)
 {
-  messageIn->connectToHost(adress, 12345);
+  messageIn->connectToHost(adress, port);
 //  messageOut->connectToHost(adress, 23456);
   // TODO obrada greske?
-  if (messageIn->state() != QAbstractSocket::ConnectedState /*|| messageOut->state() != QAbstractSocket::ConnectedState*/)
-    std::cout << "NOT CONNECTED" << std::endl;
-}
+ }
 
 void Client::disconnectFromHost()
 {
@@ -39,7 +37,7 @@ void Client::disconnectFromHost()
 
 void Client::send(const QString &text)
 {
-  std::cout << "SENDING " << std::endl;
+//  std::cout << "SENDING " << std::endl;
   if (text.isEmpty())
       return;
 
@@ -64,14 +62,14 @@ void Client::joinRoom(Room *newRoom)
 
 void Client::onReadyRead()
 {
-  std::cout << "READING " << std::endl;
+//  std::cout << "READING " << std::endl;
 
   QByteArray jsonData;
 //  QDataStream socketStream(messageIn);
 //  socketStream.setVersion(QDataStream::Qt_DefaultCompiledVersion);
 
   jsonData = messageIn->readAll();
-  std::cout << "Received: " <<jsonData.toStdString() << std::endl;
+//  std::cout << "Received: " <<jsonData.toStdString() << std::endl;
 
   QJsonParseError parseError;
   const QJsonDocument doc = QJsonDocument::fromJson(jsonData, &parseError);

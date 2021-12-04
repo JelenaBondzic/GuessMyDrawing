@@ -8,7 +8,12 @@ int main(int argc, char *argv[])
   MainWindow w;
   Server s;
   s.startServer();
-  w.attemptConnection();
+
+  w.attemptConnection(1234);
   w.show();
+
+  MainWindow w1;
+  w1.attemptConnection(1234);
+  w1.show();
   return a.exec();
 }

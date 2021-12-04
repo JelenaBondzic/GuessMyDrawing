@@ -27,7 +27,7 @@ Client *chatClient;
 QStandardItemModel *mChatModel;
 
 public:
-  void attemptConnection();
+  void attemptConnection(qint16 port);
 
 private slots:
   void connectToServer();
