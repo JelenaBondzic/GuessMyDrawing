@@ -17,9 +17,9 @@
    <widget class="QPushButton" name="btnSend">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>100</x>
       <y>310</y>
-      <width>111</width>
+      <width>251</width>
       <height>25</height>
      </rect>
     </property>
@@ -30,9 +30,9 @@
    <widget class="QLineEdit" name="leInput">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>270</y>
-      <width>113</width>
+      <x>100</x>
+      <y>260</y>
+      <width>251</width>
       <height>25</height>
      </rect>
     </property>
@@ -42,7 +42,7 @@
      <rect>
       <x>100</x>
       <y>40</y>
-      <width>256</width>
+      <width>251</width>
       <height>192</height>
      </rect>
     </property>

@@ -22,17 +22,17 @@ Client::Client(QString name, QObject *parent):
 
 void Client::connectToServer(const QHostAddress &adress, quint16 port)
 {
-  messageIn->connectToHost(adress, port);
-  messageOut->connectToHost(adress, port);
+  messageIn->connectToHost(adress, 12345);
+//  messageOut->connectToHost(adress, 23456);
   // TODO obrada greske?
-  if (messageIn->state() != QAbstractSocket::ConnectedState || messageOut->state() != QAbstractSocket::ConnectedState)
+  if (messageIn->state() != QAbstractSocket::ConnectedState /*|| messageOut->state() != QAbstractSocket::ConnectedState*/)
     std::cout << "NOT CONNECTED" << std::endl;
 }
 
 void Client::disconnectFromHost()
 {
   messageIn->disconnectFromHost();
-  messageOut->disconnectFromHost();
+//  messageOut->disconnectFromHost();
   std::cout << "disconected" <<std::endl;
   // TODO obrada greske?
 }
@@ -43,16 +43,23 @@ void Client::send(const QString &text)
   if (text.isEmpty())
       return;
 
-//  QDataStream clientStream(messageOut);
+//  QDataStream clientStream(messageIn);
 //  clientStream.setVersion(QDataStream::Qt_DefaultCompiledVersion);
 
   QJsonObject message;
   message["type"] = QString("message");
   message["text"] = QString(text);
   message["sender"] = QString(mName);
+
 //  clientStream << QJsonDocument(message).toJson(QJsonDocument::Compact);
 
   messageIn->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
+  //  messageOut->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
+}
+
+void Client::joinRoom(Room *newRoom)
+{
+  this->room = newRoom;
 }
 
 void Client::onReadyRead()
@@ -145,7 +152,6 @@ void Client::jsonRecieved(const QJsonObject &doc)
       if (text.isNull() || !text.isString()){
           return; // no text
         }
-
       const QJsonValue sender = doc.value(QLatin1String("sender"));
       if (sender.isNull() || !sender.isString()){
           return; // sender missing
@@ -168,4 +174,3 @@ void Client::jsonRecieved(const QJsonObject &doc)
     }
 
 }
-

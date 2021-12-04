@@ -12,6 +12,8 @@
 
 #include "canvas.h"
 
+
+
 class Room; // forward declaration so we don't have circular dependency
 
 class Client : public QObject
@@ -24,6 +26,8 @@ public:
   void connectToServer(const QHostAddress &adress, quint16 port);
   void disconnectFromHost();
   void send(const QString &text);
+
+  void joinRoom(Room *newRoom);
 
 private slots:
   void onReadyRead();
