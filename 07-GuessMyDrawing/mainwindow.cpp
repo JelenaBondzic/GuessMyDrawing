@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "client.h"
+#include "existingrooms.h"
+#include "settings.h"
 
 MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent)
@@ -9,25 +10,32 @@ MainWindow::MainWindow(QWidget *parent)
   mChatModel(new QStandardItemModel(this))
 {
   ui->setupUi(this);
-
-  mChatModel->insertColumn(0);
-  ui->listView->setModel(mChatModel);
-
-  connect(chatClient, &Client::connected, this, &MainWindow::connectToServer);
-  connect(chatClient, &Client::messageReacieved, this, &MainWindow::messageRecieved);
-  connect(chatClient, &Client::disconnected, this, &MainWindow::disconectedFromServer);
-  connect(chatClient, &Client::error, this, &MainWindow::error);
-  connect(chatClient, &Client::userJoined, this, &MainWindow::userJoined);
-  connect(chatClient, &Client::userLeft, this, &MainWindow::userLeft);
-
-  connect(ui->btnSend, &QPushButton::clicked, this, &MainWindow::sendMessage);
-  connect(ui->leInput, &QLineEdit::returnPressed, this, &MainWindow::sendMessage); // send on enter
-
+  connect(ui->pbJoinGame, &QPushButton::clicked, this, &MainWindow::onJoinGameClicked);
+  connect(ui->pbCreateNewGame, &QPushButton::clicked, this, &MainWindow::onCreateNewGameClicked);
 }
 
 MainWindow::~MainWindow()
 {
-  delete ui;
+    delete ui;
+}
+
+void MainWindow::onJoinGameClicked()
+{
+    ExistingRooms rooms;
+    rooms.setModal(true);
+    //opening the second window
+    rooms.exec();
+
+//s      hide();
+//    existingRooms = new ExistingRooms(this);
+//    existingRooms->show();
+}
+
+void MainWindow::onCreateNewGameClicked()
+{
+    hide();
+    settings = new Settings(this);
+    settings->show();
 }
 
 void MainWindow::attemptConnection()

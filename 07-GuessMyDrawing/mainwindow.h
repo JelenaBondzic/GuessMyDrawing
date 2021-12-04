@@ -3,9 +3,10 @@
 
 #include <QMainWindow>
 #include "client.h"
-#include <QStandardItemModel>
-#include <QAbstractSocket>
-#include <iostream>
+#include "existingrooms.h"
+#include "game.h"
+#include "settings.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -18,25 +19,15 @@ public:
   MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
 
+public slots:
+  void onJoinGameClicked();
+  void onCreateNewGameClicked();
+
 private:
   Ui::MainWindow *ui;
+  Client* client;
+  Game *game;
+  Settings *settings;
 
-  // ADDED
-
-Client *chatClient;
-QStandardItemModel *mChatModel;
-
-public:
-  void attemptConnection();
-
-private slots:
-  void connectToServer();
-  void messageRecieved(const QString &sender, const QString &text);
-  void sendMessage();
-  void disconectedFromServer();
-  void userJoined(const QString &username);
-  void userLeft(const QString &username);
-  void error(QAbstractSocket::SocketError socketError);
-  // ADDED
 };
 #endif // MAINWINDOW_H
