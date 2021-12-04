@@ -11,22 +11,31 @@ CONFIG += c++17
 SOURCES += \
     canvas.cpp \
     client.cpp \
+    existingrooms.cpp \
+    game.cpp \
     main.cpp \
     mainwindow.cpp \
     room.cpp \
     round.cpp \
-    server.cpp
+    server.cpp \
+    settings.cpp
 
 HEADERS += \
     canvas.h \
     client.h \
+    existingrooms.h \
+    game.h \
     mainwindow.h \
     room.h \
     round.h \
-    server.h
+    server.h \
+    settings.h
 
 FORMS += \
-    mainwindow.ui
+    existingrooms.ui \
+    game.ui \
+    mainwindow.ui \
+    settings.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
