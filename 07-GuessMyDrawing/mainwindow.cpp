@@ -34,7 +34,7 @@ void MainWindow::attemptConnection()
 {
   // Update
   // Possibly static adres and port from server?
-  chatClient->connectToServer(QHostAddress::LocalHost, 12345);
+  chatClient->connectToServer(QHostAddress::LocalHost, 1234);
 }
 
 void MainWindow::connectToServer()
