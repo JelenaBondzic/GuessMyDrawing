@@ -19,6 +19,7 @@ SOURCES += \
     thread.cpp
 
 HEADERS += \
+    MessageType.h \
     canvas.h \
     client.h \
     mainwindow.h \
