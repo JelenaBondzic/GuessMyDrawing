@@ -4,7 +4,7 @@
 Server::Server(QObject* parent): QTcpServer(parent) {}
 
 void Server::startServer() {
-    if (!this->listen(QHostAddress::LocalHost, 1234)) {
+    if (!this->listen(QHostAddress::Any, 1234)) {
         std::cout << "Server could not start!" << std::endl;
     } else {
         std::cout << "Server started..." << std::endl;
@@ -38,6 +38,3 @@ void Server::joinRoom(QString room_name) {
 }
 
 Room* Server::createRoom(QString room_name) {}
-
-
-

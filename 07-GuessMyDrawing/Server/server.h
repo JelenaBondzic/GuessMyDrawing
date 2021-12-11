@@ -2,7 +2,7 @@
 #define SERVER_H
 
 #include "QString"
-#include "room.h"
+#include "../Application/room.h"
 #include <map>
 #include <QDebug>
 #include <QTcpServer>
@@ -29,3 +29,4 @@ class Server : public QTcpServer {
 };
 
 #endif // SERVER_H
+
