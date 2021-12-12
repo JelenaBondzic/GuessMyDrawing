@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QStandardItemModel>
 #include "client.h"
 #include "existingrooms.h"
 #include "game.h"
@@ -40,8 +41,8 @@ private:
   Client* client;
   Game *game;
   Settings *settings;
-Client *chatClient;
-QStandardItemModel *mChatModel;
+  Client *chatClient;
+  QStandardItemModel *mChatModel;
 
 };
 #endif // MAINWINDOW_H

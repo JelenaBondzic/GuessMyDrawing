@@ -14,35 +14,84 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item alignment="Qt::AlignHCenter">
-     <widget class="QLabel" name="label">
-      <property name="font">
-       <font>
-        <pointsize>15</pointsize>
-        <italic>true</italic>
-       </font>
-      </property>
-      <property name="text">
-       <string>Guess My Drawing</string>
-      </property>
-     </widget>
-    </item>
-    <item alignment="Qt::AlignHCenter">
-     <widget class="QPushButton" name="pbJoinGame">
-      <property name="text">
-       <string>Join game</string>
-      </property>
-     </widget>
-    </item>
-    <item alignment="Qt::AlignHCenter">
-     <widget class="QPushButton" name="pbCreateNewGame">
-      <property name="text">
-       <string>Create new game</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>318</x>
+      <y>9</y>
+      <width>163</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>15</pointsize>
+      <italic>true</italic>
+     </font>
+    </property>
+    <property name="text">
+     <string>Guess My Drawing</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pbJoinGame">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>491</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Join game</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pbCreateNewGame">
+    <property name="geometry">
+     <rect>
+      <x>336</x>
+      <y>522</y>
+      <width>127</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Create new game</string>
+    </property>
+   </widget>
+   <widget class="QListView" name="listView">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>50</y>
+      <width>331</width>
+      <height>271</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnSend">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>370</y>
+      <width>181</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Send</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="leInput">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>340</y>
+      <width>331</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

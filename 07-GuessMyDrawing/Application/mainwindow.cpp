@@ -1,3 +1,4 @@
+#include <iostream>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "existingrooms.h"
@@ -39,6 +40,31 @@ void MainWindow::attemptConnection(qint16 port)
   chatClient->connectToServer(QHostAddress::LocalHost, port);
 }
 
+void MainWindow::connectToServer()
+{
+  // nothing
+  // asking for username generally
+}
+
+
+void MainWindow::disconectedFromServer()
+{
+  // if client lose connection to server
+}
+
+void MainWindow::sendMessage()
+{
+  chatClient->send(ui->leInput->text());
+
+  int newRow = mChatModel->rowCount();
+  mChatModel->insertRow(newRow);
+  mChatModel->setData(mChatModel->index(newRow,0), ui->leInput->text());
+  mChatModel->setData(mChatModel->index(newRow, 0), int(Qt::AlignLeft | Qt::AlignVCenter), Qt::TextAlignmentRole);
+  ui->listView->scrollToBottom();
+  ui->leInput->setText("");
+}
+
+
 void MainWindow::onJoinGameClicked()
 {
     ExistingRooms rooms;
@@ -49,6 +75,7 @@ void MainWindow::onJoinGameClicked()
 //s      hide();
 //    existingRooms = new ExistingRooms(this);
 //    existingRooms->show();
+}
 
 void MainWindow::messageRecieved(const QString &sender, const QString &text)
 {
@@ -60,9 +87,31 @@ void MainWindow::messageRecieved(const QString &sender, const QString &text)
   ui->listView->scrollToBottom();
 }
 
-void MainWindow::onCreateNewGameClicked()
-{
+void MainWindow::onCreateNewGameClicked() {
     hide();
     settings = new Settings(this);
     settings->show();
+}
+
+void MainWindow::userJoined(const QString &username)
+{
+  int newRow = mChatModel->rowCount();
+  mChatModel->insertRow(newRow);
+  mChatModel->setData(mChatModel->index(newRow,0), username + " joined");
+  mChatModel->setData(mChatModel->index(newRow, 0), int(Qt::AlignLeft | Qt::AlignVCenter), Qt::TextAlignmentRole);
+  ui->listView->scrollToBottom();
+}
+
+void MainWindow::userLeft(const QString &username)
+{
+  int newRow = mChatModel->rowCount();
+  mChatModel->insertRow(newRow);
+  mChatModel->setData(mChatModel->index(newRow,0), username + " left");
+  mChatModel->setData(mChatModel->index(newRow, 0), int(Qt::AlignLeft | Qt::AlignVCenter), Qt::TextAlignmentRole);
+  ui->listView->scrollToBottom();
+}
+
+void MainWindow::error(QAbstractSocket::SocketError socketError)
+{
+  std::cout << "ERROR :( " << std::endl;
 }
