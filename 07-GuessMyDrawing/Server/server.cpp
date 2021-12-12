@@ -15,22 +15,18 @@ void Server::incomingConnection(qintptr socketDescriptor) {
     std::cout << socketDescriptor << " connecting..." << std::endl;
     Thread* thread = new Thread(socketDescriptor, this);
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
-    thread->start();
+    connect(thread, SIGNAL(messageReceived(QByteArray)), this, SLOT(broadcast(QByteArray)));
+    _clients.append(thread);
 }
 
-//void Server::newConnection() {
-//    QTcpSocket* socket = _server->nextPendingConnection();
+void Server::broadcast(QByteArray/*Message**/ message) {
+    for (Thread* thread : _clients) {
+        sendMessage(thread, message);
+    }
+}
 
-//    socket->write("Hello!\r\n");
-//    socket->flush();
-
-//    socket->waitForBytesWritten(3000);
-
-//    socket->close();
-//}
-
-void Server::broadcast(QString/*Message**/ message) {
-
+void Server::sendMessage(Thread *thread, QByteArray message) {
+    thread->receiveMessage(message);
 }
 
 void Server::joinRoom(QString room_name) {

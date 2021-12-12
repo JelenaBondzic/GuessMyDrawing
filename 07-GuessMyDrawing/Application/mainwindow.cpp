@@ -2,14 +2,14 @@
 #include "ui_mainwindow.h"
 #include "client.h"
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(QString username, QWidget *parent)
   : QMainWindow(parent)
   , ui(new Ui::MainWindow)
-  , chatClient(new Client("milica", this)),
-  mChatModel(new QStandardItemModel(this))
+  , mChatModel(new QStandardItemModel(this))
 {
   ui->setupUi(this);
 
+  chatClient = new Client(username, this);
   mChatModel->insertColumn(0);
   ui->listView->setModel(mChatModel);
 
