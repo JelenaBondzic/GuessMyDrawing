@@ -16,18 +16,32 @@ class MainWindow : public QMainWindow
   Q_OBJECT
 
 public:
-  MainWindow(QWidget *parent = nullptr);
+  MainWindow(QString username, QWidget *parent = nullptr);
   ~MainWindow();
 
 public slots:
   void onJoinGameClicked();
   void onCreateNewGameClicked();
 
+public:
+  void attemptConnection(qint16 port);
+
+private slots:
+  void connectToServer();
+  void messageRecieved(const QString &sender, const QString &text);
+  void sendMessage();
+  void disconectedFromServer();
+  void userJoined(const QString &username);
+  void userLeft(const QString &username);
+  void error(QAbstractSocket::SocketError socketError);
+  // ADDED
 private:
   Ui::MainWindow *ui;
   Client* client;
   Game *game;
   Settings *settings;
+Client *chatClient;
+QStandardItemModel *mChatModel;
 
 };
 #endif // MAINWINDOW_H

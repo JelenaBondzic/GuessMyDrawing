@@ -2,7 +2,7 @@
 #define SERVER_H
 
 #include "QString"
-#include "room.h"
+#include "../Application/room.h"
 #include <map>
 #include <QDebug>
 #include <QTcpServer>
@@ -14,18 +14,21 @@ class Server : public QTcpServer {
  public:
     explicit Server(QObject *parent = 0);
     void startServer();
-    void broadcast(QString/*Message*/ message);
+
     void joinRoom(QString room_name);
     Room* createRoom(QString room_name);
+    void sendMessage(Thread* thread, QByteArray message);
 
  signals:
 
  public slots:
-
+    void broadcast(QByteArray/*Message*/ message);
  protected:
     void incomingConnection(qintptr socketDescriptor);
  private:
     std::map<QString, Room*> _rooms;
+    QVector<Thread*> _clients;
 };
 
 #endif // SERVER_H
+

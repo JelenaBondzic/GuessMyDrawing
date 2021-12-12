@@ -11,7 +11,7 @@
 #include <QByteArray>
 
 #include "canvas.h"
-
+#include "MessageType.h"
 
 
 class Room; // forward declaration so we don't have circular dependency
@@ -27,7 +27,7 @@ public:
   void disconnectFromHost();
   void send(const QString &text);
 
-  void joinRoom(Room *newRoom);
+  void joinRoom(QString username, Room *newRoom);
 
 private slots:
   void onReadyRead();
@@ -47,10 +47,11 @@ private:
   Canvas* canvas;
 
   QTcpSocket *messageIn;
-  QTcpSocket *messageOut;
   QTcpSocket *canvasSocket;
 
   void jsonRecieved(const QJsonObject &doc);
+
+  bool fieldIsValid(QJsonValue);
 };
 
 #endif // CLIENT_H
