@@ -72,7 +72,7 @@ void Client::onReadyRead()
   if(parseError.error == QJsonParseError::NoError){
       // data is valid json
       if (doc.isObject()) // if it's json object we can recieve it
-        jsonRecieved(doc.object());
+        jsonReceived(doc.object());
       else
         std::cerr << "DOC IS NOT JSON OBJECT" << std::endl;
     }
@@ -81,7 +81,7 @@ void Client::onReadyRead()
   }
 }
 
-void Client::jsonRecieved(const QJsonObject &doc)
+void Client::jsonReceived(const QJsonObject &doc)
 {
   const QJsonValue typeVal = doc.value(MessageType::TYPE);
 
@@ -98,7 +98,7 @@ void Client::jsonRecieved(const QJsonObject &doc)
       if (!fieldIsValid(sender)){
           return; // sender missing
         }
-      emit messageReacieved(sender.toString(), text.toString());
+      emit messageReceived(sender.toString(), text.toString());
     }
   else if(typeVal.toString().compare(MessageType::USER_JOINED) == 0){
     const QJsonValue username = doc.value(MessageType::USERNAME);

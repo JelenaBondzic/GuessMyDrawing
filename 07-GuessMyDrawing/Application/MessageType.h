@@ -19,6 +19,14 @@ public:
   inline static const QString UNKNOW = "unknown";
 
   inline static const QString CONTENT = "content";
+
+
+  inline static const QString JOIN_ROOM = "join_room";
+  inline static const QString ROOM_NAME = "room_name";
+
+  inline static const QString CANVAS_SOCKET = "canvas_socket";
+  inline static const QString MESSAGE_SOCKET = "message_socket";
+
 };
 
 //enum class MessageType {

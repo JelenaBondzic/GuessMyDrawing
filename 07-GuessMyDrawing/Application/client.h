@@ -35,7 +35,7 @@ private slots:
 signals:
   void connected();
   void disconnected();
-  void messageReacieved(const QString &sender, const QString &test);
+  void messageReceived(const QString &sender, const QString &test);
   void userJoined(const QString &username);
   void userLeft(const QString &username);
   void error(QAbstractSocket::SocketError socketError);
@@ -49,7 +49,7 @@ private:
   QTcpSocket *messageIn;
   QTcpSocket *canvasSocket;
 
-  void jsonRecieved(const QJsonObject &doc);
+  void jsonReceived(const QJsonObject &doc);
 
   bool fieldIsValid(QJsonValue);
 };

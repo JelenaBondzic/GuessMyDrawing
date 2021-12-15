@@ -17,7 +17,7 @@ MainWindow::MainWindow(QString username, QWidget *parent)
   ui->listView->setModel(mChatModel);
 
   connect(chatClient, &Client::connected, this, &MainWindow::connectToServer);
-  connect(chatClient, &Client::messageReacieved, this, &MainWindow::messageRecieved);
+  connect(chatClient, &Client::messageReceived, this, &MainWindow::messageRecieved);
   connect(chatClient, &Client::disconnected, this, &MainWindow::disconectedFromServer);
   connect(chatClient, &Client::error, this, &MainWindow::error);
   connect(chatClient, &Client::userJoined, this, &MainWindow::userJoined);
