@@ -19,9 +19,10 @@ Client::Client(QString name, QObject *parent):
 
   // slot to take care of Reading messsages
   connect(messageSocket, &QTcpSocket::readyRead, this, &Client::onMessageReadyRead);
-  connect(messageSocket, &QTcpSocket::readyRead, this, &Client::onCanvasReadyRead);
+  connect(canvasSocket, &QTcpSocket::readyRead, this, &Client::onCanvasReadyRead);
 
   connect(messageSocket, SIGNAL(errorOccurred(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));
+  connect(canvasSocket, SIGNAL(errorOccurred(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));
 }
 
 void Client::connectToServer(const QHostAddress &adress, quint16 port)
@@ -63,6 +64,7 @@ void Client::joinRoom(QString username, QString roomName)
   message[MessageType::USERNAME] = username;
   message[MessageType::ROOM_NAME] = roomName;
   messageSocket->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
+  messageSocket->flush();
 }
 
 void Client::leaveRoom()
@@ -92,22 +94,29 @@ void Client::getRooms()
 
 void Client::onMessageReadyRead()
 {
-//  std::cout << "READING " << std::endl;
+  QByteArray data;
+  data = messageSocket->readAll();
 
-  QByteArray jsonData;
-  jsonData = messageSocket->readAll();
+  QVector<QByteArray> dataVec = data.split('}'); // split by json end
 
-  QJsonParseError parseError;
-  const QJsonDocument doc = QJsonDocument::fromJson(jsonData, &parseError);
-  if(parseError.error == QJsonParseError::NoError){
-      // data is valid json
-      if (doc.isObject()) // if it's json object we can recieve it
-        jsonReceived(doc.object());
-      else
-        std::cerr << "DOC IS NOT JSON OBJECT" << std::endl;
-    }
-  else{
-    std::cerr << "PARSING JSON ERR " << parseError.errorString().toStdString() << std::endl;
+  for (auto &jsonData: dataVec) {
+      // if we don't have valid json beggining there's no point of going further
+    if(jsonData.isEmpty() || jsonData[0] != '{')
+      continue;
+    jsonData.append('}'); // add } which we removed while splitting
+
+    QJsonParseError parseError;
+    const QJsonDocument doc = QJsonDocument::fromJson(jsonData, &parseError);
+    if(parseError.error == QJsonParseError::NoError){
+        // data is valid json
+        if (doc.isObject()) // if it's json object we can recieve it
+          jsonReceived(doc.object());
+        else
+          std::cerr << "DOC IS NOT JSON OBJECT" << std::endl;
+      }
+    else{
+      std::cerr << "PARSING JSON ERR : " << parseError.errorString().toStdString() << std::endl;
+      }
     }
 }
 
@@ -206,7 +215,7 @@ void Client::jsonReceived(const QJsonObject &doc)
     emit roomList(room_list);
     }
   else if(typeVal.toString().compare(MessageType::NEW_HOST) == 0){
-    const QJsonValue rooms = doc.value(MessageType::CONTENT);
+//    const QJsonValue rooms = doc.value(MessageType::CONTENT);
     emit youAreNewHost();
     }
 }

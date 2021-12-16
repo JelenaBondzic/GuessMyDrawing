@@ -32,6 +32,8 @@ public:
   void chooseWord(QString word);
   void getRooms();
 
+  // createRoom(QString room_name, int duration)
+
 private slots:
   void onMessageReadyRead();
   void onCanvasReadyRead();
