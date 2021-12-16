@@ -27,14 +27,22 @@ public:
   void disconnectFromHost();
   void send(const QString &text);
 
-  void joinRoom(QString username, Room *newRoom);
+  void joinRoom(QString username, QString room);
+  void leaveRoom();
+  void chooseWord(QString word);
+  void getRooms();
 
 private slots:
-  void onReadyRead();
+  void onMessageReadyRead();
+  void onCanvasReadyRead();
+
+  void connectedCanvas();
+  void disconnectedCanvas();
+  void connectedMessage();
+  void disconnectedMessage();
 
 signals:
-  void connected();
-  void disconnected();
+
   void messageReceived(const QString &sender, const QString &test);
   void userJoined(const QString &username);
   void userLeft(const QString &username);
@@ -46,11 +54,10 @@ private:
   int points;
   Canvas* canvas;
 
-  QTcpSocket *messageIn;
+  QTcpSocket *messageSocket;
   QTcpSocket *canvasSocket;
 
   void jsonReceived(const QJsonObject &doc);
-
   bool fieldIsValid(QJsonValue);
 };
 

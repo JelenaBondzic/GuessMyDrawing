@@ -22,7 +22,11 @@ public:
 
 
   inline static const QString JOIN_ROOM = "join_room";
+  inline static const QString LEAVE_ROOM = "join_room";
   inline static const QString ROOM_NAME = "room_name";
+
+  inline static const QString CHOOSE_WORD = "choose_word";
+  inline static const QString GET_ROOMS = "get_rooms";
 
   inline static const QString CANVAS_SOCKET = "canvas_socket";
   inline static const QString MESSAGE_SOCKET = "message_socket";

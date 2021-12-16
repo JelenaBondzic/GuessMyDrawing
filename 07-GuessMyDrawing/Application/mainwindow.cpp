@@ -16,9 +16,7 @@ MainWindow::MainWindow(QString username, QWidget *parent)
   mChatModel->insertColumn(0);
   ui->listView->setModel(mChatModel);
 
-  connect(chatClient, &Client::connected, this, &MainWindow::connectToServer);
   connect(chatClient, &Client::messageReceived, this, &MainWindow::messageRecieved);
-  connect(chatClient, &Client::disconnected, this, &MainWindow::disconectedFromServer);
   connect(chatClient, &Client::error, this, &MainWindow::error);
   connect(chatClient, &Client::userJoined, this, &MainWindow::userJoined);
   connect(chatClient, &Client::userLeft, this, &MainWindow::userLeft);
@@ -38,18 +36,6 @@ void MainWindow::attemptConnection(qint16 port)
   // Update
   // Possibly static adres and port from server?
   chatClient->connectToServer(QHostAddress::LocalHost, port);
-}
-
-void MainWindow::connectToServer()
-{
-  // nothing
-  // asking for username generally
-}
-
-
-void MainWindow::disconectedFromServer()
-{
-  // if client lose connection to server
 }
 
 void MainWindow::sendMessage()

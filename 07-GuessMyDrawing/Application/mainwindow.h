@@ -28,10 +28,8 @@ public:
   void attemptConnection(qint16 port);
 
 private slots:
-  void connectToServer();
   void messageRecieved(const QString &sender, const QString &text);
   void sendMessage();
-  void disconectedFromServer();
   void userJoined(const QString &username);
   void userLeft(const QString &username);
   void error(QAbstractSocket::SocketError socketError);

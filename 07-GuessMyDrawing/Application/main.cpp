@@ -4,10 +4,10 @@
 int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
-  MainWindow w("pera");
+//  MainWindow w("pera");
 
-  w.attemptConnection(1234);
-  w.show();
+//  w.attemptConnection(1234);
+//  w.show();
 
   MainWindow w1("mika");
   w1.attemptConnection(1234);
