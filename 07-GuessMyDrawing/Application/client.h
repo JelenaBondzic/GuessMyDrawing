@@ -49,6 +49,9 @@ signals:
   void messageReceived(const QString &sender, const QString &test);
   void userJoined(const QString &username);
   void userLeft(const QString &username);
+  void roomList(const QVector<QString>* rooms);
+  void joinedRoom(bool success);
+  void error(QString error);
 
 private:
   QString mName;

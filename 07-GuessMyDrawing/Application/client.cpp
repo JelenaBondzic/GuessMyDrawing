@@ -21,8 +21,6 @@ Client::Client(QString name, QObject *parent):
   connect(messageSocket, &QTcpSocket::readyRead, this, &Client::onMessageReadyRead);
   connect(messageSocket, &QTcpSocket::readyRead, this, &Client::onCanvasReadyRead);
 
-  // TODO error
-//   connect(messageIn, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error), this, &Client::error);
   connect(messageSocket, SIGNAL(errorOccurred(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));
 }
 
@@ -38,7 +36,6 @@ void Client::disconnectFromHost()
   messageSocket->disconnectFromHost();
   canvasSocket->disconnectFromHost();
   std::cout << "disconected" <<std::endl;
-  // TODO obrada greske?
 }
 
 void Client::send(const QString &text)
@@ -88,7 +85,6 @@ void Client::getRooms()
   QJsonObject message;
   message[MessageType::TYPE] = QString(MessageType::GET_ROOMS);
   messageSocket->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
-
 }
 
 
@@ -148,6 +144,7 @@ void Client::disconnectedMessage()
 void Client::error(QAbstractSocket::SocketError socketError)
 {
   std::cout << "Error ocurred " << socketError << std::endl;
+  emit error("Something went wrong with cnnnection. Try again");
 }
 
 void Client::jsonReceived(const QJsonObject &doc)
@@ -186,17 +183,24 @@ void Client::jsonReceived(const QJsonObject &doc)
   else if(typeVal.toString().compare(MessageType::JOIN_ROOM) == 0){
     const QJsonValue room = doc.value(MessageType::ROOM_NAME);
     if (!fieldIsValid(room)){
+        emit joinedRoom(false);
         return; // neuspelo prikljucivanje sobi ako je null ili prazno
       }
-//    emit TODO // prebaciti se u game window
+    emit joinedRoom(true);
     }
   else if(typeVal.toString().compare(MessageType::GET_ROOMS) == 0){
     const QJsonValue rooms = doc.value(MessageType::CONTENT);
     if (!fieldIsValid(rooms)){
         return; // neuspelo prikljucivanje sobi ako je null ili prazno
       }
-    QVector<QString> room_list = rooms.toString().split(",");}
-    // TODO emitovati listu soba
+
+    // TODO check copy and memory
+    QVector<QString> *room_list = new QVector<QString>;
+    for(QString r : rooms.toString().split(","))
+        room_list->push_back(r);
+
+    emit roomList(room_list);
+    }
 }
 
 // valid value in QJSonValue isn't null and it's type String
