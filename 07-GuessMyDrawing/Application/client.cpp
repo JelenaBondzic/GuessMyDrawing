@@ -57,7 +57,14 @@ void Client::joinRoom(QString username, Room *newRoom)
       return;
     }
     */
-  this->room = newRoom;
+    this->room = newRoom;
+}
+
+QList<Room*> Client::getActiveRooms()
+{
+
+    return QList<Room*>();
+    //return this->activeRooms;
 }
 
 void Client::onReadyRead()
@@ -79,6 +86,11 @@ void Client::onReadyRead()
   else{
     std::cerr << "PARSING JSON ERR " << parseError.errorString().toStdString() << std::endl;
   }
+}
+
+const QString &Client::name() const
+{
+    return mName;
 }
 
 void Client::jsonRecieved(const QJsonObject &doc)

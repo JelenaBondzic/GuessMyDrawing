@@ -28,6 +28,11 @@ public:
   void send(const QString &text);
 
   void joinRoom(QString username, Room *newRoom);
+  QList<Room*> getActiveRooms();
+
+  void setName(const QString &newName);
+
+  const QString &name() const;
 
 private slots:
   void onReadyRead();
@@ -45,6 +50,7 @@ private:
   Room* room;
   int points;
   Canvas* canvas;
+  QList<Room*> activeRooms;
 
   QTcpSocket *messageIn;
   QTcpSocket *canvasSocket;

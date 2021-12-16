@@ -1,4 +1,4 @@
-#include "existingrooms.h"
+ #include "existingrooms.h"
 #include "ui_existingrooms.h"
 
 ExistingRooms::ExistingRooms(QWidget *parent) :
@@ -6,9 +6,12 @@ ExistingRooms::ExistingRooms(QWidget *parent) :
     ui(new Ui::ExistingRooms)
 {
     ui->setupUi(this);
-   // client.getRooms();
-}
 
+    for (int i=0; i<activeRoomsNumber ; i++ ) {
+        //add list of existing rooms in existing rooms window
+
+    }
+}
 ExistingRooms::~ExistingRooms()
 {
     delete ui;

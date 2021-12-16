@@ -7,40 +7,30 @@
 #include<unordered_map>
 #include "round.h"
 #include "client.h"
-
-
-class Timer{
-public :
-    void end();
-};
+#include<QString>
 
 class Room
 {
 private:
-    std::string name;
-    //std::map<std::string, Client*> players;
-    std::unordered_map<std::string, Client*> players;
-    std::string host;
-    Timer* timer;
+    QString name;
+    QList<Client*> players;
+
     Round* round;
+    QString chosenWord;
     int numOfPlayers = players.size();
+    int duration;
+    Client* host;
+    Client* firstHost;
 
 public:
     //server call constructor for room and sends in constructor name of host
-    Room(std::string name, std::string host);
-
-
-    const std::string &getName() const;
-    const std::unordered_map<std::string, Client *> &getPlayers() const;
-    void setPlayers(const std::unordered_map<std::string, Client *> &newPlayers);
-    const std::string &getHost() const;
-    void setHost(const std::string &newHost);
-    Timer *getTimer() const;
-    void setTimer(Timer *newTimer);
-    Round *getRound() const;
-    void setRound(Round *newRound);
+    Room(QString name, Client* firstHost);
 
     void start();
+    void setDuration(int newDuration);
+
+    bool usernameIsValid(QString username);
+    void setChosenWord(const QString &newChosenWord);
 };
 
 #endif // ROOM_H

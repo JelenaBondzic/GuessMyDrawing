@@ -3,6 +3,8 @@
 
 #include <QDialog>
 #include "game.h"
+#include "client.h"
+#include "room.h"
 //#include "mainwindow.h"
 
 namespace Ui {
@@ -21,9 +23,21 @@ private slots:
     void onSaveClicked();
     void onBackClicked();
 
+    void on_radioButton_3_clicked();
+
+    void on_radioButton_clicked();
+
+    void on_radioButton_2_clicked();
+
+    void on_lineEdit_editingFinished();
+
 private:
     Ui::Settings *ui;
     Game *game;
+    int duration;
+    QString roomName;
+    Client *client;
+    Room *room ;
 
 };
 
