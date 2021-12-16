@@ -44,10 +44,7 @@ void Client::send(const QString &text)
 //  std::cout << "SENDING " << std::endl;
   if (text.isEmpty())
       return;
-
-
   QJsonObject message;
-
   message[MessageType::TYPE] = QString(MessageType::TEXT_MESSAGE);
   message[MessageType::CONTENT] = QString(text);
   message[MessageType::MESSAGE_SENDER] = QString(mName);
@@ -57,6 +54,8 @@ void Client::send(const QString &text)
   messageSocket->write(msg);
 }
 
+
+
 void Client::joinRoom(QString username, QString roomName)
 {
   QJsonObject message;
@@ -64,7 +63,16 @@ void Client::joinRoom(QString username, QString roomName)
   message[MessageType::USERNAME] = username;
   message[MessageType::ROOM_NAME] = roomName;
   messageSocket->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
-  messageSocket->flush();
+}
+
+void Client::createRoom(QString username, QString room_name, int duration)
+{
+  QJsonObject message;
+  message[MessageType::TYPE] = QString(MessageType::CREATE_ROOM);
+  message[MessageType::USERNAME] = username;
+  message[MessageType::ROOM_NAME] = room_name;
+  message[MessageType::DURATION] = QString::number(duration);
+  messageSocket->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
 }
 
 void Client::leaveRoom()
@@ -72,7 +80,7 @@ void Client::leaveRoom()
   QJsonObject message;
   message[MessageType::TYPE] = QString(MessageType::LEAVE_ROOM);
   messageSocket->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
-  emit youLeftRoom();
+//  emit youLeftRoom();
 }
 
 void Client::chooseWord(QString word)
@@ -141,7 +149,7 @@ void Client::disconnectedCanvas()
 
 void Client::connectedMessage()
 {
-    QJsonObject message;
+   QJsonObject message;
    message[MessageType::TYPE] = QString(MessageType::MESSAGE_SOCKET);
    messageSocket->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
 }
@@ -193,12 +201,11 @@ void Client::jsonReceived(const QJsonObject &doc)
     }
   else if(typeVal.toString().compare(MessageType::JOIN_ROOM) == 0){
     const QJsonValue room = doc.value(MessageType::ROOM_NAME);
-    bool b{};
+    bool b = true;
     if (!fieldIsValid(room)){
         b=false;
         // neuspelo prikljucivanje sobi ako je null ili prazno
       }
-    b = true;
     emit joinedRoom(b); // TODO proveriti prenos argumenata
     }
   else if(typeVal.toString().compare(MessageType::GET_ROOMS) == 0){
@@ -209,14 +216,23 @@ void Client::jsonReceived(const QJsonObject &doc)
 
     // TODO check copy and memory
     QVector<QString> *room_list = new QVector<QString>;
-    for(QString r : rooms.toString().split(","))
+    auto room_split = rooms.toString().split(",");
+    for(QString &r : room_split)
         room_list->push_back(r);
 
     emit roomList(room_list);
     }
   else if(typeVal.toString().compare(MessageType::NEW_HOST) == 0){
 //    const QJsonValue rooms = doc.value(MessageType::CONTENT);
+    imHost = true;
     emit youAreNewHost();
+    }
+  else if(typeVal.toString().compare(MessageType::GAME_OVER) == 0){
+    imHost = false; // if was host i won't be anymore, and next host will get message later
+    emit gameOver();
+    }
+  else if(typeVal.toString().compare(MessageType::START) == 0){
+    emit startGame();
     }
 }
 

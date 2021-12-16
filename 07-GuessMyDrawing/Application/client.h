@@ -13,9 +13,6 @@
 #include "canvas.h"
 #include "MessageType.h"
 
-
-class Room; // forward declaration so we don't have circular dependency
-
 class Client : public QObject
 {
   Q_OBJECT
@@ -28,11 +25,10 @@ public:
   void send(const QString &text);
 
   void joinRoom(QString username, QString room);
+  void createRoom(QString username, QString room_name, int duration);
   void leaveRoom();
   void chooseWord(QString word);
   void getRooms();
-
-  // createRoom(QString room_name, int duration)
 
 private slots:
   void onMessageReadyRead();
@@ -42,7 +38,6 @@ private slots:
   void disconnectedCanvas();
   void connectedMessage();
   void disconnectedMessage();
-
   void error(QAbstractSocket::SocketError socketError);
 
 
@@ -57,11 +52,16 @@ signals:
   void errorConnecting(QString *error);
   void youAreNewHost();
 
+  void startGame();
+  void gameOver();
+
 private:
   QString mName;
-  Room* room;
   int points;
+
   Canvas* canvas;
+
+  bool imHost = false;
 
   QTcpSocket *messageSocket;
   QTcpSocket *canvasSocket;
