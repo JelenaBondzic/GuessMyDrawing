@@ -41,12 +41,14 @@ private slots:
   void connectedMessage();
   void disconnectedMessage();
 
+  void error(QAbstractSocket::SocketError socketError);
+
+
 signals:
 
   void messageReceived(const QString &sender, const QString &test);
   void userJoined(const QString &username);
   void userLeft(const QString &username);
-  void error(QAbstractSocket::SocketError socketError);
 
 private:
   QString mName;

@@ -2,6 +2,7 @@
 #include "MessageType.h"
 #include <iostream>
 
+#include <iomanip>
 
 Client::Client(QString name, QObject *parent):
   QObject(parent),
@@ -22,7 +23,7 @@ Client::Client(QString name, QObject *parent):
 
   // TODO error
 //   connect(messageIn, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error), this, &Client::error);
-  connect(messageSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));
+  connect(messageSocket, SIGNAL(errorOccurred(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));
 }
 
 void Client::connectToServer(const QHostAddress &adress, quint16 port)
@@ -53,7 +54,9 @@ void Client::send(const QString &text)
   message[MessageType::CONTENT] = QString(text);
   message[MessageType::MESSAGE_SENDER] = QString(mName);
 
-  messageSocket->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
+  auto msg = QJsonDocument(message).toJson(QJsonDocument::Compact);
+
+  messageSocket->write(msg);
 }
 
 void Client::joinRoom(QString username, QString roomName)
@@ -140,6 +143,11 @@ void Client::connectedMessage()
 void Client::disconnectedMessage()
 {
   std::cout << "message disconnected" << std::endl;
+}
+
+void Client::error(QAbstractSocket::SocketError socketError)
+{
+  std::cout << "Error ocurred " << socketError << std::endl;
 }
 
 void Client::jsonReceived(const QJsonObject &doc)

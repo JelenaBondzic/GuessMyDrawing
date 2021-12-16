@@ -17,7 +17,7 @@ MainWindow::MainWindow(QString username, QWidget *parent)
   ui->listView->setModel(mChatModel);
 
   connect(chatClient, &Client::messageReceived, this, &MainWindow::messageRecieved);
-  connect(chatClient, &Client::error, this, &MainWindow::error);
+//  connect(chatClient, &Client::error, this, &MainWindow::error);
   connect(chatClient, &Client::userJoined, this, &MainWindow::userJoined);
   connect(chatClient, &Client::userLeft, this, &MainWindow::userLeft);
 
@@ -97,7 +97,7 @@ void MainWindow::userLeft(const QString &username)
   ui->listView->scrollToBottom();
 }
 
-void MainWindow::error(QAbstractSocket::SocketError socketError)
-{
-  std::cout << "ERROR :( " << std::endl;
-}
+//void MainWindow::error(QAbstractSocket::SocketError socketError)
+//{
+//  std::cout << "ERROR :( " << std::endl;
+//}

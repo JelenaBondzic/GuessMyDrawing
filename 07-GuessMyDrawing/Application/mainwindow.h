@@ -32,7 +32,7 @@ private slots:
   void sendMessage();
   void userJoined(const QString &username);
   void userLeft(const QString &username);
-  void error(QAbstractSocket::SocketError socketError);
+//  void error(QAbstractSocket::SocketError socketError);
   // ADDED
 private:
   Ui::MainWindow *ui;
