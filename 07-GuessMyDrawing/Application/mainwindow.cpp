@@ -3,6 +3,7 @@
 #include "ui_mainwindow.h"
 #include "existingrooms.h"
 #include "settings.h"
+#include <QHostAddress>
 
 MainWindow::MainWindow(QString username, QWidget *parent)
   : QMainWindow(parent)
