@@ -31,6 +31,7 @@ public:
   inline static const QString CANVAS_SOCKET = "canvas_socket";
   inline static const QString MESSAGE_SOCKET = "message_socket";
 
+  inline static const QString NEW_HOST = "new_host";
 };
 
 //enum class MessageType {

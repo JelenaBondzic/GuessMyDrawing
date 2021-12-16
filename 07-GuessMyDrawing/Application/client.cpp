@@ -70,6 +70,7 @@ void Client::leaveRoom()
   QJsonObject message;
   message[MessageType::TYPE] = QString(MessageType::LEAVE_ROOM);
   messageSocket->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
+  emit youLeftRoom();
 }
 
 void Client::chooseWord(QString word)
@@ -144,7 +145,8 @@ void Client::disconnectedMessage()
 void Client::error(QAbstractSocket::SocketError socketError)
 {
   std::cout << "Error ocurred " << socketError << std::endl;
-  emit error("Something went wrong with cnnnection. Try again");
+  QString *s = new QString("Something went wrong with cnnnection. Try again");
+  emit errorConnecting(s);
 }
 
 void Client::jsonReceived(const QJsonObject &doc)
@@ -182,11 +184,13 @@ void Client::jsonReceived(const QJsonObject &doc)
     }
   else if(typeVal.toString().compare(MessageType::JOIN_ROOM) == 0){
     const QJsonValue room = doc.value(MessageType::ROOM_NAME);
+    bool b{};
     if (!fieldIsValid(room)){
-        emit joinedRoom(false);
-        return; // neuspelo prikljucivanje sobi ako je null ili prazno
+        b=false;
+        // neuspelo prikljucivanje sobi ako je null ili prazno
       }
-    emit joinedRoom(true);
+    b = true;
+    emit joinedRoom(b); // TODO proveriti prenos argumenata
     }
   else if(typeVal.toString().compare(MessageType::GET_ROOMS) == 0){
     const QJsonValue rooms = doc.value(MessageType::CONTENT);
@@ -200,6 +204,10 @@ void Client::jsonReceived(const QJsonObject &doc)
         room_list->push_back(r);
 
     emit roomList(room_list);
+    }
+  else if(typeVal.toString().compare(MessageType::NEW_HOST) == 0){
+    const QJsonValue rooms = doc.value(MessageType::CONTENT);
+    emit youAreNewHost();
     }
 }
 

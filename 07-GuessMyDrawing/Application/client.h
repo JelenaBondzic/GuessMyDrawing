@@ -50,8 +50,10 @@ signals:
   void userJoined(const QString &username);
   void userLeft(const QString &username);
   void roomList(const QVector<QString>* rooms);
-  void joinedRoom(bool success);
-  void error(QString error);
+  void joinedRoom(bool &success);
+  void youLeftRoom();
+  void errorConnecting(QString *error);
+  void youAreNewHost();
 
 private:
   QString mName;
