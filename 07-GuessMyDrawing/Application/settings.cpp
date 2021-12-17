@@ -3,7 +3,8 @@
 #include "game.h"
 #include "mainwindow.h"
 
-Settings::Settings(QWidget *parent) :
+Settings::Settings(Client* client, QWidget *parent) :
+    client(client),
     QDialog(parent),
     ui(new Ui::Settings)
 {
@@ -15,12 +16,6 @@ Settings::Settings(QWidget *parent) :
     connect(ui->radioButton, &QRadioButton::clicked, this, &Settings::on_radioButton_clicked);
     connect(ui->radioButton_2, &QRadioButton::clicked, this, &Settings::on_radioButton_2_clicked);
     connect(ui->radioButton_3, &QRadioButton::clicked, this, &Settings::on_radioButton_3_clicked);
-
-//    connect(ui->radioButton, SIGNAL(clicked()), this, SLOT(on_radioButton_1_clicked()));
-
-//    connect(ui->pushButton_2, SIGNAL(clicked()), this, SLOT(on_radioButton_2_clicked()));
-
-
 }
 
 Settings::~Settings()
@@ -31,9 +26,8 @@ Settings::~Settings()
 void Settings::onSaveClicked()
 {
     hide();
-    room = new Room(roomName, client);
-    room->setDuration(this->duration);
-    game = new Game(this);
+    sendSettingsToCLient(username, roomName, duration);
+    game = new Game(username, client, this);
     game->show();
 }
 
@@ -47,26 +41,32 @@ void Settings::onBackClicked(){
 void Settings::on_radioButton_clicked()
 {
     duration = 60;
-
 }
-
 
 void Settings::on_radioButton_2_clicked()
 {
-    this->duration = 90;
-
+    duration = 90;
 }
 
 void Settings::on_radioButton_3_clicked()
 {
-    this->duration = 120;
-
-
+    duration = 120;
 }
 
 
 void Settings::on_lineEdit_editingFinished()
 {
     this->roomName = ui->lnRoomName->text();
+}
+
+
+void Settings::sendSettingsToCLient(QString username, QString roomName, int duration){
+   // client->createRoom(username, roomName, duration);
+}
+
+
+void Settings::on_leUsername_editingFinished()
+{
+    username = ui->leUsername->text();
 }
 

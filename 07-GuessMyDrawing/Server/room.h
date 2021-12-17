@@ -5,32 +5,34 @@
 #include<string>
 #include<map>
 #include<unordered_map>
-#include "round.h"
-#include "client.h"
 #include<QString>
+#include<QMap>
+#include "thread.h"
 
 class Room
 {
 private:
     QString name;
-    QList<Client*> players;
+    QMap<QString, Thread*> players;
 
-    Round* round;
+   // Round* round;
     QString chosenWord;
     int numOfPlayers = players.size();
     int duration;
-    Client* host;
-    Client* firstHost;
+//    Client* host;
+    QString host;
 
 public:
     //server call constructor for room and sends in constructor name of host
-    Room(QString name, Client* firstHost);
+    Room(QString name, QString firstHost, int duration);
 
     void start();
     void setDuration(int newDuration);
 
     bool usernameIsValid(QString username);
-    void setChosenWord(const QString &newChosenWord);
+    void setWordAndStartGame(const QString &newChosenWord);
+    void checkChatWord(QString word, Thread* senderUser);
+    bool joinClient(QString username, Thread* thread);
 };
 
 #endif // ROOM_H

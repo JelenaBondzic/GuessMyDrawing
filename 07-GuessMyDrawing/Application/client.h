@@ -27,36 +27,45 @@ public:
   void disconnectFromHost();
   void send(const QString &text);
 
-  void joinRoom(QString username, Room *newRoom);
-  QList<Room*> getActiveRooms();
-
-  void setName(const QString &newName);
-
-  const QString &name() const;
+  void joinRoom(QString username, QString room);
+  void leaveRoom();
+  void chooseWord(QString word);
+  void getRooms();
 
 private slots:
-  void onReadyRead();
+  void onMessageReadyRead();
+  void onCanvasReadyRead();
+
+  void connectedCanvas();
+  void disconnectedCanvas();
+  void connectedMessage();
+  void disconnectedMessage();
+
+
+  void error(QAbstractSocket::SocketError socketError);
+
 
 signals:
-  void connected();
-  void disconnected();
-  void messageReacieved(const QString &sender, const QString &test);
+
+  void messageReceived(const QString &sender, const QString &test);
   void userJoined(const QString &username);
   void userLeft(const QString &username);
-  void error(QAbstractSocket::SocketError socketError);
+  void roomList(const QVector<QString>* rooms);
+  void joinedRoom(bool &success);
+  void youLeftRoom();
+  void errorConnecting(QString *error);
+  void youAreNewHost();
 
 private:
   QString mName;
   Room* room;
   int points;
   Canvas* canvas;
-  QList<Room*> activeRooms;
 
-  QTcpSocket *messageIn;
+  QTcpSocket *messageSocket;
   QTcpSocket *canvasSocket;
 
-  void jsonRecieved(const QJsonObject &doc);
-
+  void jsonReceived(const QJsonObject &doc);
   bool fieldIsValid(QJsonValue);
 };
 

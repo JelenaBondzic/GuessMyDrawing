@@ -1,7 +1,10 @@
 #include "game.h"
 #include "ui_game.h"
+#include "client.h"
 
-Game::Game(QWidget *parent) :
+Game::Game(QString username, Client* client, QWidget *parent) :
+    username(username),
+    client(client),
     QDialog(parent),
     ui(new Ui::Game)
 {
@@ -14,6 +17,9 @@ Game::Game(QWidget *parent) :
 
 Game::~Game()
 {
+//    client->leaveRoom();
+//    mainWindow = new MainWindow(username, this);
+   // mainWindow->show();
     delete ui;
 }
 
@@ -63,6 +69,28 @@ void Game::on_myWord_clicked()
 
 void Game::on_pbCreateGame_clicked()
 {
-
+    client->chooseWord(chosenWord);
 }
+
+
+//void Game::closeEvent(QCloseEvent* event)
+//{
+//    emit MySignalToIndicateThatTheWindowIsClosing();
+//    event->accept();
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

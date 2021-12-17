@@ -74,14 +74,14 @@
        </property>
       </spacer>
      </item>
+     <item>
+      <widget class="QPushButton" name="pbCreateGame">
+       <property name="text">
+        <string>create my Game</string>
+       </property>
+      </widget>
+     </item>
     </layout>
-   </item>
-   <item>
-    <widget class="QPushButton" name="pbCreateGame">
-     <property name="text">
-      <string>create my Game</string>
-     </property>
-    </widget>
    </item>
   </layout>
  </widget>
