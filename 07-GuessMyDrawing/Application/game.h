@@ -1,8 +1,9 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <QDialog>
+#include "canvas.h"
 #include "client.h"
+#include <QDialog>
 #include <QCloseEvent>
 #include <QMainWindow>
 //#include "mainwindow.h"
@@ -19,6 +20,8 @@ public:
     explicit Game(QString username, Client* client, QWidget *parent = nullptr);
     ~Game();
 
+    Canvas *getCanvas() const;
+
     int getDuration() const;
 
     void setDuration(int newDuration);
@@ -27,6 +30,13 @@ public:
 signals:
    // void MySignalToIndicateThatTheWindowIsClosing();
 
+public slots:
+    void onClearDrawing();
+    void onChangePenColor();
+    void onIncPenWidth();
+    void onDecPenWidth();
+    void onTakeSnap();
+    void onLoadImage();
 
 private slots:
     void on_pbFirstWord_clicked();
@@ -42,11 +52,18 @@ private slots:
 
 private:
     Ui::Game *ui;
+    Canvas *_canvas;
+    QByteArray *barr = nullptr;
+    QByteArray ba;
+
+    Ui::Game *ui;
     int duration;
     QString chosenWord;
     Client *client;
    // QMainWindow* mainWindow;
     QString username;
+
+
 };
 
 #endif // GAME_H

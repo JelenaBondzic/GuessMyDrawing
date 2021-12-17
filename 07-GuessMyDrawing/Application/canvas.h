@@ -1,16 +1,57 @@
 #ifndef CANVAS_H
 #define CANVAS_H
 
+#include <QColor>
+#include <QImage>
+#include <QPoint>
+#include <QWidget>
 
-class Canvas
+class Canvas : public QWidget
 {
-public:
-    Canvas();
-private:
-    unsigned height;
-    unsigned width;
+    Q_OBJECT
 
-    void takeSnapshot();
+public:
+    Canvas(QWidget *parent = nullptr);
+
+    bool isModified() const {
+        return _modified;
+    }
+
+    QByteArray *takeSnapshot();
+    void takeSnapshot(QByteArray& barr);
+    void loadFromSnapshot(const QByteArray& arr);
+
+    int penWidth() const;
+    void setPenWidth(int width);
+    void setPenColor(QColor color);
+
+
+public slots:
+    void clearImage();
+
+protected:
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void paintEvent(QPaintEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
+
+private:
+
+    void drawLineTo(const QPoint &endPoint);
+    void resizeImage(QImage *image, const QSize &newSize);
+
+    bool _modified = false;
+    bool _drawing = false;
+    int _myPenWidth = 5;
+    int _maxPenWidth = 10;
+    int _minPenWidth = 1;
+
+    QColor _myPenColor = Qt::black;
+    QImage _image;
+    QPoint _lastPoint;
+
+
 };
 
 #endif // CANVAS_H
