@@ -17,7 +17,6 @@ SOURCES += \
     mainwindow.cpp \
     canvas.cpp \
     client.cpp \
-    room.cpp \
     round.cpp \
     settings.cpp \
     existingrooms.cpp \
@@ -27,7 +26,6 @@ HEADERS += \
     MessageType.h \
     canvas.h \
     client.h \
-    room.h \
     round.h \
     mainwindow.h \
     existingrooms.h \

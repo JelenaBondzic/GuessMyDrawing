@@ -1,5 +1,6 @@
 #include "thread.h"
 #include <iostream>
+#include <QJsonObject>
 
 Thread::Thread(qintptr ID, QObject *parent) : QObject(parent), socket(new QTcpSocket(this)) {
     this->socketDescriptor = ID;
@@ -11,6 +12,11 @@ Thread::Thread(qintptr ID, QObject *parent) : QObject(parent), socket(new QTcpSo
     connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()), Qt::DirectConnection);
     connect(socket, SIGNAL(disconnected()), this, SLOT(disconnected()), Qt::DirectConnection);
     std::cout << socketDescriptor << " Client connected!" << std::endl;
+}
+
+void Thread::send(QJsonObject message)
+{
+
 }
 
 void Thread::readyRead() {
