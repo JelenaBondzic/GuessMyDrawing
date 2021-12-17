@@ -19,12 +19,21 @@ Game::Game(QWidget *parent) :
             this, &Game::onIncPenWidth);
     connect(ui->pbDecPenWidth, &QPushButton::clicked,
             this, &Game::onDecPenWidth);
+    connect(ui->pbTakeSnap, &QPushButton::clicked,
+            this, &Game::onTakeSnap);
+    connect(ui->pbLoadImage, &QPushButton::clicked,
+            this, &Game::onLoadImage);
 
 }
 
 Game::~Game()
 {
     delete ui;
+}
+
+Canvas *Game::getCanvas() const
+{
+    return _canvas;
 }
 
 void Game::onClearDrawing()
@@ -66,6 +75,18 @@ void Game::onDecPenWidth()
 {
     int currPenWidth = _canvas->penWidth();
     _canvas->setPenWidth(currPenWidth-1);
+}
+
+void Game::onTakeSnap()
+{
+//    barr = _canvas->takeSnapshot();
+    _canvas->takeSnapshot(ba);
+}
+
+void Game::onLoadImage()
+{
+//    _canvas->loadFromSnapshot(*barr);
+    _canvas->loadFromSnapshot(ba);
 }
 
 

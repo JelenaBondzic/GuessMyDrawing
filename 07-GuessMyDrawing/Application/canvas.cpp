@@ -2,11 +2,36 @@
 
 #include <QMouseEvent>
 #include <QPainter>
+#include <iostream>
+#include <QByteArray>
+#include <QBuffer>
 
 Canvas::Canvas(QWidget *parent)
     : QWidget(parent)
 {
+    setAttribute(Qt::WA_TransparentForMouseEvents, false);
+}
 
+QByteArray *Canvas::takeSnapshot(){
+    QByteArray *barr = new QByteArray();
+    QBuffer buffer(barr);
+    buffer.open(QIODevice::WriteOnly);
+    bool imageSaved = _image.save(&buffer, "PNG");
+    return barr;
+}
+
+void Canvas::takeSnapshot(QByteArray &barr)
+{
+    QBuffer buffer(&barr);
+    buffer.open(QIODevice::WriteOnly);
+    bool imageSaved = _image.save(&buffer, "PNG");
+}
+
+void Canvas::loadFromSnapshot(const QByteArray &arr)
+{
+    bool imageLoaded = _image.loadFromData(arr, "PNG");
+    _modified = true;
+    update();
 }
 
 void Canvas::clearImage()
@@ -78,12 +103,6 @@ void Canvas::resizeImage(QImage *image, const QSize &newSize)
     QPainter painter(&newImage);
     painter.drawImage(QPoint(0, 0), *image);
     *image = newImage;
-}
-
-
-void Canvas::takeSnapshot()
-{
-
 }
 
 int Canvas::penWidth() const {

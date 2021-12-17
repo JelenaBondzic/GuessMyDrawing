@@ -17,11 +17,14 @@ public:
         return _modified;
     }
 
-    void takeSnapshot();
+    QByteArray *takeSnapshot();
+    void takeSnapshot(QByteArray& barr);
+    void loadFromSnapshot(const QByteArray& arr);
 
     int penWidth() const;
     void setPenWidth(int width);
     void setPenColor(QColor color);
+
 
 public slots:
     void clearImage();
