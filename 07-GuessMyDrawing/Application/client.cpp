@@ -98,6 +98,11 @@ void Client::getRooms()
   messageSocket->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
 }
 
+void Client::sendCanvas(QByteArray &canvas)
+{
+  canvasSocket->write(canvas);
+}
+
 
 
 void Client::onMessageReadyRead()
@@ -131,6 +136,8 @@ void Client::onMessageReadyRead()
 void Client::onCanvasReadyRead()
 {
   // canvas
+  QByteArray data = canvasSocket->readAll();
+  emit canvasReceived(data);
 }
 
 void Client::connectedCanvas()

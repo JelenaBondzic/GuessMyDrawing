@@ -30,6 +30,8 @@ public:
   void chooseWord(QString word);
   void getRooms();
 
+  void sendCanvas(QByteArray &canvas);
+
 private slots:
   void onMessageReadyRead();
   void onCanvasReadyRead();
@@ -54,6 +56,8 @@ signals:
 
   void startGame();
   void gameOver();
+
+  void canvasReceived(QByteArray data);
 
 private:
   QString mName;
