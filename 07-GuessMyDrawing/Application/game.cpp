@@ -19,10 +19,6 @@ Game::Game(QWidget *parent) :
             this, &Game::onIncPenWidth);
     connect(ui->pbDecPenWidth, &QPushButton::clicked,
             this, &Game::onDecPenWidth);
-    connect(ui->pbTakeSnap, &QPushButton::clicked,
-            this, &Game::onTakeSnap);
-    connect(ui->pbLoadImage, &QPushButton::clicked,
-            this, &Game::onLoadImage);
 
 }
 
