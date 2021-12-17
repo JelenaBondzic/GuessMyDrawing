@@ -56,7 +56,6 @@ private:
     QByteArray *barr = nullptr;
     QByteArray ba;
 
-    Ui::Game *ui;
     int duration;
     QString chosenWord;
     Client *client;
