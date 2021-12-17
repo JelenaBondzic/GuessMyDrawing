@@ -14,11 +14,13 @@ TEMPLATE = app
 SOURCES += \
     main.cpp \
     server.cpp \
+    room.cpp \
     servermainwindow.cpp\
     thread.cpp
 
 HEADERS += \
     server.h \
+    room.h \
     servermainwindow.h \
     thread.h
 

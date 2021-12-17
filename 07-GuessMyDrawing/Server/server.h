@@ -2,7 +2,7 @@
 #define SERVER_H
 
 #include "QString"
-#include "../Application/room.h"
+#include "room.h"
 #include <map>
 #include <QDebug>
 #include <QTcpServer>

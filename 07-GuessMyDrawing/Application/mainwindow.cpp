@@ -16,15 +16,14 @@ MainWindow::MainWindow(QString username, QWidget *parent)
   mChatModel->insertColumn(0);
   ui->listView->setModel(mChatModel);
 
-  connect(chatClient, &Client::connected, this, &MainWindow::connectToServer);
   connect(chatClient, &Client::messageReceived, this, &MainWindow::messageRecieved);
-  connect(chatClient, &Client::disconnected, this, &MainWindow::disconectedFromServer);
-  connect(chatClient, &Client::error, this, &MainWindow::error);
   connect(chatClient, &Client::userJoined, this, &MainWindow::userJoined);
   connect(chatClient, &Client::userLeft, this, &MainWindow::userLeft);
 
   connect(ui->btnSend, &QPushButton::clicked, this, &MainWindow::sendMessage);
   connect(ui->leInput, &QLineEdit::returnPressed, this, &MainWindow::sendMessage); // send on enter
+
+ // connect(settings, &Settings::signalThatGameWindowIsClosed, this, &MainWindow::GameWindowClosed);
 
 }
 
@@ -38,18 +37,6 @@ void MainWindow::attemptConnection(qint16 port)
   // Update
   // Possibly static adres and port from server?
   chatClient->connectToServer(QHostAddress::LocalHost, port);
-}
-
-void MainWindow::connectToServer()
-{
-  // nothing
-  // asking for username generally
-}
-
-
-void MainWindow::disconectedFromServer()
-{
-  // if client lose connection to server
 }
 
 void MainWindow::sendMessage()
@@ -67,10 +54,10 @@ void MainWindow::sendMessage()
 
 void MainWindow::onJoinGameClicked()
 {
-    ExistingRooms rooms;
-    rooms.setModal(true);
+    existingRooms = new ExistingRooms(chatClient, this);
+    existingRooms->setModal(true);
     //opening the second window
-    rooms.exec();
+    existingRooms->exec();
 
 //s      hide();
 //    existingRooms = new ExistingRooms(this);
@@ -89,8 +76,13 @@ void MainWindow::messageRecieved(const QString &sender, const QString &text)
 
 void MainWindow::onCreateNewGameClicked() {
     hide();
-    settings = new Settings(this);
+    settings = new Settings(chatClient, this);
     settings->show();
+}
+
+void MainWindow::GameWindowClosed()
+{
+     // ui->setupUi(this);
 }
 
 void MainWindow::userJoined(const QString &username)
@@ -111,7 +103,3 @@ void MainWindow::userLeft(const QString &username)
   ui->listView->scrollToBottom();
 }
 
-void MainWindow::error(QAbstractSocket::SocketError socketError)
-{
-  std::cout << "ERROR :( " << std::endl;
-}

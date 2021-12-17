@@ -2,23 +2,34 @@
 #define ROUND_H
 
 #include<iostream>
+#include<QTimer>
+#include<QObject>
+#include<QString>
+#include "client.h"
+
 
 class Round
 {
+
 public:
-    Round(int time);
+    Round(int duration, QString chosenWord);
 
-    std::string start(int time);
-    void chooseWord();
-
-
-
+    Client *start(int duration);
     const std::string &getWord() const;
-    void setWord(const std::string &newWord);
+    int duration;
+
+    void setWord(const QString &newWord);
+
+    Client *getHost() const;
+
+public slots:
+    void timerSlot();
 
 private:
-    std::string word;
+    QString word;
     int time;
+    QTimer *timer;
+    Client* host;
 
 };
 

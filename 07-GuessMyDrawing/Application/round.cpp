@@ -1,16 +1,22 @@
 #include "round.h"
+#include <QDebug>
+#include<QString>
 
-Round::Round(int time)
+Round::Round(int duration, QString chosenWord): duration(duration), word(chosenWord)
 {
-    start(time);
+
+   timer = new QTimer();
+  // connect(timer, &QTimer::timeout, this, &Round::timerSlot);
+
+
+   host = start(duration);
 }
 
-std::string Round::start(int time)
+
+Client *Round::start(int duration)
 {
-    chooseWord();
-
     //start timer
-
+    timer->start(duration*1000);
     //show canvas
     //draw and recive/send message loop
 
@@ -18,20 +24,22 @@ std::string Round::start(int time)
         //if time is up -> make random winner
 
     //return winner_id
+    return host;
 }
 
-void Round::chooseWord()
+
+void Round::timerSlot()
 {
-    //host is choosing the word
-    setWord(word);
+    qDebug() << "update...";
 }
 
-const std::string &Round::getWord() const
+
+Client *Round::getHost() const
 {
-    return word;
+    return host;
 }
 
-void Round::setWord(const std::string &newWord)
+void Round::setWord(const QString &newWord)
 {
     word = newWord;
 }
