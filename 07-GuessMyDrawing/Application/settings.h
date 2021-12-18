@@ -5,7 +5,7 @@
 #include "game.h"
 #include "client.h"
 #include "client.h"
-//#include "mainwindow.h"
+#include "chooseword.h"
 
 namespace Ui {
 class Settings;
@@ -41,6 +41,7 @@ private:
     QString roomName;
     Client *client;
     QString username;
+    ChooseWord* chooseWordWindow;
 
 
 };

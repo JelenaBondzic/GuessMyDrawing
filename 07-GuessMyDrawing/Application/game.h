@@ -5,6 +5,7 @@
 #include "client.h"
 #include <QCloseEvent>
 #include <QMainWindow>
+#include <QWidget>
 //#include "mainwindow.h"
 
 namespace Ui {
@@ -16,7 +17,7 @@ class Game : public QDialog
     Q_OBJECT
 
 public:
-    explicit Game(QString username, Client* client, QWidget *parent = nullptr);
+    explicit Game(Client* client, QWidget *parent = nullptr);
     ~Game();
 
     int getDuration() const;
@@ -25,27 +26,20 @@ public:
     //void closeEvent( QCloseEvent* event );
 
 signals:
-   // void MySignalToIndicateThatTheWindowIsClosing();
+ //   void MySignalToIndicateThatTheWindowIsClosing();
 
 
 private slots:
-    void on_pbFirstWord_clicked();
 
-    void on_pbSecondWord_clicked();
-
-    void on_pbThirdWord_clicked();
-
-    void on_myWord_clicked();
-
-    void on_pbCreateGame_clicked();
-
+    void on_You_Are_Host();
+    void on_Game_finished(int result);
+    void on_Start_Game();
 
 private:
     Ui::Game *ui;
     int duration;
     QString chosenWord;
     Client *client;
-   // QMainWindow* mainWindow;
     QString username;
 };
 

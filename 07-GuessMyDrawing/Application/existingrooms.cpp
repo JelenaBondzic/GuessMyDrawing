@@ -9,6 +9,11 @@ ExistingRooms::ExistingRooms(Client* client, QWidget *parent) :
 {
     ui->setupUi(this);
     connect(client, &Client::roomList, this, &ExistingRooms::getActiveRooms);
+    connect(ui->leUsername, &QLineEdit::editingFinished, this, &ExistingRooms::on_leUsername_editingFinished);
+    connect(ui->listOfRooms, &QListWidget::itemClicked, this, &ExistingRooms::on_listOfRooms_itemClicked);
+    connect(ui->pbJoin, &QPushButton::clicked, this, &ExistingRooms::on_pbJoin_clicked);
+    connect(client, &Client::joinedRoom, this, &ExistingRooms::on_JoinedRoom);
+
     client->getRooms();
 
 //    for (int i=0; i< activeRooms->size() ; ++i) {
@@ -44,9 +49,20 @@ void ExistingRooms::on_leUsername_editingFinished()
 
 void ExistingRooms::on_pbJoin_clicked()
 {
-    client->joinRoom(username, selectedRoom);
-    game = new Game(username, client, this);
-    game->show();
+    hide();
+    QWidget *parent = this->parentWidget();
+    parent->hide();
 
+    client->joinRoom(username, selectedRoom);
+
+
+}
+
+void ExistingRooms::on_JoinedRoom(bool p)
+{
+    if(p){
+        game = new Game(client, this);
+        game->show();
+    }
 }
 

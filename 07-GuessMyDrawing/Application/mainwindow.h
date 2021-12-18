@@ -5,7 +5,7 @@
 #include <QStandardItemModel>
 #include "client.h"
 #include "existingrooms.h"
-
+#include "game.h"
 #include "settings.h"
 
 QT_BEGIN_NAMESPACE
@@ -23,7 +23,8 @@ public:
 public slots:
   void onJoinGameClicked();
   void onCreateNewGameClicked();
-  void GameWindowClosed();
+  void gameWindowClosed();
+
 
 public:
   void attemptConnection(qint16 port);
@@ -33,7 +34,7 @@ private slots:
   void sendMessage();
   void userJoined(const QString &username);
   void userLeft(const QString &username);
-//  void error(QAbstractSocket::SocketError socketError);
+  //  void error(QAbstractSocket::SocketError socketError);
   // ADDED
 private:
   Ui::MainWindow *ui;
@@ -42,6 +43,7 @@ private:
   Settings *settings;
   Client *chatClient;
   QStandardItemModel *mChatModel;
+  Game* game;
 
 };
 #endif // MAINWINDOW_H
