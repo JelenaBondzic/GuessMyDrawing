@@ -152,7 +152,7 @@ void Client::connectedCanvas()
 {
   QJsonObject message;
   message[MessageType::TYPE] = QString(MessageType::CANVAS_SOCKET);
-  messageSocket->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
+  canvasSocket->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
 }
 
 void Client::disconnectedCanvas()

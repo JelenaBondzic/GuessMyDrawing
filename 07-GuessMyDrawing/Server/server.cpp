@@ -15,18 +15,20 @@ void Server::incomingConnection(qintptr socketDescriptor) {
     std::cout << socketDescriptor << " connecting..." << std::endl;
     Thread* thread = new Thread(socketDescriptor, this);
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
-    connect(thread, SIGNAL(messageReceived(QByteArray)), this, SLOT(broadcast(QByteArray)));
+    connect(thread, SIGNAL(messageReceived(QJsonObject)), this, SLOT(broadcast(QJsonObject)));
     _clients.append(thread);
 }
 
-void Server::broadcast(QByteArray/*Message**/ message) {
+void Server::broadcast(QJsonObject message) {
     for (Thread* thread : _clients) {
         sendMessage(thread, message);
     }
 }
 
-void Server::sendMessage(Thread *thread, QByteArray message) {
-    thread->receiveMessage(message);
+void Server::sendMessage(Thread *thread, QJsonObject message) {
+    QJsonDocument doc(message);
+    QByteArray data = doc.toJson();
+    thread->receiveMessage(data);
 }
 
 void Server::joinRoom(QString room_name) {

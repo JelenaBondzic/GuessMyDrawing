@@ -3,6 +3,8 @@
 
 #include <QThread>
 #include <QTcpSocket>
+#include <QJsonObject>
+#include <QJsonDocument>
 
 class Thread : public QObject {
  Q_OBJECT
@@ -12,14 +14,16 @@ class Thread : public QObject {
     void send(QJsonObject message); //napravi ovo
 signals:
     void error(QTcpSocket::SocketError socket_error);
-    void messageReceived(QByteArray message);
+    void messageReceived(QJsonObject message);
+    void finished();
 public slots:
     void readyRead();
     void disconnected();
     void receiveMessage(QByteArray message);
 
  private:
-    QTcpSocket* socket;
+    QTcpSocket* socketMessage;
+    QTcpSocket* socketCanvas;
     qintptr socketDescriptor; // Socket ID from OS
 };
 

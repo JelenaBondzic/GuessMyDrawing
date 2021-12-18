@@ -7,6 +7,8 @@
 #include <QDebug>
 #include <QTcpServer>
 #include <QTcpSocket>
+#include <QJsonObject>
+#include <QJsonDocument>
 #include "thread.h"
 
 class Server : public QTcpServer {
@@ -17,12 +19,12 @@ class Server : public QTcpServer {
 
     void joinRoom(QString room_name);
     Room* createRoom(QString room_name);
-    void sendMessage(Thread* thread, QByteArray message);
+    void sendMessage(Thread* thread, QJsonObject message);
 
  signals:
 
  public slots:
-    void broadcast(QByteArray/*Message*/ message);
+    void broadcast(QJsonObject message);
  protected:
     void incomingConnection(qintptr socketDescriptor);
  private:
