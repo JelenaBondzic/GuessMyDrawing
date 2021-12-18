@@ -9,6 +9,14 @@ void Room::setDuration(int newDuration)
     duration = newDuration;
 }
 
+void Room::leaveRoom(QString player)
+{
+    QMap<QString, Thread*>::const_iterator i = players.find(player);
+    players.erase(i);
+
+    //broadcast others that player has left the game??
+}
+
 bool Room::usernameIsValid(QString username)
 {
     if(players.contains(username))
@@ -20,19 +28,14 @@ bool Room::usernameIsValid(QString username)
 void Room::setWordAndStartGame(const QString &newChosenWord)
 {
     chosenWord = newChosenWord;
-    QJsonObject message;
-   // message[MessageType::TYPE] = MessageType::START;
-
-    QMapIterator<QString, Thread*> i(players);
-    while (i.hasNext()) {
-        i.next();
-        i.value()->send(message);
-    }
-
+    //if there is 2 or more players, start game
+    if(players.size() >= 2)
+        start();
 }
 
 void Room::checkChatWord(QString word, Thread* senderUser)
 {
+
 
     if(word.compare(chosenWord)){
 
@@ -73,12 +76,14 @@ bool Room::joinClient(QString username, Thread* thread){
 
     else{
     //if username is not taken
+    players.insert(username, thread);
     message[MessageType::TYPE] = QString(MessageType::JOIN_ROOM);
     message[MessageType::ROOM_NAME] = name;
     thread->send(message);
 
+
     //if there is 2 or more players, start game
-    if(players.size() >= 2)
+    if(players.size() >= 2 and !gameIsStarted)
         start();
 
     return true;
@@ -88,23 +93,15 @@ bool Room::joinClient(QString username, Thread* thread){
 void Room::start()
 {
 
-    //wait until numOfPlayers >= 2
-//    while(numOfPlayers > 2){
-//        //create new round + start next round Round.start(timer.duration)
-//        round = new Round(this->duration, chosenWord);
-//        //choose new host for next round
-//        host = round->getHost();
-//        //setHost
-
-//        //round.start(timer.duration) returns winner_id
-
-//    }
-
-
     QJsonObject message;
-    message[MessageType::TYPE] = MessageType::NEW_HOST;
-    players[host]->send(message);
+    message[MessageType::TYPE] = MessageType::START;
 
+    QMapIterator<QString, Thread*> i(players);
+    while (i.hasNext()) {
+         i.next();
+         i.value()->send(message);
+    }
 
+    gameIsStarted = true;
 
 }

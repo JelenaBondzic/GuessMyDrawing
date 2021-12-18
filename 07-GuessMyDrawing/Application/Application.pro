@@ -13,6 +13,7 @@ TEMPLATE = app
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    chooseword.cpp \
     main.cpp \
     mainwindow.cpp \
     canvas.cpp \
@@ -25,6 +26,7 @@ SOURCES += \
 HEADERS += \
     MessageType.h \
     canvas.h \
+    chooseword.h \
     client.h \
     round.h \
     mainwindow.h \
@@ -34,6 +36,7 @@ HEADERS += \
 
 
 FORMS += \
+    chooseword.ui \
     existingrooms.ui \
     game.ui \
     mainwindow.ui \

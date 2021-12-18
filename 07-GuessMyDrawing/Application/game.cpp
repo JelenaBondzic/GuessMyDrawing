@@ -2,13 +2,13 @@
 #include "ui_game.h"
 #include "canvas.h"
 #include "client.h"
+#include<iostream>
 
 
-Game::Game(QString username, Client* client, QWidget *parent) :
-    username(username),
-    client(client),
+Game::Game(Client* client, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Game),
+    client(client),
     _canvas(new Canvas(this))
 {
     ui->setupUi(this);
@@ -25,19 +25,15 @@ Game::Game(QString username, Client* client, QWidget *parent) :
     connect(ui->pbDecPenWidth, &QPushButton::clicked,
             this, &Game::onDecPenWidth);
 
-
-    connect(ui->pbFirstWord, &QPushButton::clicked, this, &Game::on_pbFirstWord_clicked);
-    connect(ui->pbSecondWord, &QPushButton::clicked, this, &Game::on_pbSecondWord_clicked);
-
+    connect(client, &Client::youAreNewHost, this, &Game::on_You_Are_Host);
+    connect(client, &Client::startGame, this, &Game::on_Start_Game);
 
 
-}
+
 
 Game::~Game()
 {
-//    client->leaveRoom();
-//    mainWindow = new MainWindow(username, this);
-   // mainWindow->show();
+
     delete ui;
 }
 
@@ -110,56 +106,32 @@ void Game::setDuration(int newDuration)
     duration = newDuration;
 }
 
-
-void Game::on_pbFirstWord_clicked()
+void Game::on_You_Are_Host()
 {
-    chosenWord = ui->pbFirstWord->text();
-   // room->setChosenWord(ui->pbFirstWord->text());
+    QWidget *parent = this->parentWidget();
+    parent->show();
 }
 
-
-void Game::on_pbSecondWord_clicked()
+void Game::on_Game_finished(int result)
 {
-    chosenWord = ui->pbSecondWord->text();
+    this->hide();
+    QWidget *parent = this->parentWidget()->parentWidget()->parentWidget();
 
-    //room->setChosenWord(ui->pbSecondWord->text());
+    std::cout << parent << std::endl;
+    if(parent == 0){
+        parent = this->parentWidget()->parentWidget();
+    }
 
+    parent->show();
+    client->leaveRoom();
+    std::cout << "game finished" << std::endl;
+    std::cout << parent << std::endl;
+
+    //  emit MySignalToIndicateThatTheWindowIsClosing();
 }
 
-
-void Game::on_pbThirdWord_clicked()
+void Game::on_Start_Game()
 {
-    chosenWord = ui->pbThirdWord->text();
-
-    //room->setChosenWord(ui->pbSecondWord->text());
 
 }
-
-
-void Game::on_myWord_clicked()
-{
-    chosenWord = ui->lnInsertWord->text();
- //   room->setChosenWord(ui->lnInsertWord->text());
-
-}
-
-
-void Game::on_pbCreateGame_clicked()
-{
-    client->chooseWord(chosenWord);
-}
-
-
-//void Game::closeEvent(QCloseEvent* event)
-//{
-//    emit MySignalToIndicateThatTheWindowIsClosing();
-//    event->accept();
-//}
-
-
-
-
-
-
-
 

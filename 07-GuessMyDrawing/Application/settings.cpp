@@ -11,6 +11,7 @@ Settings::Settings(Client* client, QWidget *parent) :
     ui->setupUi(this);
     connect(ui->pbSave, &QPushButton::clicked, this, &Settings::onSaveClicked);
     connect(ui->pushButton_2, &QPushButton::clicked, this, &Settings::onBackClicked);
+    connect(ui->leUsername, &QLineEdit::editingFinished, this,  &Settings::on_leUsername_editingFinished);
 
 
     connect(ui->radioButton, &QRadioButton::clicked, this, &Settings::on_radioButton_clicked);
@@ -26,9 +27,11 @@ Settings::~Settings()
 void Settings::onSaveClicked()
 {
     hide();
+    QWidget *parent = this->parentWidget();
+    parent->hide();
     sendSettingsToCLient(username, roomName, duration);
-    game = new Game(username, client, this);
-    game->show();
+    chooseWordWindow = new ChooseWord(username, roomName, duration, client, this);
+    chooseWordWindow->show();
 }
 
 void Settings::onBackClicked(){

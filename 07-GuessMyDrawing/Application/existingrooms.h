@@ -23,6 +23,7 @@ private slots:
     void getActiveRooms(const QVector<QString>*);
     void on_leUsername_editingFinished();
     void on_pbJoin_clicked();
+    void on_JoinedRoom(bool p);
 
 private:
     Ui::ExistingRooms *ui;
