@@ -16,7 +16,8 @@ Thread::Thread(qintptr ID, QObject *parent) : QObject(parent), socketMessage(new
 
 void Thread::send(QJsonObject message)
 {
-
+  auto msg = QJsonDocument(message).toJson(QJsonDocument::Compact);
+  socketMessage->write(msg);
 }
 
 void Thread::readyRead() {

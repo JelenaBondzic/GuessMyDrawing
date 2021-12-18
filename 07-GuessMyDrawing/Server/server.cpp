@@ -20,7 +20,7 @@ void Server::incomingConnection(qintptr socketDescriptor) {
     _clients.append(thread);
 }
 
-void Server::broadcast(const QJsonValue& message) {
+void Server::broadcast(const QJsonObject& message) {
 
     for (Thread* thread : _clients) {
 
@@ -28,7 +28,9 @@ void Server::broadcast(const QJsonValue& message) {
         //QByteArray data = doc.toJson();
         //std::cout << "[broadcast]: " << QJsonDocument(message).toJson().toStdString() << std::endl;
         //thread->receiveMessage(QJsonDocument(message).toJson());
-        thread->receiveMessage(message.toString().toUtf8());
+//        thread->receiveMessage(message.toString().toUtf8());
+        auto msg = QJsonDocument(message).toJson(QJsonDocument::Compact);
+        thread->send(message);
     }
 }
 
@@ -43,7 +45,7 @@ void Server::parseMessage(const QJsonObject& message) {
         const QJsonValue sender = message.value(MessageType::MESSAGE_SENDER);
         std::cout << "Stiglo od: " << sender.toString().toStdString() <<
                   ": " << text.toString().toStdString() << std::endl;
-        broadcast(text);
+        broadcast(message);
 
     }
 
