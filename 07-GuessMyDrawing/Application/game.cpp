@@ -26,11 +26,11 @@ Game::Game(Client* client, QWidget *parent) :
             this, &Game::onDecPenWidth);
 
     connect(client, &Client::youAreNewHost, this, &Game::on_You_Are_Host);
-    connect(client, &Client::startGame, this, &Game::on_Start_Game);
+   // connect(client, &Client::startGame, this, &Game::on_Start_Game);
 
 
 
-
+}
 Game::~Game()
 {
 

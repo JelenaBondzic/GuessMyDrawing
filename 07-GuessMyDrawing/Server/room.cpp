@@ -94,7 +94,7 @@ void Room::start()
 {
 
     QJsonObject message;
-    message[MessageType::TYPE] = MessageType::START;
+   // message[MessageType::TYPE] = MessageType::START;
 
     QMapIterator<QString, Thread*> i(players);
     while (i.hasNext()) {
