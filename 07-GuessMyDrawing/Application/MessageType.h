@@ -20,10 +20,12 @@ public:
 
   inline static const QString CONTENT = "content";
 
-
   inline static const QString JOIN_ROOM = "join_room";
-  inline static const QString LEAVE_ROOM = "join_room";
+  inline static const QString CREATE_ROOM = "create_room";
+  inline static const QString LEAVE_ROOM = "leave_room";
   inline static const QString ROOM_NAME = "room_name";
+
+  inline static const QString DURATION = "duration";
 
   inline static const QString CHOOSE_WORD = "choose_word";
   inline static const QString GET_ROOMS = "get_rooms";
@@ -32,6 +34,9 @@ public:
   inline static const QString MESSAGE_SOCKET = "message_socket";
 
   inline static const QString NEW_HOST = "new_host";
+
+  inline static const QString START = "start";
+  inline static const QString GAME_OVER = "game_over";
 };
 
 //enum class MessageType {
