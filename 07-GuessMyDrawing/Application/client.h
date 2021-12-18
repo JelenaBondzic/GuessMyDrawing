@@ -9,6 +9,7 @@
 #include <QJsonObject>
 #include <QJsonParseError>
 #include <QByteArray>
+#include <QHostAddress>
 
 #include "canvas.h"
 #include "MessageType.h"
@@ -73,7 +74,7 @@ private:
   void jsonReceived(const QJsonObject &doc);
   bool fieldIsValid(QJsonValue);
 
-  QHostAddress &adress;
+  QHostAddress adress;
   quint16 port;
 
   QJsonValue idForCanvas;
