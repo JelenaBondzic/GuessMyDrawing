@@ -16,18 +16,19 @@ class Server : public QTcpServer {
  public:
     explicit Server(QObject *parent = 0);
     void startServer();
-
-    void joinRoom(QString room_name);
-    Room* createRoom(QString room_name);
-    void sendMessage(Thread* thread, QJsonObject message);
-    void parseMessage(QJsonObject message);
+    void sendMessage(Thread *thread, QByteArray message);
+    void broadcast(const QJsonValue& message);
  signals:
 
  public slots:
-    void broadcast(QJsonObject message);
+    void parseMessage(const QJsonObject& message);
  protected:
     void incomingConnection(qintptr socketDescriptor);
  private:
+    void createRoom(QString username, QString room_name, int duration);
+    void joinRoom(QString username, QString room_name);
+    void leaveRoom(QString username, QString room_name);
+    void getRooms();
     std::map<QString, Room*> _rooms;
     QVector<Thread*> _clients;
 };
