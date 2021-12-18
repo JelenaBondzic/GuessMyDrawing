@@ -3,6 +3,7 @@
 #include "ui_mainwindow.h"
 #include "existingrooms.h"
 #include "settings.h"
+#include <QHostAddress>
 
 MainWindow::MainWindow(QString username, QWidget *parent)
   : QMainWindow(parent)
@@ -22,6 +23,8 @@ MainWindow::MainWindow(QString username, QWidget *parent)
 
   connect(ui->btnSend, &QPushButton::clicked, this, &MainWindow::sendMessage);
   connect(ui->leInput, &QLineEdit::returnPressed, this, &MainWindow::sendMessage); // send on enter
+
+//  connect(game, &Game::MySignalToIndicateThatTheWindowIsClosing, this, &MainWindow::gameWindowClosed);
 
 }
 
@@ -52,14 +55,11 @@ void MainWindow::sendMessage()
 
 void MainWindow::onJoinGameClicked()
 {
-    ExistingRooms rooms;
-    rooms.setModal(true);
+    existingRooms = new ExistingRooms(chatClient, this);
+    existingRooms->setModal(true);
     //opening the second window
-    rooms.exec();
+    existingRooms->exec();
 
-//s      hide();
-//    existingRooms = new ExistingRooms(this);
-//    existingRooms->show();
 }
 
 void MainWindow::messageRecieved(const QString &sender, const QString &text)
@@ -73,9 +73,12 @@ void MainWindow::messageRecieved(const QString &sender, const QString &text)
 }
 
 void MainWindow::onCreateNewGameClicked() {
-    hide();
-    settings = new Settings(this);
-    settings->show();
+ //   hide();
+    settings = new Settings(chatClient, this);
+    settings->setModal(true);
+ //   settings->show();
+    settings->exec();
+
 }
 
 void MainWindow::userJoined(const QString &username)
@@ -94,5 +97,10 @@ void MainWindow::userLeft(const QString &username)
   mChatModel->setData(mChatModel->index(newRow,0), username + " left");
   mChatModel->setData(mChatModel->index(newRow, 0), int(Qt::AlignLeft | Qt::AlignVCenter), Qt::TextAlignmentRole);
   ui->listView->scrollToBottom();
+}
+
+void MainWindow::gameWindowClosed()
+{
+    std::cout  << "mainnn" << std::endl;
 }
 

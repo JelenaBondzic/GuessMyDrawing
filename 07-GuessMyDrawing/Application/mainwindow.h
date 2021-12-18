@@ -23,6 +23,8 @@ public:
 public slots:
   void onJoinGameClicked();
   void onCreateNewGameClicked();
+  void gameWindowClosed();
+
 
 public:
   void attemptConnection(qint16 port);
@@ -32,15 +34,16 @@ private slots:
   void sendMessage();
   void userJoined(const QString &username);
   void userLeft(const QString &username);
-//  void error(QAbstractSocket::SocketError socketError);
+  //  void error(QAbstractSocket::SocketError socketError);
   // ADDED
 private:
   Ui::MainWindow *ui;
   Client* client;
-  Game *game;
+  ExistingRooms* existingRooms;
   Settings *settings;
   Client *chatClient;
   QStandardItemModel *mChatModel;
+  Game* game;
 
 };
 #endif // MAINWINDOW_H

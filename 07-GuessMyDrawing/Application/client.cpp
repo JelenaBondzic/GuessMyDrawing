@@ -37,6 +37,7 @@ void Client::disconnectFromHost()
   messageSocket->disconnectFromHost();
   canvasSocket->disconnectFromHost();
   std::cout << "disconected" <<std::endl;
+  // TODO obrada greske?
 }
 
 void Client::send(const QString &text)
@@ -58,6 +59,7 @@ void Client::send(const QString &text)
 
 void Client::joinRoom(QString username, QString roomName)
 {
+
   QJsonObject message;
   message[MessageType::TYPE] = QString(MessageType::JOIN_ROOM);
   message[MessageType::USERNAME] = username;
@@ -82,6 +84,7 @@ void Client::leaveRoom()
   messageSocket->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
 //  emit youLeftRoom();
 }
+
 
 void Client::chooseWord(QString word)
 {
@@ -133,6 +136,11 @@ void Client::onMessageReadyRead()
     }
 }
 
+
+//const QString &Client::name() const
+//{
+//    return mName;
+//}
 void Client::onCanvasReadyRead()
 {
   // canvas
