@@ -3,7 +3,7 @@
 
 #include "QString"
 #include "room.h"
-#include <map>
+#include <QMap>
 #include <QDebug>
 #include <QTcpServer>
 #include <QTcpSocket>
@@ -21,15 +21,15 @@ class Server : public QTcpServer {
  signals:
 
  public slots:
-    void parseMessage(const QJsonObject& message);
+    void parseMessage(const QJsonObject& message, Thread* thread);
  protected:
     void incomingConnection(qintptr socketDescriptor);
  private:
     void createRoom(QString username, QString room_name, int duration);
-    void joinRoom(QString username, QString room_name);
+    void joinRoom(QString username, QString room_name, Thread* thread);
     void leaveRoom(QString username, QString room_name);
     void getRooms();
-    std::map<QString, Room*> _rooms;
+    QMap<QString, Room*> _rooms;
     QVector<Thread*> _clients;
 };
 

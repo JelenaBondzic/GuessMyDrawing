@@ -16,19 +16,13 @@ void Server::incomingConnection(qintptr socketDescriptor) {
     std::cout << socketDescriptor << " connecting..." << std::endl;
     Thread* thread = new Thread(socketDescriptor, this);
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
-    connect(thread, SIGNAL(messageReceived(QJsonObject)), this, SLOT(parseMessage(QJsonObject)));
+    connect(thread, SIGNAL(messageReceived(QJsonObject, Thread*)), this, SLOT(parseMessage(QJsonObject, Thread*)));
     _clients.append(thread);
 }
 
 void Server::broadcast(const QJsonObject& message) {
 
     for (Thread* thread : _clients) {
-
-        //QJsonDocument doc(message);
-        //QByteArray data = doc.toJson();
-        //std::cout << "[broadcast]: " << QJsonDocument(message).toJson().toStdString() << std::endl;
-        //thread->receiveMessage(QJsonDocument(message).toJson());
-//        thread->receiveMessage(message.toString().toUtf8());
         auto msg = QJsonDocument(message).toJson(QJsonDocument::Compact);
         thread->send(message);
     }
@@ -38,7 +32,7 @@ void Server::sendMessage(Thread *thread, QByteArray message) {
     thread->receiveMessage(message);
 }
 
-void Server::parseMessage(const QJsonObject& message) {
+void Server::parseMessage(const QJsonObject& message, Thread* thread) {
     const QJsonValue type = message.value(MessageType::TYPE);
     if (type.toString().compare(MessageType::TEXT_MESSAGE) == 0) {
         const QJsonValue text = message.value(MessageType::CONTENT);
@@ -46,7 +40,6 @@ void Server::parseMessage(const QJsonObject& message) {
         std::cout << "Stiglo od: " << sender.toString().toStdString() <<
                   ": " << text.toString().toStdString() << std::endl;
         broadcast(message);
-
     }
 
     if (type.toString().compare(MessageType::CREATE_ROOM) == 0) {
@@ -65,7 +58,7 @@ void Server::parseMessage(const QJsonObject& message) {
         QString broadcast_message = username.toString() + " joined room " + room_name.toString();
         QJsonDocument doc = QJsonDocument::fromJson(broadcast_message.toUtf8());
         broadcast(doc.object());
-        joinRoom(username.toString(), room_name.toString());
+        joinRoom(username.toString(), room_name.toString(), thread);
     }
 
     if (type.toString().compare(MessageType::LEAVE_ROOM) == 0) {
@@ -95,16 +88,30 @@ void Server::parseMessage(const QJsonObject& message) {
 
 }
 
-void Server::joinRoom(QString username, QString room_name) {
-    // call joinClient in roomClass
+void Server::joinRoom(QString username, QString room_name, Thread* thread) {
+    Room* room;
+    if (_rooms.contains(room_name)) {
+        room = _rooms.value(room_name);
+    } else {
+        std::cerr << "Can't find a room with the name " << room_name.toStdString() << std::endl;
+        return ;
+    }
+
+    room->joinClient(username, thread);
 }
 
 void Server::createRoom(QString username, QString room_name, int duration) {
-    // Room constructor
+    Room* room = new Room(username, room_name, duration);
+    _rooms.insert(room_name, room);
 }
 
 void Server::leaveRoom(QString username, QString room_name) {
-    // call leaveRoom in room class
+    if (_rooms.contains(room_name)) {
+        Room* room = _rooms.value(room_name);
+        room->leaveRoom(username);
+    } else {
+        std::cerr << "Can't find a room with the name " << room_name.toStdString() << std::endl;
+    }
 }
 
 void Server::getRooms() {}

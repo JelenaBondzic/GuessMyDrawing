@@ -14,7 +14,7 @@ class Thread : public QObject {
     void send(QJsonObject message); //napravi ovo
 signals:
     void error(QTcpSocket::SocketError socket_error);
-    void messageReceived(QJsonObject message);
+    void messageReceived(QJsonObject message, Thread* thread);
     void finished();
 public slots:
     void readyRead();

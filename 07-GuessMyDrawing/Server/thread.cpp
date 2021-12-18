@@ -27,7 +27,7 @@ void Thread::readyRead() {
     socketMessage->write(data);
     socketMessage->flush();
     QJsonDocument doc = QJsonDocument::fromJson(data);
-    emit messageReceived(doc.object());
+    emit messageReceived(doc.object(), this);
 }
 
 void Thread::disconnected() {
