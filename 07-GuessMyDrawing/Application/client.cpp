@@ -28,9 +28,10 @@ Client::Client(QString name, QObject *parent):
 void Client::connectToServer(const QHostAddress &adress, quint16 port)
 {
   messageSocket->connectToHost(adress, port);
-  canvasSocket->connectToHost(adress, port);
-  // TODO obrada greske?
- }
+//  canvasSocket->connectToHost(adress, port);
+  this->adress = adress;
+  this->port = port;
+}
 
 void Client::disconnectFromHost()
 {
@@ -152,6 +153,7 @@ void Client::connectedCanvas()
 {
   QJsonObject message;
   message[MessageType::TYPE] = QString(MessageType::CANVAS_SOCKET);
+  message[MessageType::ID] = this->idForCanvas;
   canvasSocket->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
 }
 
@@ -248,6 +250,11 @@ void Client::jsonReceived(const QJsonObject &doc)
     }
   else if(typeVal.toString().compare(MessageType::START) == 0){
     emit startGame();
+    }
+  // message saying canvas can connect
+  else if(typeVal.toString().compare(MessageType::CANVAS_SOCKET)){
+    idForCanvas = doc.value(MessageType::ID);
+    canvasSocket->connectToHost(adress, port);
     }
 }
 

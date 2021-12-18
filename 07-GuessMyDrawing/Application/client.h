@@ -72,6 +72,11 @@ private:
 
   void jsonReceived(const QJsonObject &doc);
   bool fieldIsValid(QJsonValue);
+
+  QHostAddress &adress;
+  quint16 port;
+
+  QJsonValue idForCanvas;
 };
 
 #endif // CLIENT_H
