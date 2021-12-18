@@ -1,4 +1,5 @@
 #include "server.h"
+#include "../Application/MessageType.h"
 #include <iostream>
 
 Server::Server(QObject* parent): QTcpServer(parent) {}
@@ -31,6 +32,16 @@ void Server::sendMessage(Thread *thread, QJsonObject message) {
     thread->receiveMessage(data);
 }
 
+void Server::parseMessage(QJsonObject message) {
+    const QJsonValue type = message.value(MessageType::TYPE);
+    if(type.toString().compare(MessageType::TEXT_MESSAGE) == 0){
+        const QJsonValue text = message.value(MessageType::CONTENT);
+        const QJsonValue sender = message.value(MessageType::MESSAGE_SENDER);
+        broadcast(text.toObject());
+    }
+
+
+}
 void Server::joinRoom(QString room_name) {
 
 }

@@ -20,7 +20,7 @@ class Server : public QTcpServer {
     void joinRoom(QString room_name);
     Room* createRoom(QString room_name);
     void sendMessage(Thread* thread, QJsonObject message);
-
+    void parseMessage(QJsonObject message);
  signals:
 
  public slots:
