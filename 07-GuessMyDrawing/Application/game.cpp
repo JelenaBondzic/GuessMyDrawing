@@ -126,12 +126,12 @@ void Game::on_You_Are_Host()
 void Game::on_Game_finished(int result)
 {
     this->hide();
-    QWidget *parent = this->parentWidget()->parentWidget()->parentWidget();
+    QWidget *parent = this->parentWidget();;
 
-    std::cout << parent << std::endl;
-    if(parent == 0){
-        parent = this->parentWidget()->parentWidget();
-    }
+//    std::cout << parent << std::endl;
+//    if(parent == 0){
+//        parent = this->parentWidget()->parentWidget();
+//    }
 
     parent->show();
     client->leaveRoom();
