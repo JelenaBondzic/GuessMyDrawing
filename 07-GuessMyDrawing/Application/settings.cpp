@@ -3,10 +3,11 @@
 #include "game.h"
 #include "mainwindow.h"
 
-Settings::Settings(Client* client, QWidget *parent) :
+Settings::Settings(Game* game, Client* client, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Settings),
-    client(client)
+    client(client),
+    game(game)
 {
     ui->setupUi(this);
     connect(ui->pbSave, &QPushButton::clicked, this, &Settings::onSaveClicked);
@@ -33,7 +34,7 @@ void Settings::onSaveClicked()
     username = ui->leUsername->text();
     roomName = ui->lnRoomName->text();
     sendSettingsToCLient(username, roomName, duration);
-    chooseWordWindow = new ChooseWord(username, roomName, duration, client, this);
+    chooseWordWindow = new ChooseWord(game, username, roomName, duration, client, this);
     chooseWordWindow->show();
 }
 

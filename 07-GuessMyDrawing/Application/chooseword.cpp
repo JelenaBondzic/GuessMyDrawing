@@ -1,13 +1,14 @@
 #include "chooseword.h"
 #include "ui_chooseword.h"
 
-ChooseWord::ChooseWord(QString username, QString roomName, int duration, Client* client, QWidget *parent) :
+ChooseWord::ChooseWord(Game* game, QString username, QString roomName, int duration, Client* client, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ChooseWord),
     client(client),
     username(username),
     roomName(roomName),
-    duration(duration)
+    duration(duration),
+    game(game)
 {
     ui->setupUi(this);
     connect(ui->pbFirstWord, &QPushButton::clicked, this, &ChooseWord::on_pbFirstWord_clicked);
@@ -64,6 +65,6 @@ void ChooseWord::on_pbCreateGame_clicked()
     this->hide();
     client->chooseWord(chosenWord);
    // client->createRoom(username, roomName, duration);
-    game = new Game(client, this);
+   // game = new Game(client, this);
     game->show();
 }

@@ -261,7 +261,7 @@ void Client::jsonReceived(const QJsonObject &doc)
   // message saying canvas can connect
   else if(typeVal.toString().compare(MessageType::CANVAS_SOCKET)){
     idForCanvas = doc.value(MessageType::ID);
-    canvasSocket->connectToHost(adress, port);
+  //  canvasSocket->connectToHost(adress, port);
     }
 }
 

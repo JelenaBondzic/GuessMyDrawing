@@ -16,7 +16,7 @@ class Settings : public QDialog
     Q_OBJECT
 
 public:
-    explicit Settings(Client* client, QWidget *parent = nullptr);
+    explicit Settings(Game* game, Client* client, QWidget *parent = nullptr);
     ~Settings();
 
     void sendSettingsToCLient(QString username, QString roomName, int duration);

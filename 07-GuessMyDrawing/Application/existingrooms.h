@@ -15,7 +15,7 @@ class ExistingRooms : public QDialog
     Q_OBJECT
 
 public:
-    explicit ExistingRooms(Client* client, QWidget *parent = nullptr);
+    explicit ExistingRooms(Game* game, Client* client, QWidget *parent = nullptr);
     ~ExistingRooms();
 
 private slots:
@@ -30,7 +30,7 @@ private:
     Client *client;
     const QVector<QString>* activeRooms;
     QString username = "";
-    QString selectedRoom = "";
+    QString selectedRoom;
     Game* game;
 
 

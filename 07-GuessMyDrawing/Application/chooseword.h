@@ -14,7 +14,7 @@ class ChooseWord : public QDialog
     Q_OBJECT
 
 public:
-    explicit ChooseWord(QString username, QString roomName, int duration, Client* client, QWidget *parent = nullptr);
+    explicit ChooseWord(Game* game, QString username, QString roomName, int duration, Client* client, QWidget *parent = nullptr);
     ~ChooseWord();
 
 private slots:

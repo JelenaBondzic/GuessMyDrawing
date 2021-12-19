@@ -16,6 +16,7 @@ MainWindow::MainWindow(QString username, QWidget *parent)
   connect(ui->pbJoinGame, &QPushButton::clicked, this, &MainWindow::onJoinGameClicked);
   connect(ui->pbCreateNewGame, &QPushButton::clicked, this, &MainWindow::onCreateNewGameClicked);
   //  connect(game, &Game::MySignalToIndicateThatTheWindowIsClosing, this, &MainWindow::gameWindowClosed);
+  game = new Game(chatClient, this);
 
 }
 
@@ -33,7 +34,7 @@ void MainWindow::attemptConnection(qint16 port)
 
 void MainWindow::onJoinGameClicked()
 {
-    existingRooms = new ExistingRooms(chatClient, this);
+    existingRooms = new ExistingRooms(game, chatClient, this);
     existingRooms->setModal(true);
     //opening the second window
     existingRooms->exec();
@@ -42,7 +43,7 @@ void MainWindow::onJoinGameClicked()
 
 void MainWindow::onCreateNewGameClicked() {
  //   hide();
-    settings = new Settings(chatClient, this);
+    settings = new Settings(game, chatClient, this);
     settings->setModal(true);
  //   settings->show();
     settings->exec();

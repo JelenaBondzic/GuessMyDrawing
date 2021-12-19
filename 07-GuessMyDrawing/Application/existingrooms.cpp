@@ -2,10 +2,11 @@
 #include "ui_existingrooms.h"
 #include <iostream>
 
-ExistingRooms::ExistingRooms(Client* client, QWidget *parent) :
+ExistingRooms::ExistingRooms(Game* game, Client* client, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ExistingRooms),
-    client(client)
+    client(client),
+    game(game)
 {
     ui->setupUi(this);
     connect(client, &Client::roomList, this, &ExistingRooms::getActiveRooms);
@@ -30,6 +31,7 @@ ExistingRooms::~ExistingRooms()
 void ExistingRooms::on_listOfRooms_itemClicked(QListWidgetItem *item)
 {
     selectedRoom = ui->listOfRooms->selectedItems()[0]->text();
+    std::cout << selectedRoom.toStdString() << std::endl;
 }
 
 void ExistingRooms::getActiveRooms(const QVector<QString> *r)
@@ -66,7 +68,7 @@ void ExistingRooms::on_pbJoin_clicked()
 void ExistingRooms::on_JoinedRoom(bool p)
 {
     if(p){
-        game = new Game(client, this);
+        //game = new Game(client, this);
         game->show();
     }
 }
