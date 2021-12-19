@@ -27,7 +27,7 @@ public:
     //server call constructor for room and sends in constructor name of host
     Room(QString name, QString firstHost, int duration);
 
-    void broadcast(const QJsonObject& message);
+    void broadcast(const QJsonObject& message, Thread *t);
 
     void start();
     void setDuration(int newDuration);

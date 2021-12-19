@@ -34,11 +34,11 @@ void Room::setWordAndStartGame(const QString &newChosenWord)
 
 void Room::checkChatWord(QString word, Thread* senderUser)
 {
-
-
+    std::cout << "Correct;" << word.toStdString() << std::endl;
     if(word.compare(chosenWord)){
-
+        std::cout << "Correct;" << std::endl;
         QJsonObject message1;
+        message1[MessageType::TYPE] = MessageType::GAME_OVER;
         QMapIterator<QString, Thread*> i(players);
         while (i.hasNext()) {
             i.next();
@@ -54,8 +54,9 @@ void Room::checkChatWord(QString word, Thread* senderUser)
 
 }
 
-Room::Room(QString name, QString host, int duration): name(name), host(host), duration(duration)
+Room::Room(QString name, QString host, int duration): name(name), duration(duration), host(host)
 {
+  gameIsStarted = false;
 }
 
 void Room::joinClient(QString username, Thread* thread){
@@ -69,16 +70,23 @@ void Room::joinClient(QString username, Thread* thread){
     if(!check){
         message[MessageType::ROOM_NAME] = "";
         thread->send(message);
+
+        std::cout << "USER NOT JOINED " << std::endl;
         return;
     }
 
     else{
     //if username is not taken
+        std::cout << "USER JOINED " << std::endl;
         players.insert(username, thread);
         message[MessageType::TYPE] = QString(MessageType::JOIN_ROOM);
         message[MessageType::ROOM_NAME] = name;
         thread->send(message);
 
+        QJsonObject m;
+        m[MessageType::TYPE] = MessageType::USER_JOINED;
+        m[MessageType::USERNAME] = username;
+        broadcast(m, thread);
 
         //if there is 2 or more players, start game
         if(players.size() >= 2 and !gameIsStarted)
@@ -90,9 +98,10 @@ void Room::joinClient(QString username, Thread* thread){
 
 void Room::start()
 {
+  std::cout << "START " <<std::endl;
 
     QJsonObject message;
-   // message[MessageType::TYPE] = MessageType::START;
+    message[MessageType::TYPE] = MessageType::START;
 
     QMapIterator<QString, Thread*> i(players);
     while (i.hasNext()) {
@@ -104,8 +113,9 @@ void Room::start()
 
 }
 
-void Room::broadcast(const QJsonObject &message) {
+void Room::broadcast(const QJsonObject &message, Thread* t) {
     for (auto i=players.begin(); i!=players.end(); i++) {
-        i.value()->send(message);
-    }
+        if (i.value() != t)
+          i.value()->send(message);
+          }
 }

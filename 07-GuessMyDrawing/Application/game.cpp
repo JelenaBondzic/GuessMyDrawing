@@ -127,7 +127,7 @@ void Game::You_Are_Host()
 void Game::on_Game_finished(int result)
 {
     this->hide();
-    QWidget *parent = this->parentWidget();;
+    QWidget *parent = this->parentWidget();
 
 //    std::cout << parent << std::endl;
 //    if(parent == 0){
@@ -144,7 +144,11 @@ void Game::on_Game_finished(int result)
 
 void Game::Start_Game()
 {
-
+  std::cout << "START" <<std::endl;
+  if (client->isHost())
+    ui->leInput->setDisabled(true);
+  else
+    ui->leInput->setDisabled(false);
 }
 
 // FOR CHAT
@@ -152,11 +156,11 @@ void Game::sendMessage()
 {
   client->send(ui->leInput->text());
 
-  int newRow = mChatModel->rowCount();
-  mChatModel->insertRow(newRow);
-  mChatModel->setData(mChatModel->index(newRow,0), ui->leInput->text());
-  mChatModel->setData(mChatModel->index(newRow, 0), int(Qt::AlignLeft | Qt::AlignVCenter), Qt::TextAlignmentRole);
-  ui->listView->scrollToBottom();
+//  int newRow = mChatModel->rowCount();
+//  mChatModel->insertRow(newRow);
+//  mChatModel->setData(mChatModel->index(newRow,0), ui->leInput->text());
+//  mChatModel->setData(mChatModel->index(newRow, 0), int(Qt::AlignLeft | Qt::AlignVCenter), Qt::TextAlignmentRole);
+//  ui->listView->scrollToBottom();
   ui->leInput->setText("");
 }
 

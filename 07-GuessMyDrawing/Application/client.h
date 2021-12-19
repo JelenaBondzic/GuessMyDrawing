@@ -33,6 +33,8 @@ public:
 
   void sendCanvas(QByteArray &canvas);
 
+  inline bool isHost() {return imHost; }
+
 private slots:
   void onMessageReadyRead();
   void onCanvasReadyRead();

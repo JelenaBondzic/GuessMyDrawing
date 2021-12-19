@@ -54,6 +54,7 @@ void Client::send(const QString &text)
   auto msg = QJsonDocument(message).toJson(QJsonDocument::Compact);
 
   messageSocket->write(msg);
+  messageSocket->flush();
 }
 
 
@@ -87,6 +88,8 @@ void Client::leaveRoom()
   QJsonObject message;
   message[MessageType::TYPE] = QString(MessageType::LEAVE_ROOM);
   messageSocket->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
+  messageSocket->flush();
+
 //  emit youLeftRoom();
 }
 
@@ -162,6 +165,7 @@ void Client::connectedCanvas()
   message[MessageType::TYPE] = QString(MessageType::CANVAS_SOCKET);
   message[MessageType::ID] = this->idForCanvas;
   canvasSocket->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
+  messageSocket->flush();
 }
 
 void Client::disconnectedCanvas()
@@ -177,6 +181,7 @@ void Client::connectedMessage()
    QJsonObject message;
    message[MessageType::TYPE] = QString(MessageType::MESSAGE_SOCKET);
    messageSocket->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
+   messageSocket->flush();
 }
 
 void Client::disconnectedMessage()

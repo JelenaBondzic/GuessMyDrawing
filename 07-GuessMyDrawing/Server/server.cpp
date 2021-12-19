@@ -44,7 +44,7 @@ void Server::parseMessage(const QJsonObject& message, Thread* thread) {
             std::cerr << "This client is not in any room";
             return;
         }
-        room->broadcast(message);
+        room->broadcast(message, thread);
     }
 
     if (type.toString().compare(MessageType::CREATE_ROOM) == 0) {
