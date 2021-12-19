@@ -117,5 +117,7 @@ void Room::broadcast(const QJsonObject &message, Thread* t) {
     for (auto i=players.begin(); i!=players.end(); i++) {
         if (i.value() != t)
           i.value()->send(message);
-          }
+    }
+    QString word = message.value(MessageType::CONTENT).toString();
+    //std::cout << "STRIGLO U BROADCAST REC: " << word.toStdString() << std::endl;
 }

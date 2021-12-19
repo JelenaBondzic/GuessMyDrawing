@@ -78,12 +78,16 @@ void Server::parseMessage(const QJsonObject& message, Thread* thread) {
     }
 
     if (type.toString().compare(MessageType::CHOOSE_WORD) == 0) {
-        const QJsonValue username = message.value(MessageType::USERNAME);
         const QJsonValue word = message.value(MessageType::CONTENT);
         /*QString broadcast_message = username.toString() + " choose word" + word.toString();
         QJsonDocument doc = QJsonDocument::fromJson(broadcast_message.toUtf8());
         broadcast(doc.object());*/
-        // make method in room class for choosing a word
+        Room* room = getRoomFromThread(thread);
+        if (room == nullptr) {
+            std::cerr << "This client is not in any room";
+            return;
+        }
+        room->setWordAndStartGame(word.toString());
     }
 
     if (type.toString().compare(MessageType::GET_ROOMS) == 0) {
