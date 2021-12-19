@@ -16,29 +16,23 @@ void Server::incomingConnection(qintptr socketDescriptor) {
     std::cout << socketDescriptor << " connecting..." << std::endl;
     Thread* thread = new Thread(socketDescriptor, this);
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
-    connect(thread, SIGNAL(messageReceived(QJsonObject, Thread*)), this, SLOT(parseMessage(QJsonObject, Thread*)));
+    connect(thread, SIGNAL(messageReceived(QJsonObject,Thread*)), this, SLOT(parseMessage(QJsonObject,Thread*)));
     _clients.append(thread);
 }
 
 void Server::broadcast(const QJsonObject& message) {
 
     for (Thread* thread : _clients) {
-        auto msg = QJsonDocument(message).toJson(QJsonDocument::Compact);
         thread->send(message);
     }
 }
 
-void Server::sendMessage(Thread *thread, QByteArray message) {
-    thread->receiveMessage(message);
-}
 
 void Server::parseMessage(const QJsonObject& message, Thread* thread) {
     const QJsonValue type = message.value(MessageType::TYPE);
     if (type.toString().compare(MessageType::TEXT_MESSAGE) == 0) {
         const QJsonValue text = message.value(MessageType::CONTENT);
         const QJsonValue sender = message.value(MessageType::MESSAGE_SENDER);
-        std::cout << "Stiglo od: " << sender.toString().toStdString() <<
-                  ": " << text.toString().toStdString() << std::endl;
         broadcast(message);
     }
 

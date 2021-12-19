@@ -22,8 +22,6 @@ void Thread::send(QJsonObject message)
 
 void Thread::readyRead() {
     QByteArray data = socketMessage->readAll();
-    std::cout << "READY READ: " << socketDescriptor << ": " << data.toStdString() << std::endl;
-    socketMessage->flush();
     socketMessage->write(data);
     socketMessage->flush();
     QJsonDocument doc = QJsonDocument::fromJson(data);
@@ -34,12 +32,5 @@ void Thread::disconnected() {
     std::cout << socketDescriptor << " disconnected! " << std::endl;
     socketMessage->deleteLater();
     exit(0);
-}
-
-void Thread::receiveMessage(QByteArray message) {
-
-    std::cout << "RECEIVE MESSAGE: " << socketDescriptor << "Strilo u tred : " << message.toStdString() << std::endl;
-    socketMessage->write(message);
-    socketMessage->flush();
 }
 

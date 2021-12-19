@@ -11,7 +11,7 @@ class Thread : public QObject {
  public:
     explicit Thread(qintptr ID, QObject *parent = 0);
 
-    void send(QJsonObject message); //napravi ovo
+    void send(QJsonObject message);
 signals:
     void error(QTcpSocket::SocketError socket_error);
     void messageReceived(QJsonObject message, Thread* thread);
@@ -19,7 +19,6 @@ signals:
 public slots:
     void readyRead();
     void disconnected();
-    void receiveMessage(QByteArray message);
 
  private:
     QTcpSocket* socketMessage;

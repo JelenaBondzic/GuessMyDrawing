@@ -16,7 +16,6 @@ class Server : public QTcpServer {
  public:
     explicit Server(QObject *parent = 0);
     void startServer();
-    void sendMessage(Thread *thread, QByteArray message);
     void broadcast(const QJsonObject& message);
  signals:
 
