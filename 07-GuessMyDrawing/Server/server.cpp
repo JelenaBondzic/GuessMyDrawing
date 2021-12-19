@@ -82,7 +82,12 @@ void Server::parseMessage(const QJsonObject& message, Thread* thread) {
 //        QString broadcast_message = "Get rooms...";
 //        QJsonDocument doc = QJsonDocument::fromJson(broadcast_message.toUtf8());
 //        broadcast(doc.object());
-        getRooms();
+        QString rooms = getRooms();
+        QJsonObject return_message;
+        return_message[MessageType::TYPE] = QString(MessageType::GET_ROOMS);
+        return_message[MessageType::CONTENT] = rooms;
+
+        thread->send(return_message);
     }
 
 }
@@ -115,7 +120,14 @@ void Server::leaveRoom(QString username, QString room_name, Thread* thread) {
     thread->setRoomName("");
 }
 
-void Server::getRooms() {}
+QString Server::getRooms() {
+    QString res = "";
+    for (auto i = _rooms.begin(); i != _rooms.end(); i++) {
+        res.append(i.key());
+        res.append(",");
+    }
+    return res;
+}
 
 Room* Server::getRoomFromThread(Thread* thread) {
     if (thread->getRoomName() == "") {
