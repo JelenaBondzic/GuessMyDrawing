@@ -7,6 +7,7 @@
 #include<unordered_map>
 #include<QString>
 #include<QMap>
+#include<QJsonObject>
 #include "thread.h"
 
 class Room
@@ -25,6 +26,8 @@ private:
 public:
     //server call constructor for room and sends in constructor name of host
     Room(QString name, QString firstHost, int duration);
+
+    void broadcast(const QJsonObject& message);
 
     void start();
     void setDuration(int newDuration);

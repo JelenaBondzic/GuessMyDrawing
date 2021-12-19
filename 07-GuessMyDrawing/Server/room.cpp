@@ -1,6 +1,5 @@
 #include "room.h"
 #include "../Application/MessageType.h"
-#include<QJsonObject>
 #include<unordered_map>
 
 
@@ -104,4 +103,10 @@ void Room::start()
 
     gameIsStarted = true;
 
+}
+
+void Room::broadcast(const QJsonObject &message) {
+    for (auto i=players.begin(); i!=players.end(); i++) {
+        i.value()->send(message);
+    }
 }

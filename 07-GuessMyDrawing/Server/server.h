@@ -16,7 +16,7 @@ class Server : public QTcpServer {
  public:
     explicit Server(QObject *parent = 0);
     void startServer();
-    void broadcast(const QJsonObject& message);
+    //void broadcast(const QJsonObject& message);
  signals:
 
  public slots:
@@ -26,8 +26,10 @@ class Server : public QTcpServer {
  private:
     void createRoom(QString username, QString room_name, int duration);
     void joinRoom(QString username, QString room_name, Thread* thread);
-    void leaveRoom(QString username, QString room_name);
+    void leaveRoom(QString username, QString room_name, Thread* thread);
     void getRooms();
+    Room* getRoomFromThread(Thread* thread);
+    Thread* getThreadFromId(quintptr id);
     QMap<QString, Room*> _rooms;
     QVector<Thread*> _clients;
 };
