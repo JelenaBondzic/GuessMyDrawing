@@ -59,39 +59,6 @@
      <string>Create new game</string>
     </property>
    </widget>
-   <widget class="QListView" name="listView">
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>50</y>
-      <width>331</width>
-      <height>271</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnSend">
-    <property name="geometry">
-     <rect>
-      <x>310</x>
-      <y>370</y>
-      <width>181</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Send</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="leInput">
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>340</y>
-      <width>331</width>
-      <height>25</height>
-     </rect>
-    </property>
-   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

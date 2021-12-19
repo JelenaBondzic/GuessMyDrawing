@@ -7,6 +7,7 @@
 #include <QCloseEvent>
 #include <QMainWindow>
 #include <QWidget>
+#include <QStandardItemModel>
 //#include "mainwindow.h"
 
 namespace Ui {
@@ -27,6 +28,13 @@ public:
 
     void setDuration(int newDuration);
     //void closeEvent( QCloseEvent* event );
+
+private slots:
+    void sendMessage();
+    void messageRecieved(const QString &sender, const QString &text);
+    void userLeft(const QString &username);
+    void userJoined(const QString &username);
+
 
 signals:
  //   void MySignalToIndicateThatTheWindowIsClosing();
@@ -56,6 +64,8 @@ private:
     Client *client;
     QString username;
 
+    // chat
+    QStandardItemModel *mChatModel;
 
 };
 

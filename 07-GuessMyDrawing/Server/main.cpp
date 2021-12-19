@@ -8,6 +8,6 @@ int main(int argc, char *argv[])
     MainWindow w;
     Server s;
     s.startServer();
-    w.show();
+    //w.show();
     return a.exec();
 }

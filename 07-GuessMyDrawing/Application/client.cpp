@@ -28,9 +28,10 @@ Client::Client(QString name, QObject *parent):
 void Client::connectToServer(const QHostAddress &adress, quint16 port)
 {
   messageSocket->connectToHost(adress, port);
-  canvasSocket->connectToHost(adress, port);
-  // TODO obrada greske?
- }
+//  canvasSocket->connectToHost(adress, port);
+  this->adress = adress;
+  this->port = port;
+}
 
 void Client::disconnectFromHost()
 {
@@ -152,7 +153,8 @@ void Client::connectedCanvas()
 {
   QJsonObject message;
   message[MessageType::TYPE] = QString(MessageType::CANVAS_SOCKET);
-  messageSocket->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
+  message[MessageType::ID] = this->idForCanvas;
+  canvasSocket->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
 }
 
 void Client::disconnectedCanvas()
@@ -164,6 +166,7 @@ void Client::disconnectedCanvas()
 
 void Client::connectedMessage()
 {
+  std::cout << "connected to server" << std::endl;
    QJsonObject message;
    message[MessageType::TYPE] = QString(MessageType::MESSAGE_SOCKET);
    messageSocket->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
@@ -177,6 +180,7 @@ void Client::disconnectedMessage()
 void Client::error(QAbstractSocket::SocketError socketError)
 {
   std::cout << "Error ocurred " << socketError << std::endl;
+
   QString *s = new QString("Something went wrong with cnnnection. Try again");
   emit errorConnecting(s);
 }
@@ -248,6 +252,11 @@ void Client::jsonReceived(const QJsonObject &doc)
     }
   else if(typeVal.toString().compare(MessageType::START) == 0){
     emit startGame();
+    }
+  // message saying canvas can connect
+  else if(typeVal.toString().compare(MessageType::CANVAS_SOCKET)){
+    idForCanvas = doc.value(MessageType::ID);
+    canvasSocket->connectToHost(adress, port);
     }
 }
 

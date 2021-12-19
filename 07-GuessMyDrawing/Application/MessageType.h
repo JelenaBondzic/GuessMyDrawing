@@ -37,6 +37,8 @@ public:
 
   inline static const QString START = "start";
   inline static const QString GAME_OVER = "game_over";
+
+  inline static const QString ID = "id";
 };
 
 //enum class MessageType {

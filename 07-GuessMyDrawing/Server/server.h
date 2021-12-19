@@ -3,10 +3,12 @@
 
 #include "QString"
 #include "room.h"
-#include <map>
+#include <QMap>
 #include <QDebug>
 #include <QTcpServer>
 #include <QTcpSocket>
+#include <QJsonObject>
+#include <QJsonDocument>
 #include "thread.h"
 
 class Server : public QTcpServer {
@@ -14,19 +16,21 @@ class Server : public QTcpServer {
  public:
     explicit Server(QObject *parent = 0);
     void startServer();
-
-    void joinRoom(QString room_name);
-    Room* createRoom(QString room_name);
-    void sendMessage(Thread* thread, QByteArray message);
-
+    //void broadcast(const QJsonObject& message);
  signals:
 
  public slots:
-    void broadcast(QByteArray/*Message*/ message);
+    void parseMessage(const QJsonObject& message, Thread* thread);
  protected:
     void incomingConnection(qintptr socketDescriptor);
  private:
-    std::map<QString, Room*> _rooms;
+    void createRoom(QString username, QString room_name, int duration);
+    void joinRoom(QString username, QString room_name, Thread* thread);
+    void leaveRoom(QString username, QString room_name, Thread* thread);
+    QString getRooms();
+    Room* getRoomFromThread(Thread* thread);
+    Thread* getThreadFromId(quintptr id);
+    QMap<QString, Room*> _rooms;
     QVector<Thread*> _clients;
 };
 

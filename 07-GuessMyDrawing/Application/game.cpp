@@ -8,8 +8,9 @@
 Game::Game(Client* client, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Game),
-    client(client),
-    _canvas(new Canvas(this))
+    _canvas(new Canvas(this)),
+    mChatModel(new QStandardItemModel(this)),
+    client(client)
 {
     ui->setupUi(this);
 
@@ -28,6 +29,16 @@ Game::Game(Client* client, QWidget *parent) :
     connect(client, &Client::youAreNewHost, this, &Game::on_You_Are_Host);
    // connect(client, &Client::startGame, this, &Game::on_Start_Game);
 
+    // FOR CHAT
+    mChatModel->insertColumn(0);
+    ui->listView->setModel(mChatModel);
+
+    connect(client, &Client::messageReceived, this, &Game::messageRecieved);
+    connect(client, &Client::userJoined, this, &Game::userJoined);
+    connect(client, &Client::userLeft, this, &Game::userLeft);
+
+    connect(ui->btnSend, &QPushButton::clicked, this, &Game::sendMessage);
+    connect(ui->leInput, &QLineEdit::returnPressed, this, &Game::sendMessage); // send on enter
 
 
 }
@@ -134,4 +145,47 @@ void Game::on_Start_Game()
 {
 
 }
+
+// FOR CHAT
+void Game::sendMessage()
+{
+  client->send(ui->leInput->text());
+
+  int newRow = mChatModel->rowCount();
+  mChatModel->insertRow(newRow);
+  mChatModel->setData(mChatModel->index(newRow,0), ui->leInput->text());
+  mChatModel->setData(mChatModel->index(newRow, 0), int(Qt::AlignLeft | Qt::AlignVCenter), Qt::TextAlignmentRole);
+  ui->listView->scrollToBottom();
+  ui->leInput->setText("");
+}
+
+
+void Game::messageRecieved(const QString &sender, const QString &text)
+{
+//  std::cout << sender.toStdString() << " " << text.toStdString() << std::endl;
+  int newRow = mChatModel->rowCount();
+  mChatModel->insertRow(newRow);
+  mChatModel->setData(mChatModel->index(newRow,0), sender + " : " + text);
+  mChatModel->setData(mChatModel->index(newRow, 0), int(Qt::AlignLeft | Qt::AlignVCenter), Qt::TextAlignmentRole);
+  ui->listView->scrollToBottom();
+}
+
+void Game::userJoined(const QString &username)
+{
+  int newRow = mChatModel->rowCount();
+  mChatModel->insertRow(newRow);
+  mChatModel->setData(mChatModel->index(newRow,0), username + " joined");
+  mChatModel->setData(mChatModel->index(newRow, 0), int(Qt::AlignLeft | Qt::AlignVCenter), Qt::TextAlignmentRole);
+  ui->listView->scrollToBottom();
+}
+
+void Game::userLeft(const QString &username)
+{
+  int newRow = mChatModel->rowCount();
+  mChatModel->insertRow(newRow);
+  mChatModel->setData(mChatModel->index(newRow,0), username + " left");
+  mChatModel->setData(mChatModel->index(newRow, 0), int(Qt::AlignLeft | Qt::AlignVCenter), Qt::TextAlignmentRole);
+  ui->listView->scrollToBottom();
+}
+
 
