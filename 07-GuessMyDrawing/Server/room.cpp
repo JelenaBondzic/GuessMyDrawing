@@ -10,7 +10,7 @@ void Room::setDuration(int newDuration)
 
 void Room::leaveRoom(QString player)
 {
-    QMap<QString, Thread*>::const_iterator i = players.find(player);
+    QMap<QString, Thread*>::iterator i = players.find(player);
     players.erase(i);
 
     //broadcast others that player has left the game??

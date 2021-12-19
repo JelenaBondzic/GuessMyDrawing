@@ -124,7 +124,7 @@ void Client::onMessageReadyRead()
   QByteArray data;
   data = messageSocket->readAll();
 
-  QVector<QByteArray> dataVec = data.split('}'); // split by json end
+  QList<QByteArray> dataVec = data.split('}'); // split by json end
 
   for (auto &jsonData: dataVec) {
       // if we don't have valid json beggining there's no point of going further

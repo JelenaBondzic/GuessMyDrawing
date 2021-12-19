@@ -10,6 +10,8 @@
 #include <QJsonParseError>
 #include <QByteArray>
 #include <QHostAddress>
+#include <QVector>
+#include <QList>
 
 #include "canvas.h"
 #include "MessageType.h"
