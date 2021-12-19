@@ -4,9 +4,9 @@
 #include "mainwindow.h"
 
 Settings::Settings(Client* client, QWidget *parent) :
-    client(client),
     QDialog(parent),
-    ui(new Ui::Settings)
+    ui(new Ui::Settings),
+    client(client)
 {
     ui->setupUi(this);
     connect(ui->pbSave, &QPushButton::clicked, this, &Settings::onSaveClicked);

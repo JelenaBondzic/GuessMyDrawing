@@ -29,11 +29,11 @@ public slots:
 public:
   void attemptConnection(qint16 port);
 
-private slots:
-  void messageRecieved(const QString &sender, const QString &text);
-  void sendMessage();
-  void userJoined(const QString &username);
-  void userLeft(const QString &username);
+//private slots:
+//  void messageRecieved(const QString &sender, const QString &text);
+//  void sendMessage();
+//  void userJoined(const QString &username);
+//  void userLeft(const QString &username);
   //  void error(QAbstractSocket::SocketError socketError);
   // ADDED
 private:
@@ -42,7 +42,7 @@ private:
   ExistingRooms* existingRooms;
   Settings *settings;
   Client *chatClient;
-  QStandardItemModel *mChatModel;
+//  QStandardItemModel *mChatModel;
   Game* game;
 
 };
