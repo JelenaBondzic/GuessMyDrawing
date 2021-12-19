@@ -26,21 +26,21 @@
      <item>
       <widget class="QPushButton" name="pbFirstWord">
        <property name="text">
-        <string>PushButton</string>
+        <string>apple</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pbSecondWord">
        <property name="text">
-        <string>PushButton</string>
+        <string>phone</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pbThirdWord">
        <property name="text">
-        <string>PushButton</string>
+        <string>window</string>
        </property>
       </widget>
      </item>

@@ -17,9 +17,6 @@ ExistingRooms::ExistingRooms(Game* game, Client* client, QWidget *parent) :
 
     client->getRooms();
 
-//    for (int i=0; i< activeRooms->size() ; ++i) {
-//        ui->listOfRooms->addItem(activeRooms->at(i));
-//    }
 
 
 }
@@ -59,8 +56,7 @@ void ExistingRooms::on_pbJoin_clicked()
     QWidget *parent = this->parentWidget();
     parent->hide();
 
-    std::cout << &username << std::endl;
-    std::cout << &username << std::endl;
+    std::cout << username.toStdString() << std::endl;
 
     client->joinRoom(username, selectedRoom);
 }

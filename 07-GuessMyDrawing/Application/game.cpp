@@ -26,8 +26,7 @@ Game::Game(Client* client, QWidget *parent) :
     connect(ui->pbDecPenWidth, &QPushButton::clicked,
             this, &Game::onDecPenWidth);
 
-    connect(client, &Client::youAreNewHost, this, &Game::on_You_Are_Host);
-   // connect(client, &Client::startGame, this, &Game::on_Start_Game);
+
 
     // FOR CHAT
     mChatModel->insertColumn(0);
@@ -36,6 +35,8 @@ Game::Game(Client* client, QWidget *parent) :
     connect(client, &Client::messageReceived, this, &Game::messageRecieved);
     connect(client, &Client::userJoined, this, &Game::userJoined);
     connect(client, &Client::userLeft, this, &Game::userLeft);
+    connect(client, &Client::youAreNewHost, this, &Game::You_Are_Host);
+    connect(client, &Client::startGame, this, &Game::Start_Game);
 
     connect(ui->btnSend, &QPushButton::clicked, this, &Game::sendMessage);
     connect(ui->leInput, &QLineEdit::returnPressed, this, &Game::sendMessage); // send on enter
@@ -117,7 +118,7 @@ void Game::setDuration(int newDuration)
     duration = newDuration;
 }
 
-void Game::on_You_Are_Host()
+void Game::You_Are_Host()
 {
     QWidget *parent = this->parentWidget();
     parent->show();
@@ -141,7 +142,7 @@ void Game::on_Game_finished(int result)
     //  emit MySignalToIndicateThatTheWindowIsClosing();
 }
 
-void Game::on_Start_Game()
+void Game::Start_Game()
 {
 
 }

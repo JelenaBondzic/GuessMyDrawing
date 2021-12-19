@@ -49,9 +49,9 @@ public slots:
 
 private slots:
 
-    void on_You_Are_Host();
+    void You_Are_Host();
     void on_Game_finished(int result);
-    void on_Start_Game();
+    void Start_Game();
 
 private:
     Ui::Game *ui;

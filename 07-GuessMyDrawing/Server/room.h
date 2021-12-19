@@ -36,7 +36,7 @@ public:
     bool usernameIsValid(QString username);
     void setWordAndStartGame(const QString &newChosenWord);
     void checkChatWord(QString word, Thread* senderUser);
-    bool joinClient(QString username, Thread* thread);
+    void joinClient(QString username, Thread* thread);
 };
 
 #endif // ROOM_H
