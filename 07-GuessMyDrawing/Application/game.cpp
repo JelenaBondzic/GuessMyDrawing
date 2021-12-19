@@ -8,10 +8,9 @@
 Game::Game(Client* client, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Game),
-    client(client),
     _canvas(new Canvas(this)),
-    mChatModel(new QStandardItemModel(this))
-
+    mChatModel(new QStandardItemModel(this)),
+    client(client)
 {
     ui->setupUi(this);
 

@@ -11,8 +11,9 @@ Settings::Settings(Client* client, QWidget *parent) :
     ui->setupUi(this);
     connect(ui->pbSave, &QPushButton::clicked, this, &Settings::onSaveClicked);
     connect(ui->pushButton_2, &QPushButton::clicked, this, &Settings::onBackClicked);
-    connect(ui->leUsername, &QLineEdit::editingFinished, this,  &Settings::on_leUsername_editingFinished);
 
+//    connect(ui->leUsername, &QLineEdit::editingFinished, this,  &Settings::on_leUsername_editingFinished);
+//    connect(ui->leRoomName, &QLineEdit::editingFinished, this,  &Settings::on_leUsername_editingFinished);
 
     connect(ui->radioButton, &QRadioButton::clicked, this, &Settings::on_radioButton_clicked);
     connect(ui->radioButton_2, &QRadioButton::clicked, this, &Settings::on_radioButton_2_clicked);
@@ -29,6 +30,8 @@ void Settings::onSaveClicked()
     hide();
     QWidget *parent = this->parentWidget();
     parent->hide();
+    username = ui->leUsername->text();
+    roomName = ui->lnRoomName->text();
     sendSettingsToCLient(username, roomName, duration);
     chooseWordWindow = new ChooseWord(username, roomName, duration, client, this);
     chooseWordWindow->show();
@@ -57,19 +60,19 @@ void Settings::on_radioButton_3_clicked()
 }
 
 
-void Settings::on_lineEdit_editingFinished()
-{
-    this->roomName = ui->lnRoomName->text();
-}
+//void Settings::on_lineEdit_editingFinished()
+//{
+//    this->roomName = ui->lnRoomName->text();
+//}
 
 
 void Settings::sendSettingsToCLient(QString username, QString roomName, int duration){
-   // client->createRoom(username, roomName, duration);
+    client->createRoom(username, roomName, duration);
 }
 
 
-void Settings::on_leUsername_editingFinished()
-{
-    username = ui->leUsername->text();
-}
+//void Settings::on_leUsername_editingFinished()
+//{
+//    username = ui->leUsername->text();
+//}
 

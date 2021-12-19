@@ -9,12 +9,13 @@ MainWindow::MainWindow(QString username, QWidget *parent)
   : QMainWindow(parent)
   , ui(new Ui::MainWindow)
 {
+  chatClient = new Client(username, this);
+  attemptConnection(1234);
+
   ui->setupUi(this);
   connect(ui->pbJoinGame, &QPushButton::clicked, this, &MainWindow::onJoinGameClicked);
   connect(ui->pbCreateNewGame, &QPushButton::clicked, this, &MainWindow::onCreateNewGameClicked);
-  chatClient = new Client(username, this);
-
-//  connect(game, &Game::MySignalToIndicateThatTheWindowIsClosing, this, &MainWindow::gameWindowClosed);
+  //  connect(game, &Game::MySignalToIndicateThatTheWindowIsClosing, this, &MainWindow::gameWindowClosed);
 
 }
 

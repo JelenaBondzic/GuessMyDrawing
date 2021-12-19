@@ -48,6 +48,7 @@ void Server::parseMessage(const QJsonObject& message, Thread* thread) {
 //        QString broadcast_message = username.toString() + " created room " + room_name.toString();
 //        QJsonDocument doc = QJsonDocument::fromJson(broadcast_message.toUtf8());
 //        broadcast(doc.object());
+        std::cout << "Room created" << std::endl;
         createRoom(username.toString(), room_name.toString(), duration.toInt());
     }
 

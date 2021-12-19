@@ -31,8 +31,8 @@ private slots:
     void on_radioButton_3_clicked();
     void on_radioButton_clicked();
     void on_radioButton_2_clicked();
-    void on_lineEdit_editingFinished();
-    void on_leUsername_editingFinished();
+//    void on_lineEdit_editingFinished();
+//    void on_leUsername_editingFinished();
 
 private:
     Ui::Settings *ui;

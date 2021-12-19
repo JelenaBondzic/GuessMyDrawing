@@ -166,6 +166,7 @@ void Client::disconnectedCanvas()
 
 void Client::connectedMessage()
 {
+  std::cout << "connected to server" << std::endl;
    QJsonObject message;
    message[MessageType::TYPE] = QString(MessageType::MESSAGE_SOCKET);
    messageSocket->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
@@ -179,6 +180,7 @@ void Client::disconnectedMessage()
 void Client::error(QAbstractSocket::SocketError socketError)
 {
   std::cout << "Error ocurred " << socketError << std::endl;
+
   QString *s = new QString("Something went wrong with cnnnection. Try again");
   emit errorConnecting(s);
 }
