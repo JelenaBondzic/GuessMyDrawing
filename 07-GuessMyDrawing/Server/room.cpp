@@ -58,7 +58,7 @@ Room::Room(QString name, QString host, int duration): name(name), host(host), du
 {
 }
 
-bool Room::joinClient(QString username, Thread* thread){
+void Room::joinClient(QString username, Thread* thread){
     QJsonObject message;
 
 
@@ -69,22 +69,22 @@ bool Room::joinClient(QString username, Thread* thread){
     if(!check){
         message[MessageType::ROOM_NAME] = "";
         thread->send(message);
-        return false;
+        return;
     }
 
     else{
     //if username is not taken
-    players.insert(username, thread);
-    message[MessageType::TYPE] = QString(MessageType::JOIN_ROOM);
-    message[MessageType::ROOM_NAME] = name;
-    thread->send(message);
+        players.insert(username, thread);
+        message[MessageType::TYPE] = QString(MessageType::JOIN_ROOM);
+        message[MessageType::ROOM_NAME] = name;
+        thread->send(message);
 
 
-    //if there is 2 or more players, start game
-    if(players.size() >= 2 and !gameIsStarted)
-        start();
+        //if there is 2 or more players, start game
+        if(players.size() >= 2 and !gameIsStarted)
+            start();
 
-    return true;
+        return;
     }
 }
 

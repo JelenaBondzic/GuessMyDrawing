@@ -1,6 +1,8 @@
 #include "chooseword.h"
 #include "ui_chooseword.h"
 
+#include<iostream>
+
 ChooseWord::ChooseWord(Game* game, QString username, QString roomName, int duration, Client* client, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ChooseWord),
@@ -64,6 +66,7 @@ void ChooseWord::on_pbCreateGame_clicked()
 {
     this->hide();
     client->chooseWord(chosenWord);
+    std::cout << chosenWord.toStdString() << std::endl;
    // client->createRoom(username, roomName, duration);
    // game = new Game(client, this);
     game->show();
