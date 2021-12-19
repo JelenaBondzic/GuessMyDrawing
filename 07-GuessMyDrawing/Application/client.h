@@ -37,6 +37,8 @@ public:
 
   inline bool isHost() {return imHost; }
 
+  void reconnect();
+
 private slots:
   void onMessageReadyRead();
   void onCanvasReadyRead();

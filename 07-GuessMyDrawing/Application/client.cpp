@@ -117,6 +117,12 @@ void Client::sendCanvas(QByteArray &canvas)
   messageSocket->flush();
 }
 
+void Client::reconnect()
+{
+  // disconnect
+  connectToServer(this->adress, this->port);
+}
+
 
 
 void Client::onMessageReadyRead()
