@@ -30,6 +30,11 @@ void Server::incomingConnection(qintptr socketDescriptor) {
 void Server::parseMessage(const QJsonObject& message, Thread* thread) { 
     const QJsonValue type = message.value(MessageType::TYPE);
     std::cout << type.toString().toStdString() << std::endl;
+
+//    for (auto k = message.begin(); k!=message.end(); k++){
+//        std::cout << k.key().toStdString() << " " << k.value().toString().toStdString() << std::endl;
+//      }
+
     if (type.toString().compare(MessageType::TEXT_MESSAGE) == 0) {
         const QJsonValue text = message.value(MessageType::CONTENT);
         const QJsonValue sender = message.value(MessageType::MESSAGE_SENDER);

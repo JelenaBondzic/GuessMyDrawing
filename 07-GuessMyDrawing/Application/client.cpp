@@ -60,13 +60,14 @@ void Client::send(const QString &text)
 
 void Client::joinRoom(QString username, QString roomName)
 {
-
   QJsonObject message;
   message[MessageType::TYPE] = QString(MessageType::JOIN_ROOM);
-  message[MessageType::USERNAME] = username;
   message[MessageType::ROOM_NAME] = roomName;
+  message[MessageType::USERNAME] = username;
   this->mName = username;
+  messageSocket->flush();
   messageSocket->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
+  messageSocket->flush();
 }
 
 void Client::createRoom(QString username, QString room_name, int duration)
@@ -78,6 +79,7 @@ void Client::createRoom(QString username, QString room_name, int duration)
   message[MessageType::DURATION] = QString::number(duration);
   this->mName = username;
   messageSocket->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
+  messageSocket->flush();
 }
 
 void Client::leaveRoom()
@@ -95,6 +97,7 @@ void Client::chooseWord(QString word)
   message[MessageType::TYPE] = QString(MessageType::CHOOSE_WORD);
   message[MessageType::CONTENT] = word;
   messageSocket->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
+  messageSocket->flush();
 }
 
 void Client::getRooms()
@@ -102,11 +105,13 @@ void Client::getRooms()
   QJsonObject message;
   message[MessageType::TYPE] = QString(MessageType::GET_ROOMS);
   messageSocket->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
+  messageSocket->flush();
 }
 
 void Client::sendCanvas(QByteArray &canvas)
 {
   canvasSocket->write(canvas);
+  messageSocket->flush();
 }
 
 

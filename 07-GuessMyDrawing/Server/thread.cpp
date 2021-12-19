@@ -26,6 +26,7 @@ void Thread::send(QJsonObject message)
 {
   auto msg = QJsonDocument(message).toJson(QJsonDocument::Compact);
   socketMessage->write(msg);
+  socketMessage->flush();
 }
 
 void Thread::onMessageReadyRead() {
