@@ -27,8 +27,9 @@ void Server::incomingConnection(qintptr socketDescriptor) {
 //}
 
 
-void Server::parseMessage(const QJsonObject& message, Thread* thread) {
+void Server::parseMessage(const QJsonObject& message, Thread* thread) { 
     const QJsonValue type = message.value(MessageType::TYPE);
+    std::cout << type.toString().toStdString() << std::endl;
     if (type.toString().compare(MessageType::TEXT_MESSAGE) == 0) {
         const QJsonValue text = message.value(MessageType::CONTENT);
         const QJsonValue sender = message.value(MessageType::MESSAGE_SENDER);
@@ -50,6 +51,7 @@ void Server::parseMessage(const QJsonObject& message, Thread* thread) {
 //        broadcast(doc.object());
         std::cout << "Room created" << std::endl;
         createRoom(username.toString(), room_name.toString(), duration.toInt());
+        joinRoom(username.toString(), room_name.toString(), thread);
     }
 
     if (type.toString().compare(MessageType::JOIN_ROOM) == 0) {

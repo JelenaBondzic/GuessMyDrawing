@@ -56,7 +56,6 @@ void Room::checkChatWord(QString word, Thread* senderUser)
 
 Room::Room(QString name, QString host, int duration): name(name), host(host), duration(duration)
 {
-
 }
 
 bool Room::joinClient(QString username, Thread* thread){

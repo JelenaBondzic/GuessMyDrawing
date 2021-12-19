@@ -3,9 +3,9 @@
 #include <iostream>
 
 ExistingRooms::ExistingRooms(Client* client, QWidget *parent) :
-    client(client),
     QDialog(parent),
-    ui(new Ui::ExistingRooms)
+    ui(new Ui::ExistingRooms),
+    client(client)
 {
     ui->setupUi(this);
     connect(client, &Client::roomList, this, &ExistingRooms::getActiveRooms);
@@ -18,7 +18,6 @@ ExistingRooms::ExistingRooms(Client* client, QWidget *parent) :
 
 //    for (int i=0; i< activeRooms->size() ; ++i) {
 //        ui->listOfRooms->addItem(activeRooms->at(i));
-
 //    }
 
 
@@ -36,6 +35,11 @@ void ExistingRooms::on_listOfRooms_itemClicked(QListWidgetItem *item)
 void ExistingRooms::getActiveRooms(const QVector<QString> *r)
 {
     activeRooms = r;
+
+    for (int i=0; i< activeRooms->size() ; ++i) {
+       ui->listOfRooms->addItem(activeRooms->at(i));
+       std::cout << activeRooms << std::endl;
+    }
 //    std::cout << r;
 //    std::cout << activeRooms;
 }
@@ -53,9 +57,10 @@ void ExistingRooms::on_pbJoin_clicked()
     QWidget *parent = this->parentWidget();
     parent->hide();
 
+    std::cout << &username << std::endl;
+    std::cout << &username << std::endl;
+
     client->joinRoom(username, selectedRoom);
-
-
 }
 
 void ExistingRooms::on_JoinedRoom(bool p)

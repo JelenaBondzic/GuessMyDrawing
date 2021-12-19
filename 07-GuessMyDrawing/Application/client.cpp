@@ -65,6 +65,7 @@ void Client::joinRoom(QString username, QString roomName)
   message[MessageType::TYPE] = QString(MessageType::JOIN_ROOM);
   message[MessageType::USERNAME] = username;
   message[MessageType::ROOM_NAME] = roomName;
+  this->mName = username;
   messageSocket->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
 }
 
@@ -75,6 +76,7 @@ void Client::createRoom(QString username, QString room_name, int duration)
   message[MessageType::USERNAME] = username;
   message[MessageType::ROOM_NAME] = room_name;
   message[MessageType::DURATION] = QString::number(duration);
+  this->mName = username;
   messageSocket->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
 }
 
@@ -225,6 +227,7 @@ void Client::jsonReceived(const QJsonObject &doc)
         b=false;
         // neuspelo prikljucivanje sobi ako je null ili prazno
       }
+    std::cout << "Joining room " << b << std::endl;
     emit joinedRoom(b); // TODO proveriti prenos argumenata
     }
   else if(typeVal.toString().compare(MessageType::GET_ROOMS) == 0){
@@ -236,8 +239,10 @@ void Client::jsonReceived(const QJsonObject &doc)
     // TODO check copy and memory
     QVector<QString> *room_list = new QVector<QString>;
     auto room_split = rooms.toString().split(",");
-    for(QString &r : room_split)
+    for(QString& r : room_split){
         room_list->push_back(r);
+        std::cout  << r.toStdString() << std::endl;
+      }
 
     emit roomList(room_list);
     }
