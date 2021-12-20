@@ -37,6 +37,7 @@ Game::Game(Client* client, QWidget *parent) :
     connect(client, &Client::userLeft, this, &Game::userLeft);
     connect(client, &Client::youAreNewHost, this, &Game::You_Are_Host);
     connect(client, &Client::startGame, this, &Game::Start_Game);
+    connect(client, &Client::gameOver, this, &Game::Game_Over);
 
     connect(ui->btnSend, &QPushButton::clicked, this, &Game::sendMessage);
     connect(ui->leInput, &QLineEdit::returnPressed, this, &Game::sendMessage); // send on enter
@@ -120,8 +121,13 @@ void Game::setDuration(int newDuration)
 
 void Game::You_Are_Host()
 {
-    QWidget *parent = this->parentWidget();
-    parent->show();
+//    QWidget *parent = this->parentWidget();
+//    parent->show();
+    std::cout << "Jesam host" << std::endl;
+    ui->leInput->setDisabled(true);
+
+
+    emit IAmHost();
 }
 
 void Game::on_Game_finished(int result)
@@ -148,7 +154,15 @@ void Game::Start_Game()
   if (client->isHost())
     ui->leInput->setDisabled(true);
   else
-    ui->leInput->setDisabled(false);
+      ui->leInput->setDisabled(false);
+}
+
+void Game::Game_Over()
+{
+
+   ui->leInput->setDisabled(true);
+
+
 }
 
 // FOR CHAT

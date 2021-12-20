@@ -31,7 +31,7 @@ public:
 
     void start();
     void setDuration(int newDuration);
-    void leaveRoom(QString player);
+    void leaveRoom(QString player, Thread* thread);
 
     bool usernameIsValid(QString username);
     void setWordAndStartGame(const QString &newChosenWord);

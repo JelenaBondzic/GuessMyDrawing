@@ -38,6 +38,7 @@ private slots:
 
 signals:
  //   void MySignalToIndicateThatTheWindowIsClosing();
+    void IAmHost();
 
 public slots:
     void onClearDrawing();
@@ -52,7 +53,7 @@ private slots:
     void You_Are_Host();
     void on_Game_finished(int result);
     void Start_Game();
-
+    void Game_Over();
 private:
     Ui::Game *ui;
     Canvas *_canvas;

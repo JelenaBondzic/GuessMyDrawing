@@ -5,6 +5,7 @@
 #include "client.h"
 #include <QListWidgetItem>
 #include "game.h"
+#include "chooseword.h"
 
 namespace Ui {
 class ExistingRooms;
@@ -34,7 +35,7 @@ private:
     QString username = "";
     QString selectedRoom;
     Game* game;
-
+    ChooseWord *chooseWord;
 
 };
 

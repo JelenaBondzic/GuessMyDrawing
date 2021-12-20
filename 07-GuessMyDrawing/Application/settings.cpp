@@ -41,8 +41,8 @@ void Settings::onSaveClicked()
     username = ui->leUsername->text();
     roomName = ui->lnRoomName->text();
     sendSettingsToCLient(username, roomName, duration);
-    chooseWordWindow = new ChooseWord(game, username, roomName, duration, client, this);
-    chooseWordWindow->show();
+    chooseWordWindow = new ChooseWord(game, username, roomName, client, this);
+    //chooseWordWindow->show();
 }
 
 void Settings::onBackClicked(){

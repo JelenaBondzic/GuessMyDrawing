@@ -3,13 +3,12 @@
 
 #include<iostream>
 
-ChooseWord::ChooseWord(Game* game, QString username, QString roomName, int duration, Client* client, QWidget *parent) :
+ChooseWord::ChooseWord(Game* game, QString username, QString roomName, Client* client, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ChooseWord),
     client(client),
     username(username),
     roomName(roomName),
-    duration(duration),
     game(game)
 {
     ui->setupUi(this);
@@ -18,6 +17,7 @@ ChooseWord::ChooseWord(Game* game, QString username, QString roomName, int durat
     connect(ui->pbThirdWord, &QPushButton::clicked, this, &ChooseWord::on_pbThirdWord_clicked);
     connect(ui->myWord, &QPushButton::clicked, this, &ChooseWord::on_myWord_clicked);
     connect(ui->pbCreateGame, &QPushButton::clicked, this, &ChooseWord::on_pbCreateGame_clicked);
+    connect(game, &Game::IAmHost, this, &ChooseWord::show_Window);
 
     ui->pbCreateGame->setDisabled(true);
 
@@ -67,7 +67,13 @@ void ChooseWord::on_pbCreateGame_clicked()
     this->hide();
     client->chooseWord(chosenWord);
     std::cout << chosenWord.toStdString() << std::endl;
-    client->createRoom(username, roomName, duration);
+    //client->createRoom(username, roomName, duration);
    // game = new Game(client, this);
     game->show();
+}
+
+void ChooseWord::show_Window()
+{
+    std::cout << "Stiglo u window" << std::endl;
+    this->show();
 }

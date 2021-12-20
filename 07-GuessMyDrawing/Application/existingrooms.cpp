@@ -20,6 +20,7 @@ ExistingRooms::ExistingRooms(Game* game, Client* client, QWidget *parent) :
     ui->pbJoin->setDisabled(true);
     ui->listOfRooms->setDisabled(true);
 
+    chooseWord = new ChooseWord(game, username, selectedRoom, client, this);
 
 }
 ExistingRooms::~ExistingRooms()

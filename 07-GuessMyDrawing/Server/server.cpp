@@ -127,7 +127,7 @@ void Server::createRoom(QString username, QString room_name, int duration) {
 void Server::leaveRoom(QString username, QString room_name, Thread* thread) {
     if (_rooms.contains(room_name)) {
         Room* room = _rooms.value(room_name);
-        room->leaveRoom(username);
+        room->leaveRoom(username, thread);
     } else {
         std::cerr << "Can't find a room with the name " << room_name.toStdString() << std::endl;
     }

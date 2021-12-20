@@ -8,12 +8,24 @@ void Room::setDuration(int newDuration)
     duration = newDuration;
 }
 
-void Room::leaveRoom(QString player)
+void Room::leaveRoom(QString player, Thread* thread)
 {
     QMap<QString, Thread*>::iterator i = players.find(player);
     players.erase(i);
 
+
     //broadcast others that player has left the game??
+
+    QJsonObject message;
+    message[MessageType::TYPE] = MessageType::USER_LEFT;
+    message[MessageType::USERNAME] = player;
+
+    broadcast(message, thread);
+
+    if(players.size() < 2){
+        QJsonObject message;
+        message[MessageType::TYPE] = MessageType::GAME_OVER;
+    }
 }
 
 bool Room::usernameIsValid(QString username)
@@ -39,6 +51,9 @@ void Room::checkChatWord(QString word, Thread* senderUser)
 {
     std::cout << "Correct;" << word.toStdString() << std::endl;
     if(word.compare(chosenWord)==0){
+
+
+
         std::cout << "Correct;" << std::endl;
         QJsonObject message1;
         message1[MessageType::TYPE] = MessageType::GAME_OVER;
@@ -51,6 +66,7 @@ void Room::checkChatWord(QString word, Thread* senderUser)
         QJsonObject message;
         message[MessageType::TYPE] = MessageType::NEW_HOST;
         senderUser->send(message);
+
 
 
     }
@@ -71,6 +87,7 @@ void Room::joinClient(QString username, Thread* thread){
 
     //if username is taken
     if(!check){
+        message[MessageType::TYPE] = QString(MessageType::JOIN_ROOM);
         message[MessageType::ROOM_NAME] = "";
         thread->send(message);
 
@@ -85,6 +102,15 @@ void Room::joinClient(QString username, Thread* thread){
         message[MessageType::TYPE] = QString(MessageType::JOIN_ROOM);
         message[MessageType::ROOM_NAME] = name;
         thread->send(message);
+
+
+        if(players.size() == 1){
+            std::cout << "jeste jedan" << std::endl;
+            QJsonObject message;
+            message[MessageType::TYPE] = MessageType::NEW_HOST;
+            thread->send(message);
+        }
+
 
         QJsonObject m;
         m[MessageType::TYPE] = MessageType::USER_JOINED;
