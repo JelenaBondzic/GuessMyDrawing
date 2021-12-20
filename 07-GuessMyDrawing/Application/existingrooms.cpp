@@ -79,6 +79,8 @@ void ExistingRooms::on_JoinedRoom(bool p)
 
 void ExistingRooms::on_leUsername_textEdited(const QString &arg1)
 {
+    username = ui->leUsername->text();
+
     ui->listOfRooms->setDisabled(false);
 }
 
