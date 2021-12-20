@@ -31,8 +31,8 @@ void Thread::send(QJsonObject message)
 
 void Thread::onMessageReadyRead() {
     QByteArray data = socketMessage->readAll();
-    socketMessage->write(data);
-    socketMessage->flush();
+//    socketMessage->write(data);
+//    socketMessage->flush();
     QJsonDocument doc = QJsonDocument::fromJson(data);
     emit messageReceived(doc.object(), this);
 }

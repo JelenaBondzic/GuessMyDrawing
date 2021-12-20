@@ -88,6 +88,8 @@ void Server::parseMessage(const QJsonObject& message, Thread* thread) {
             return;
         }
         room->setWordAndStartGame(word.toString());
+
+        std::cout << "Room word: " << room->getWord().toStdString() << std::endl;
     }
 
     if (type.toString().compare(MessageType::GET_ROOMS) == 0) {

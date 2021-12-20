@@ -37,6 +37,8 @@ public:
     void setWordAndStartGame(const QString &newChosenWord);
     void checkChatWord(QString word, Thread* senderUser);
     void joinClient(QString username, Thread* thread);
+
+    QString getWord() {return chosenWord;}
 };
 
 #endif // ROOM_H
