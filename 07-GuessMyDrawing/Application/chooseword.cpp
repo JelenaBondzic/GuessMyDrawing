@@ -67,7 +67,7 @@ void ChooseWord::on_pbCreateGame_clicked()
     this->hide();
     client->chooseWord(chosenWord);
     std::cout << chosenWord.toStdString() << std::endl;
-   // client->createRoom(username, roomName, duration);
+    client->createRoom(username, roomName, duration);
    // game = new Game(client, this);
     game->show();
 }
