@@ -15,21 +15,28 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Your username:</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="leUsername"/>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Choose a game you want to join:</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QListWidget" name="listOfRooms"/>
      </item>
-     <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Your username:</string>
-       </property>
-      </widget>
-     </item>
     </layout>
-   </item>
-   <item>
-    <widget class="QLineEdit" name="leUsername"/>
    </item>
    <item>
     <widget class="QPushButton" name="pbJoin">

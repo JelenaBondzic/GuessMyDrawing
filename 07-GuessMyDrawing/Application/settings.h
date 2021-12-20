@@ -34,6 +34,10 @@ private slots:
 //    void on_lineEdit_editingFinished();
 //    void on_leUsername_editingFinished();
 
+    void on_leUsername_textChanged(const QString &arg1);
+
+    void on_lnRoomName_textChanged(const QString &arg1);
+
 private:
     Ui::Settings *ui;
     Game *game;

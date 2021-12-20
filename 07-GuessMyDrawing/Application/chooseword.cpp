@@ -19,7 +19,7 @@ ChooseWord::ChooseWord(Game* game, QString username, QString roomName, int durat
     connect(ui->myWord, &QPushButton::clicked, this, &ChooseWord::on_myWord_clicked);
     connect(ui->pbCreateGame, &QPushButton::clicked, this, &ChooseWord::on_pbCreateGame_clicked);
 
-
+    ui->pbCreateGame->setDisabled(true);
 
 }
 
@@ -32,7 +32,7 @@ ChooseWord::~ChooseWord()
 void ChooseWord::on_pbFirstWord_clicked()
 {
     chosenWord = ui->pbFirstWord->text();
-   // room->setChosenWord(ui->pbFirstWord->text());
+    ui->pbCreateGame->setDisabled(false);
 }
 
 
@@ -40,7 +40,7 @@ void ChooseWord::on_pbSecondWord_clicked()
 {
     chosenWord = ui->pbSecondWord->text();
 
-    //room->setChosenWord(ui->pbSecondWord->text());
+    ui->pbCreateGame->setDisabled(false);
 
 }
 
@@ -49,7 +49,7 @@ void ChooseWord::on_pbThirdWord_clicked()
 {
     chosenWord = ui->pbThirdWord->text();
 
-    //room->setChosenWord(ui->pbSecondWord->text());
+    ui->pbCreateGame->setDisabled(false);
 
 }
 
@@ -57,7 +57,7 @@ void ChooseWord::on_pbThirdWord_clicked()
 void ChooseWord::on_myWord_clicked()
 {
     chosenWord = ui->lnInsertWord->text();
- //   room->setChosenWord(ui->lnInsertWord->text());
+    ui->pbCreateGame->setDisabled(false);
 
 }
 
