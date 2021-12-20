@@ -26,7 +26,7 @@ class Server : public QTcpServer {
  private:
     void createRoom(QString username, QString room_name, int duration);
     void joinRoom(QString username, QString room_name, Thread* thread);
-    void leaveRoom(QString username, QString room_name, Thread* thread);
+    void leaveRoom(Thread* thread);
     QString getRooms();
     Room* getRoomFromThread(Thread* thread);
     Thread* getThreadFromId(quintptr id);

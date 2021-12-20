@@ -8,19 +8,31 @@ void Room::setDuration(int newDuration)
     duration = newDuration;
 }
 
-void Room::leaveRoom(QString player, Thread* thread)
+void Room::leaveRoom(Thread* thread)
 {
-    QMap<QString, Thread*>::iterator i = players.find(player);
-    players.erase(i);
+//    QMap<QString, Thread*>::iterator i = players.find(player);
+//    players.erase(i);
 
 
     //broadcast others that player has left the game??
 
-    QJsonObject message;
-    message[MessageType::TYPE] = MessageType::USER_LEFT;
-    message[MessageType::USERNAME] = player;
+  QString name = "";
+  for (auto i=players.begin(); i!=players.end(); i++){
+    if (i.value() == thread){
 
-    broadcast(message, thread);
+        QJsonObject message;
+        message[MessageType::TYPE] = MessageType::USER_LEFT;
+        message[MessageType::USERNAME] = i.key();
+
+        broadcast(message, thread);
+
+        players.remove(i.key());
+
+        break;
+      }
+    }
+
+
 
     if(players.size() < 2){
         QJsonObject message;
@@ -97,6 +109,13 @@ void Room::joinClient(QString username, Thread* thread){
 
     else{
     //if username is not taken
+
+        QJsonObject m;
+        m[MessageType::TYPE] = MessageType::USER_JOINED;
+        m[MessageType::USERNAME] = username;
+        broadcast(m, thread);
+
+
         std::cout << "USER JOINED " << std::endl;
         players.insert(username, thread);
         message[MessageType::TYPE] = QString(MessageType::JOIN_ROOM);
@@ -110,12 +129,6 @@ void Room::joinClient(QString username, Thread* thread){
             message[MessageType::TYPE] = MessageType::NEW_HOST;
             thread->send(message);
         }
-
-
-        QJsonObject m;
-        m[MessageType::TYPE] = MessageType::USER_JOINED;
-        m[MessageType::USERNAME] = username;
-        broadcast(m, thread);
 
         //if there is 2 or more players, start game
         if(players.size() >= 2 and !gameIsStarted)

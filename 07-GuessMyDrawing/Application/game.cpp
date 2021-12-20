@@ -46,7 +46,7 @@ Game::Game(Client* client, QWidget *parent) :
 }
 Game::~Game()
 {
-
+    client->leaveRoom();
     delete ui;
 }
 

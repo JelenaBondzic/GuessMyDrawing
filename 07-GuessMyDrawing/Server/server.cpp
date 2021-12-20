@@ -69,12 +69,13 @@ void Server::parseMessage(const QJsonObject& message, Thread* thread) {
     }
 
     if (type.toString().compare(MessageType::LEAVE_ROOM) == 0) {
-        const QJsonValue username = message.value(MessageType::USERNAME);
-        const QJsonValue room_name = message.value(MessageType::ROOM_NAME);
+//        const QJsonValue username = message.value(MessageType::USERNAME);
+//        const QJsonValue room_name = message.value(MessageType::ROOM_NAME);
+
 //        QString broadcast_message = username.toString() + " left room " + room_name.toString();
 //        QJsonDocument doc = QJsonDocument::fromJson(broadcast_message.toUtf8());
 //        broadcast(doc.object());
-        leaveRoom(username.toString(), room_name.toString(), thread);
+        leaveRoom(thread);
     }
 
     if (type.toString().compare(MessageType::CHOOSE_WORD) == 0) {
@@ -124,14 +125,16 @@ void Server::createRoom(QString username, QString room_name, int duration) {
     _rooms.insert(room_name, room);
 }
 
-void Server::leaveRoom(QString username, QString room_name, Thread* thread) {
-    if (_rooms.contains(room_name)) {
-        Room* room = _rooms.value(room_name);
-        room->leaveRoom(username, thread);
-    } else {
-        std::cerr << "Can't find a room with the name " << room_name.toStdString() << std::endl;
-    }
-    thread->setRoomName("");
+void Server::leaveRoom(Thread* thread) {
+//    if (_rooms.contains(room_name)) {
+//        Room* room = _rooms.value(room_name);
+//        room->leaveRoom(username, thread);
+//    } else {
+//        std::cerr << "Can't find a room with the name " << room_name.toStdString() << std::endl;
+//    }
+  Room *room = getRoomFromThread(thread);
+  room->leaveRoom(thread);
+  thread->setRoomName("");
 }
 
 QString Server::getRooms() {
