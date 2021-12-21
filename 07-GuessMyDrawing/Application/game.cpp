@@ -10,7 +10,8 @@ Game::Game(Client* client, QWidget *parent) :
     ui(new Ui::Game),
     _canvas(new Canvas(this)),
     client(client),
-    mChatModel(new QStandardItemModel(this))
+    mChatModel(new QStandardItemModel(this)),
+    timerCanvas(new QTimer(this))
 {
     ui->setupUi(this);
 
@@ -39,14 +40,17 @@ Game::Game(Client* client, QWidget *parent) :
     connect(client, &Client::startGame, this, &Game::Start_Game);
     connect(client, &Client::gameOver, this, &Game::Game_Over);
 
-//    connect(ui->btnSend, &QPushButton::clicked, this, &Game::sendMessage);
     connect(ui->btnSend, &QPushButton::clicked, this, &Game::sendMessage);
+    connect(ui->btnSend, &QPushButton::clicked, this, &Game::sendMessage);
+
+    connect(timerCanvas, &QTimer::timeout, this, &Game::sendCanvasMessage);
+
 
     connect(ui->leInput, &QLineEdit::returnPressed, this, &Game::sendMessage); // send on enter
 
     // CANVAS
     connect(client, &Client::canvasReceived, this, &Game::onLoadImage); // send on enter
-
+    timerCanvas->start(50);
 }
 Game::~Game()
 {
@@ -186,6 +190,15 @@ void Game::sendMessage()
     }
 }
 
+void Game::sendCanvasMessage() {
+    if (client->isHost()){
+     //   std::cout << "SENDING "<<std::endl;
+        QByteArray b;
+        _canvas->takeSnapshot(b);
+  //      std::cout << b.toStdString() << std::endl;
+        client->sendCanvas(b);
+    }
+}
 
 void Game::messageRecieved(const QString &sender, const QString &text)
 {

@@ -166,7 +166,7 @@ void Room::start()
 
 void Room::broadcastMessage(const QJsonObject &message, Thread* t) {
     for (auto i=players.begin(); i!=players.end(); i++) {
-        if (i.value() != t)
+       // if (i.value() != t)
           i.value()->send(message);
     }
     QString word = message.value(MessageType::CONTENT).toString();

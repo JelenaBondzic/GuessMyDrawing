@@ -12,6 +12,7 @@ class Thread : public QObject {
  Q_OBJECT
  public:
     explicit Thread(qintptr ID, QObject *parent = 0);
+    ~Thread();
     quintptr getSocketDescriptor();
     void send(QJsonObject message);
     void setRoomName(QString room_name);
@@ -23,12 +24,9 @@ signals:
 public slots:
     void onMessageReadyRead();
     void onDisconnectedMessage();
-    void onCanvasReadyRead();
-    void onDisconnectedCanvas();
  private:
     QString room_name;
     QTcpSocket* socketMessage;
-    QTcpSocket* socketCanvas;
     qintptr socketDescriptor; // Socket ID from OS
 };
 
