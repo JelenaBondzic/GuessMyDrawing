@@ -41,7 +41,6 @@ Game::Game(Client* client, QWidget *parent) :
     connect(client, &Client::gameOver, this, &Game::Game_Over);
 
     connect(ui->btnSend, &QPushButton::clicked, this, &Game::sendMessage);
-    connect(ui->btnSend, &QPushButton::clicked, this, &Game::sendMessage);
 
     connect(timerCanvas, &QTimer::timeout, this, &Game::sendCanvasMessage);
 

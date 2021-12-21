@@ -1,7 +1,7 @@
 #include "room.h"
 #include "../Application/MessageType.h"
-#include<unordered_map>
-
+#include <unordered_map>
+#include <QRandomGenerator>
 
 void Room::setDuration(int newDuration)
 {
@@ -16,13 +16,16 @@ void Room::leaveRoom(Thread* thread)
 
     //broadcast others that player has left the game??
 
-  //QString name = "";
+  QString name = "";
+
   for (auto i=players.begin(); i!=players.end(); i++){
     if (i.value() == thread){
 
         QJsonObject message;
         message[MessageType::TYPE] = MessageType::USER_LEFT;
         message[MessageType::USERNAME] = i.key();
+
+        name = i.key();
 
         broadcastMessage(message, thread);
 
@@ -32,13 +35,20 @@ void Room::leaveRoom(Thread* thread)
       }
     }
 
+  std::cout << host.toStdString() << std::endl;
+  std::cout << name.toStdString() << std::endl;
 
+
+    if (name.compare(host)==0){ // ako izbacimo hosta
+      gameOver(thread);
+      chooseRandomHost();
+      return;
+      }
 
     if(players.size() < 2){
-        QJsonObject message;
-        message[MessageType::TYPE] = MessageType::GAME_OVER;
     }
 }
+
 
 bool Room::usernameIsValid(QString username)
 {
@@ -94,7 +104,29 @@ void Room::setName(const QString &newName)
     name = newName;
 }
 
-Room::Room(QString name, QString host, int duration): name(name), duration(duration), host(host)
+void Room::chooseRandomHost()
+{
+  int n = players.size();
+  int index = QRandomGenerator::global()->bounded(0, n); // index random igraca
+  for (auto it=players.begin(); it != players.end(); it++){
+    if(index==0){
+        QJsonObject message;
+        message[MessageType::TYPE] = MessageType::NEW_HOST;
+        it.value()->send(message);
+        break;
+      }
+    index--;
+    }
+}
+
+void Room::gameOver(Thread* t)
+{
+  QJsonObject message;
+  message[MessageType::TYPE] = MessageType::GAME_OVER;
+  broadcastMessage(message, t);
+}
+
+Room::Room(QString username, QString room_name, int duration): name(room_name), duration(duration), host(username)
 {
   gameIsStarted = false;
 }
@@ -109,7 +141,7 @@ void Room::joinClient(QString username, Thread* thread){
     //if username is taken
     if(!check){
         message[MessageType::TYPE] = QString(MessageType::JOIN_ROOM);
-        message[MessageType::ROOM_NAME] = "";
+//        message[MessageType::ROOM_NAME] = "";
         thread->send(message);
 
         std::cout << "USER NOT JOINED " << std::endl;
