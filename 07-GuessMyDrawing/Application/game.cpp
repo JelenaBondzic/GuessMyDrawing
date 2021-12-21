@@ -14,18 +14,20 @@ Game::Game(Client* client, QWidget *parent) :
     timerCanvas(new QTimer(this))
 {
     ui->setupUi(this);
+    _canvas->resize(600, 600); // showing canvas
 
+    // disabling drawing on canvas, clearing canvas and modifying the pen
+    _canvas->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+    ui->pbClearDrawing->setEnabled(false);
+    ui->pbDecPenWidth->setEnabled(false);
+    ui->pbIncPenWidth->setEnabled(false);
+    ui->cbPenColor->setEnabled(false);
 
-
-    _canvas->resize(600, 600);
-    connect(ui->pbClearDrawing, &QPushButton::clicked,
-            this, &Game::onClearDrawing);
-    connect(ui->cbPenColor, &QComboBox::currentTextChanged,
-            this, &Game::onChangePenColor);
-    connect(ui->pbIncPenWidth, &QPushButton::clicked,
-            this, &Game::onIncPenWidth);
-    connect(ui->pbDecPenWidth, &QPushButton::clicked,
-            this, &Game::onDecPenWidth);
+    // CANVAS clearing canvas, modifying the pen
+    connect(ui->pbClearDrawing, &QPushButton::clicked, this, &Game::onClearDrawing);
+    connect(ui->cbPenColor, &QComboBox::currentTextChanged, this, &Game::onChangePenColor);
+    connect(ui->pbIncPenWidth, &QPushButton::clicked, this, &Game::onIncPenWidth);
+    connect(ui->pbDecPenWidth, &QPushButton::clicked, this, &Game::onDecPenWidth);
 
     // FOR CHAT
     mChatModel->insertColumn(0);
@@ -53,6 +55,7 @@ Game::Game(Client* client, QWidget *parent) :
 Game::~Game()
 {
     client->leaveRoom();
+    delete _canvas;
     delete ui;
 }
 
@@ -103,18 +106,11 @@ void Game::onDecPenWidth()
     _canvas->setPenWidth(currPenWidth-1);
 }
 
-void Game::onTakeSnap()
-{
-//    barr = _canvas->takeSnapshot();
-    _canvas->takeSnapshot(ba);
-
-}
 
 void Game::onLoadImage(QByteArray b)
 {
  // std::cout << "LOADING" <<std::endl;
 //  std::cout << b.toStdString() << std::endl;
-//    _canvas->loadFromSnapshot(*barr);
     _canvas->loadFromSnapshot(b);
 }
 
@@ -133,8 +129,12 @@ void Game::You_Are_Host()
 //    QWidget *parent = this->parentWidget();
 //    parent->show();
   //  std::cout << "Jesam host" << std::endl;
+
+    // host cannot type in chat
     ui->leInput->setDisabled(true);
 
+    // only host can draw, clear his drawing or modify his pen
+    enableCanvas(true);
 
     emit IAmHost();
 }
@@ -152,10 +152,19 @@ void Game::on_Game_finished(int result)
 void Game::Start_Game()
 {
   std::cout << "START" <<std::endl;
-  if (client->isHost())
+  _canvas->clearImage();
+  if (client->isHost()) {
     ui->leInput->setDisabled(true);
-  else
-      ui->leInput->setDisabled(false);
+
+    // only host can draw, clear his drawing or modify his pen
+    enableCanvas(true);
+  }
+  else {
+    ui->leInput->setDisabled(false);
+
+    // player is not the host, so he cannot draw, clearDrawing or modify his pen
+    enableCanvas(false);
+  }
 }
 
 void Game::Game_Over()
@@ -164,6 +173,15 @@ void Game::Game_Over()
    ui->leInput->setDisabled(true);
 
 
+}
+
+void Game::enableCanvas(const bool isHost)
+{
+    _canvas->setAttribute(Qt::WA_TransparentForMouseEvents, !isHost);
+    ui->pbClearDrawing->setEnabled(isHost);
+    ui->pbDecPenWidth->setEnabled(isHost);
+    ui->pbIncPenWidth->setEnabled(isHost);
+    ui->cbPenColor->setEnabled(isHost);
 }
 
 // FOR CHAT

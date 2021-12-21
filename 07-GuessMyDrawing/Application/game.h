@@ -47,7 +47,6 @@ public slots:
     void onChangePenColor();
     void onIncPenWidth();
     void onDecPenWidth();
-    void onTakeSnap();
     void onLoadImage(QByteArray b);
 
 private slots:
@@ -59,8 +58,6 @@ private slots:
 private:
     Ui::Game *ui;
     Canvas *_canvas;
-    QByteArray *barr = nullptr;
-    QByteArray ba;
 
     int duration;
     QString chosenWord;
@@ -68,6 +65,7 @@ private:
     QString username;
 
     QTimer* timerCanvas;
+    void enableCanvas(const bool isHost);
 
     // chat
     QStandardItemModel *mChatModel;

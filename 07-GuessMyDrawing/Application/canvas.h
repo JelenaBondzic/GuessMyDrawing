@@ -17,7 +17,7 @@ public:
         return _modified;
     }
 
-    QByteArray *takeSnapshot();
+
     void takeSnapshot(QByteArray& barr);
     void loadFromSnapshot(const QByteArray& arr);
 

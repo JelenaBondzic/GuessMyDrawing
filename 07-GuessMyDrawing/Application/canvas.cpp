@@ -9,16 +9,9 @@
 Canvas::Canvas(QWidget *parent)
     : QWidget(parent)
 {
-    setAttribute(Qt::WA_TransparentForMouseEvents, false);
+
 }
 
-QByteArray *Canvas::takeSnapshot(){
-    QByteArray *barr = new QByteArray();
-    QBuffer buffer(barr);
-    buffer.open(QIODevice::WriteOnly);
-    bool imageSaved = _image.save(&buffer, "PNG");
-    return barr;
-}
 
 void Canvas::takeSnapshot(QByteArray &barr)
 {
