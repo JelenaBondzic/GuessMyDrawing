@@ -6,7 +6,7 @@
 
 
 Game::Game(Client* client, QWidget *parent) :
-    QDialog(parent),
+    QDialog(parent,Qt::FramelessWindowHint),
     ui(new Ui::Game),
     _canvas(new Canvas(this)),
     client(client),
