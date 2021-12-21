@@ -8,6 +8,7 @@
 #include <QMainWindow>
 #include <QWidget>
 #include <QStandardItemModel>
+#include <QTimer>
 //#include "mainwindow.h"
 
 namespace Ui {
@@ -31,6 +32,7 @@ public:
 
 private slots:
     void sendMessage();
+    void sendCanvasMessage();
     void messageRecieved(const QString &sender, const QString &text);
     void userLeft(const QString &username);
     void userJoined(const QString &username);
@@ -64,6 +66,8 @@ private:
     QString chosenWord;
     Client *client;
     QString username;
+
+    QTimer* timerCanvas;
 
     // chat
     QStandardItemModel *mChatModel;

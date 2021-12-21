@@ -15,8 +15,8 @@ class Server : public QTcpServer {
  Q_OBJECT
  public:
     explicit Server(QObject *parent = 0);
+    ~Server();
     void startServer();
-    //void broadcast(const QJsonObject& message);
  signals:
 
  public slots:
