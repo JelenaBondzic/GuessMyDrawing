@@ -156,6 +156,7 @@ QString Server::getRooms() {
         res.append(i.key());
         res.append(",");
     }
+    res.chop(1);
     return res;
 }
 
