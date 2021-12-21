@@ -6,9 +6,9 @@ Server::Server(QObject* parent): QTcpServer(parent) {}
 
 void Server::startServer() {
     if (!this->listen(QHostAddress::Any, 1234)) {
-     //   std::cout << "Server could not start!" << std::endl;
+        std::cout << "Server could not start!" << std::endl;
     } else {
-     //   std::cout << "Server started..." << std::endl;
+        std::cout << "Server started..." << std::endl;
     }
 }
 
@@ -44,7 +44,7 @@ void Server::parseMessage(const QJsonObject& message, Thread* thread) {
             std::cerr << "This client is not in any room";
             return;
         }
-        room->broadcast(message, thread);
+        room->broadcastMessage(message, thread);
     }
 
     if (type.toString().compare(MessageType::CREATE_ROOM) == 0) {
@@ -113,7 +113,7 @@ void Server::parseMessage(const QJsonObject& message, Thread* thread) {
             std::cerr << "This client is not in any room";
             return;
         }
-        room->broadcast(message, thread);
+        room->broadcastCanvas(message);
     }
 
 }

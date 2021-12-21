@@ -24,7 +24,7 @@ void Room::leaveRoom(Thread* thread)
         message[MessageType::TYPE] = MessageType::USER_LEFT;
         message[MessageType::USERNAME] = i.key();
 
-        broadcast(message, thread);
+        broadcastMessage(message, thread);
 
         players.remove(i.key());
 
@@ -122,7 +122,7 @@ void Room::joinClient(QString username, Thread* thread){
         QJsonObject m;
         m[MessageType::TYPE] = MessageType::USER_JOINED;
         m[MessageType::USERNAME] = username;
-        broadcast(m, thread);
+        broadcastMessage(m, thread);
 
 
         std::cout << "USER JOINED " << std::endl;
@@ -164,16 +164,20 @@ void Room::start()
 
 }
 
-void Room::broadcast(const QJsonObject &message, Thread* t) {
+void Room::broadcastMessage(const QJsonObject &message, Thread* t) {
     for (auto i=players.begin(); i!=players.end(); i++) {
-//        if (i.value() != t)
+        if (i.value() != t)
           i.value()->send(message);
     }
     QString word = message.value(MessageType::CONTENT).toString();
 
-//    const QJsonValue sender = message.value(MessageType::MESSAGE_SENDER);
-//    if(!(sender.isNull()))
+    const QJsonValue sender = message.value(MessageType::MESSAGE_SENDER);
+    if(!(sender.isNull()))
         checkChatWord(word, t);
+}
 
-
+void Room::broadcastCanvas(const QJsonObject &message) {
+    for (auto i=players.begin(); i!=players.end(); i++) {
+          i.value()->send(message);
+    }
 }
