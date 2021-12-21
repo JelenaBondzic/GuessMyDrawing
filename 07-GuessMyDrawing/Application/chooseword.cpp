@@ -12,11 +12,11 @@ ChooseWord::ChooseWord(Game* game, QString username, QString roomName, Client* c
     game(game)
 {
     ui->setupUi(this);
-    connect(ui->pbFirstWord, &QPushButton::clicked, this, &ChooseWord::on_pbFirstWord_clicked);
-    connect(ui->pbSecondWord, &QPushButton::clicked, this, &ChooseWord::on_pbSecondWord_clicked);
-    connect(ui->pbThirdWord, &QPushButton::clicked, this, &ChooseWord::on_pbThirdWord_clicked);
-    connect(ui->myWord, &QPushButton::clicked, this, &ChooseWord::on_myWord_clicked);
-    connect(ui->pbCreateGame, &QPushButton::clicked, this, &ChooseWord::on_pbCreateGame_clicked);
+    connect(ui->pbFirstWord, &QPushButton::clicked, this, &ChooseWord::pbFirstWord_clicked);
+    connect(ui->pbSecondWord, &QPushButton::clicked, this, &ChooseWord::pbSecondWord_clicked);
+    connect(ui->pbThirdWord, &QPushButton::clicked, this, &ChooseWord::pbThirdWord_clicked);
+    connect(ui->myWord, &QPushButton::clicked, this, &ChooseWord::myWord_clicked);
+    connect(ui->pbCreateGame, &QPushButton::clicked, this, &ChooseWord::pbCreateGame_clicked);
     connect(game, &Game::IAmHost, this, &ChooseWord::show_Window);
 
     ui->pbCreateGame->setDisabled(true);
@@ -29,14 +29,14 @@ ChooseWord::~ChooseWord()
 }
 
 
-void ChooseWord::on_pbFirstWord_clicked()
+void ChooseWord::pbFirstWord_clicked()
 {
     chosenWord = ui->pbFirstWord->text();
     ui->pbCreateGame->setDisabled(false);
 }
 
 
-void ChooseWord::on_pbSecondWord_clicked()
+void ChooseWord::pbSecondWord_clicked()
 {
     chosenWord = ui->pbSecondWord->text();
 
@@ -45,7 +45,7 @@ void ChooseWord::on_pbSecondWord_clicked()
 }
 
 
-void ChooseWord::on_pbThirdWord_clicked()
+void ChooseWord::pbThirdWord_clicked()
 {
     chosenWord = ui->pbThirdWord->text();
 
@@ -54,7 +54,7 @@ void ChooseWord::on_pbThirdWord_clicked()
 }
 
 
-void ChooseWord::on_myWord_clicked()
+void ChooseWord::myWord_clicked()
 {
     chosenWord = ui->lnInsertWord->text();
     ui->pbCreateGame->setDisabled(false);
@@ -62,11 +62,11 @@ void ChooseWord::on_myWord_clicked()
 }
 
 
-void ChooseWord::on_pbCreateGame_clicked()
+void ChooseWord::pbCreateGame_clicked()
 {
     this->hide();
     client->chooseWord(chosenWord);
-    std::cout << chosenWord.toStdString() << std::endl;
+    //std::cout << chosenWord.toStdString() << std::endl;
     //client->createRoom(username, roomName, duration);
    // game = new Game(client, this);
     game->show();
@@ -74,6 +74,6 @@ void ChooseWord::on_pbCreateGame_clicked()
 
 void ChooseWord::show_Window()
 {
-    std::cout << "Stiglo u window" << std::endl;
+    //std::cout << "Stiglo u window" << std::endl;
     this->show();
 }

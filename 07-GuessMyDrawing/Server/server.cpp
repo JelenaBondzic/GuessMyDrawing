@@ -6,14 +6,14 @@ Server::Server(QObject* parent): QTcpServer(parent) {}
 
 void Server::startServer() {
     if (!this->listen(QHostAddress::Any, 1234)) {
-        std::cout << "Server could not start!" << std::endl;
+     //   std::cout << "Server could not start!" << std::endl;
     } else {
-        std::cout << "Server started..." << std::endl;
+     //   std::cout << "Server started..." << std::endl;
     }
 }
 
 void Server::incomingConnection(qintptr socketDescriptor) {
-    std::cout << socketDescriptor << " connecting..." << std::endl;
+ //   std::cout << socketDescriptor << " connecting..." << std::endl;
     Thread* thread = new Thread(socketDescriptor, this);
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
     connect(thread, SIGNAL(messageReceived(QJsonObject,Thread*)), this, SLOT(parseMessage(QJsonObject,Thread*)));
@@ -29,7 +29,7 @@ void Server::incomingConnection(qintptr socketDescriptor) {
 
 void Server::parseMessage(const QJsonObject& message, Thread* thread) { 
     const QJsonValue type = message.value(MessageType::TYPE);
-    std::cout << type.toString().toStdString() << std::endl;
+  //  std::cout << type.toString().toStdString() << std::endl;
 
 //    for (auto k = message.begin(); k!=message.end(); k++){
 //        std::cout << k.key().toStdString() << " " << k.value().toString().toStdString() << std::endl;
@@ -54,7 +54,6 @@ void Server::parseMessage(const QJsonObject& message, Thread* thread) {
 //        QString broadcast_message = username.toString() + " created room " + room_name.toString();
 //        QJsonDocument doc = QJsonDocument::fromJson(broadcast_message.toUtf8());
 //        broadcast(doc.object());
-        std::cout << "Room created" << std::endl;
         createRoom(username.toString(), room_name.toString(), duration.toInt());
         joinRoom(username.toString(), room_name.toString(), thread);
     }
@@ -108,7 +107,7 @@ void Server::parseMessage(const QJsonObject& message, Thread* thread) {
     // CANVAS
     if (type.toString().compare(MessageType::CANVAS_MESSAGE) == 0) {
 //        const QJsonValue text = message.value(MessageType::CONTENT);
-        std::cout << "canvasreceived" << std::endl;
+      //  std::cout << "canvasreceived" << std::endl;
         Room* room = getRoomFromThread(thread);
         if (room == nullptr) {
             std::cerr << "This client is not in any room";
@@ -135,6 +134,8 @@ void Server::joinRoom(QString username, QString room_name, Thread* thread) {
 void Server::createRoom(QString username, QString room_name, int duration) {
     Room* room = new Room(username, room_name, duration);
     _rooms.insert(room_name, room);
+    std::cout << "Room created" << std::endl;
+
 }
 
 void Server::leaveRoom(Thread* thread) {

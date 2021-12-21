@@ -10,10 +10,11 @@ ExistingRooms::ExistingRooms(Game* game, Client* client, QWidget *parent) :
 {
     ui->setupUi(this);
     connect(client, &Client::roomList, this, &ExistingRooms::getActiveRooms);
-//    connect(ui->leUsername, &QLineEdit::editingFinished, this, &ExistingRooms::on_leUsername_editingFinished);
-    connect(ui->listOfRooms, &QListWidget::itemClicked, this, &ExistingRooms::on_listOfRooms_itemClicked);
-    connect(ui->pbJoin, &QPushButton::clicked, this, &ExistingRooms::on_pbJoin_clicked);
-    connect(client, &Client::joinedRoom, this, &ExistingRooms::on_JoinedRoom);
+    connect(ui->leUsername, &QLineEdit::textEdited, this, &ExistingRooms::leUsername_textEdited);
+
+    connect(ui->listOfRooms, &QListWidget::itemClicked, this, &ExistingRooms::listOfRooms_itemClicked);
+    connect(ui->pbJoin, &QPushButton::clicked, this, &ExistingRooms::pbJoin_clicked);
+    connect(client, &Client::joinedRoom, this, &ExistingRooms::JoinedRoom);
 
     client->getRooms();
 
@@ -28,11 +29,11 @@ ExistingRooms::~ExistingRooms()
     delete ui;
 }
 
-void ExistingRooms::on_listOfRooms_itemClicked(QListWidgetItem *item)
+void ExistingRooms::listOfRooms_itemClicked(QListWidgetItem *item)
 {
     ui->pbJoin->setDisabled(false);
     selectedRoom = ui->listOfRooms->selectedItems()[0]->text();
-    std::cout << selectedRoom.toStdString() << std::endl;
+//    std::cout << selectedRoom.toStdString() << std::endl;
 }
 
 void ExistingRooms::getActiveRooms(const QVector<QString> *r)
@@ -41,7 +42,7 @@ void ExistingRooms::getActiveRooms(const QVector<QString> *r)
 
     for (int i=0; i< activeRooms->size() ; ++i) {
        ui->listOfRooms->addItem(activeRooms->at(i));
-       std::cout << activeRooms << std::endl;
+      // std::cout << activeRooms << std::endl;
     }
 //    std::cout << r;
 //    std::cout << activeRooms;
@@ -58,18 +59,18 @@ void ExistingRooms::getActiveRooms(const QVector<QString> *r)
 //}
 
 
-void ExistingRooms::on_pbJoin_clicked()
+void ExistingRooms::pbJoin_clicked()
 {
     hide();
     QWidget *parent = this->parentWidget();
     parent->hide();
 
-    std::cout << username.toStdString() << std::endl;
+   // std::cout << username.toStdString() << std::endl;
 
     client->joinRoom(username, selectedRoom);
 }
 
-void ExistingRooms::on_JoinedRoom(bool p)
+void ExistingRooms::JoinedRoom(bool p)
 {
     if(p){
         //game = new Game(client, this);
@@ -78,7 +79,7 @@ void ExistingRooms::on_JoinedRoom(bool p)
 }
 
 
-void ExistingRooms::on_leUsername_textEdited(const QString &arg1)
+void ExistingRooms::leUsername_textEdited(const QString &arg1)
 {
     username = ui->leUsername->text();
 

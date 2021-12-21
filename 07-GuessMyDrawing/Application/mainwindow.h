@@ -21,8 +21,8 @@ public:
   ~MainWindow();
 
 public slots:
-  void onJoinGameClicked();
-  void onCreateNewGameClicked();
+  void JoinGameClicked();
+  void CreateNewGameClicked();
   void gameWindowClosed();
 
 

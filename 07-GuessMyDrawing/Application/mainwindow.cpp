@@ -13,8 +13,8 @@ MainWindow::MainWindow(QString username, QWidget *parent)
   attemptConnection(1234);
 
   ui->setupUi(this);
-  connect(ui->pbJoinGame, &QPushButton::clicked, this, &MainWindow::onJoinGameClicked);
-  connect(ui->pbCreateNewGame, &QPushButton::clicked, this, &MainWindow::onCreateNewGameClicked);
+  connect(ui->pbJoinGame, &QPushButton::clicked, this, &MainWindow::JoinGameClicked);
+  connect(ui->pbCreateNewGame, &QPushButton::clicked, this, &MainWindow::CreateNewGameClicked);
   //  connect(game, &Game::MySignalToIndicateThatTheWindowIsClosing, this, &MainWindow::gameWindowClosed);
   game = new Game(chatClient, this);
 
@@ -32,7 +32,7 @@ void MainWindow::attemptConnection(qint16 port)
   chatClient->connectToServer(QHostAddress::LocalHost, port);
 }
 
-void MainWindow::onJoinGameClicked()
+void MainWindow::JoinGameClicked()
 {
     existingRooms = new ExistingRooms(game, chatClient, this);
     existingRooms->setModal(true);
@@ -41,7 +41,7 @@ void MainWindow::onJoinGameClicked()
 
 }
 
-void MainWindow::onCreateNewGameClicked() {
+void MainWindow::CreateNewGameClicked() {
  //   hide();
     settings = new Settings(game, chatClient, this);
     settings->setModal(true);
@@ -54,6 +54,6 @@ void MainWindow::onCreateNewGameClicked() {
 
 void MainWindow::gameWindowClosed()
 {
-    std::cout  << "mainnn" << std::endl;
+   // std::cout  << "mainnn" << std::endl;
 }
 

@@ -39,6 +39,7 @@ public:
     void joinClient(QString username, Thread* thread);
 
     QString getWord() {return chosenWord;}
+    void setName(const QString &newName);
 };
 
 #endif // ROOM_H

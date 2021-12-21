@@ -40,8 +40,8 @@ public:
   void reconnect();
 
 private slots:
-  void onMessageReadyRead();
-  void onCanvasReadyRead();
+  void MessageReadyRead();
+  void CanvasReadyRead();
 
   void connectedCanvas();
   void disconnectedCanvas();

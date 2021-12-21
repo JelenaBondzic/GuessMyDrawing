@@ -18,8 +18,8 @@ Client::Client(QString name, QObject *parent):
   connect(canvasSocket, &QTcpSocket::disconnected, this, &Client::disconnectedCanvas);
 
   // slot to take care of Reading messsages
-  connect(messageSocket, &QTcpSocket::readyRead, this, &Client::onMessageReadyRead);
-  connect(canvasSocket, &QTcpSocket::readyRead, this, &Client::onCanvasReadyRead);
+  connect(messageSocket, &QTcpSocket::readyRead, this, &Client::MessageReadyRead);
+  connect(canvasSocket, &QTcpSocket::readyRead, this, &Client::CanvasReadyRead);
 
   connect(messageSocket, SIGNAL(errorOccurred(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));
   connect(canvasSocket, SIGNAL(errorOccurred(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));
@@ -37,7 +37,7 @@ void Client::disconnectFromHost()
 {
   messageSocket->disconnectFromHost();
   canvasSocket->disconnectFromHost();
-  std::cout << "disconected" <<std::endl;
+  //std::cout << "disconected" <<std::endl;
   // TODO obrada greske?
 }
 
@@ -128,7 +128,7 @@ void Client::reconnect()
 
 
 
-void Client::onMessageReadyRead()
+void Client::MessageReadyRead()
 {
   QByteArray data;
   data = messageSocket->readAll();
@@ -163,7 +163,7 @@ void Client::onMessageReadyRead()
 //{
 //    return mName;
 //}
-void Client::onCanvasReadyRead()
+void Client::CanvasReadyRead()
 {
   // canvas
   QByteArray data = canvasSocket->readAll();
@@ -181,14 +181,14 @@ void Client::connectedCanvas()
 
 void Client::disconnectedCanvas()
 {
-  std::cout << "canvas disconnected" << std::endl;
+ // std::cout << "canvas disconnected" << std::endl;
 
 //  send("Canvas disonnected");
 }
 
 void Client::connectedMessage()
 {
-  std::cout << "connected to server" << std::endl;
+  //std::cout << "connected to server" << std::endl;
    QJsonObject message;
    message[MessageType::TYPE] = QString(MessageType::MESSAGE_SOCKET);
    messageSocket->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
@@ -197,12 +197,12 @@ void Client::connectedMessage()
 
 void Client::disconnectedMessage()
 {
-  std::cout << "message disconnected" << std::endl;
+  //std::cout << "message disconnected" << std::endl;
 }
 
 void Client::error(QAbstractSocket::SocketError socketError)
 {
-  std::cout << "Error ocurred " << socketError << std::endl;
+ // std::cout << "Error ocurred " << socketError << std::endl;
 
   QString *s = new QString("Something went wrong with cnnnection. Try again");
   emit errorConnecting(s);
@@ -212,7 +212,7 @@ void Client::jsonReceived(const QJsonObject &doc)
 {
   const QJsonValue typeVal = doc.value(MessageType::TYPE);
 
-  std::cout << typeVal.toString().toStdString() << std::endl;
+ // std::cout << typeVal.toString().toStdString() << std::endl;
 
   if (!fieldIsValid(typeVal)){
       return; // empty or unknown message recieved
@@ -250,7 +250,7 @@ void Client::jsonReceived(const QJsonObject &doc)
         b=false;
         // neuspelo prikljucivanje sobi ako je null ili prazno
       }
-    std::cout << "Joining room " << b << std::endl;
+  //  std::cout << "Joining room " << b << std::endl;
     emit joinedRoom(b); // TODO proveriti prenos argumenata
     }
   else if(typeVal.toString().compare(MessageType::GET_ROOMS) == 0){
@@ -264,7 +264,7 @@ void Client::jsonReceived(const QJsonObject &doc)
     auto room_split = rooms.toString().split(",");
     for(QString& r : room_split){
         room_list->push_back(r);
-        std::cout  << r.toStdString() << std::endl;
+     //   std::cout  << r.toStdString() << std::endl;
       }
 
     emit roomList(room_list);
@@ -272,7 +272,7 @@ void Client::jsonReceived(const QJsonObject &doc)
   else if(typeVal.toString().compare(MessageType::NEW_HOST) == 0){
 //    const QJsonValue rooms = doc.value(MessageType::CONTENT);
     imHost = true;
-    std::cout << "IM NEW HOST" << std::endl;
+   // std::cout << "IM NEW HOST" << std::endl;
     emit youAreNewHost();
     }
   else if(typeVal.toString().compare(MessageType::GAME_OVER) == 0){

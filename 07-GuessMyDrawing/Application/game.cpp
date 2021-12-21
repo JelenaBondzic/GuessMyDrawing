@@ -110,7 +110,7 @@ void Game::onTakeSnap()
 
 void Game::onLoadImage(QByteArray b)
 {
-  std::cout << "LOADING" <<std::endl;
+ // std::cout << "LOADING" <<std::endl;
 //  std::cout << b.toStdString() << std::endl;
 //    _canvas->loadFromSnapshot(*barr);
     _canvas->loadFromSnapshot(b);
@@ -130,7 +130,7 @@ void Game::You_Are_Host()
 {
 //    QWidget *parent = this->parentWidget();
 //    parent->show();
-    std::cout << "Jesam host" << std::endl;
+  //  std::cout << "Jesam host" << std::endl;
     ui->leInput->setDisabled(true);
 
 
@@ -142,17 +142,9 @@ void Game::on_Game_finished(int result)
     this->hide();
     QWidget *parent = this->parentWidget();
 
-//    std::cout << parent << std::endl;
-//    if(parent == 0){
-//        parent = this->parentWidget()->parentWidget();
-//    }
-
     parent->show();
     client->leaveRoom();
-    std::cout << "game finished" << std::endl;
-    std::cout << parent << std::endl;
 
-    //  emit MySignalToIndicateThatTheWindowIsClosing();
 }
 
 void Game::Start_Game()
@@ -184,9 +176,9 @@ void Game::sendMessage()
 //  ui->listView->scrollToBottom();
   ui->leInput->setText("");
 
-  std::cout << "SENDING "<<std::endl;
+//  std::cout << "SENDING "<<std::endl;
   if (client->isHost()){
-      std::cout << "SENDING "<<std::endl;
+   //   std::cout << "SENDING "<<std::endl;
       QByteArray b;
       _canvas->takeSnapshot(b);
 //      std::cout << b.toStdString() << std::endl;
@@ -212,6 +204,7 @@ void Game::userJoined(const QString &username)
   mChatModel->setData(mChatModel->index(newRow,0), username + " joined");
   mChatModel->setData(mChatModel->index(newRow, 0), int(Qt::AlignLeft | Qt::AlignVCenter), Qt::TextAlignmentRole);
   ui->listView->scrollToBottom();
+  show();
 }
 
 void Game::userLeft(const QString &username)

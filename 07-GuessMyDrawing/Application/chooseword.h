@@ -18,15 +18,15 @@ public:
     ~ChooseWord();
 
 private slots:
-    void on_pbFirstWord_clicked();
+    void pbFirstWord_clicked();
 
-    void on_pbSecondWord_clicked();
+    void pbSecondWord_clicked();
 
-    void on_pbThirdWord_clicked();
+    void pbThirdWord_clicked();
 
-    void on_myWord_clicked();
+    void myWord_clicked();
 
-    void on_pbCreateGame_clicked();
+    void pbCreateGame_clicked();
     void show_Window();
 
 private:

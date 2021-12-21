@@ -16,7 +16,7 @@ void Room::leaveRoom(Thread* thread)
 
     //broadcast others that player has left the game??
 
-  QString name = "";
+  //QString name = "";
   for (auto i=players.begin(); i!=players.end(); i++){
     if (i.value() == thread){
 
@@ -42,15 +42,19 @@ void Room::leaveRoom(Thread* thread)
 
 bool Room::usernameIsValid(QString username)
 {
-    if(players.contains(username))
+   // std::cout << "Username is valid: " << username.toStdString() << std::endl;
+    if(players.contains(username)){
+    //    std::cout << "lalalallallala" << std::endl;
         return false;
+
+    }
 
     return true;
 }
 
 void Room::setWordAndStartGame(const QString &newChosenWord)
 {
-  std::cout << "Room word: " << chosenWord.toStdString() << std::endl;
+  std::cout << "1 Room word: " << chosenWord.toStdString() << std::endl;
     chosenWord = newChosenWord;
     //if there is 2 or more players, start game
     if(players.size() >= 2)
@@ -83,6 +87,11 @@ void Room::checkChatWord(QString word, Thread* senderUser)
 
     }
 
+}
+
+void Room::setName(const QString &newName)
+{
+    name = newName;
 }
 
 Room::Room(QString name, QString host, int duration): name(name), duration(duration), host(host)
@@ -161,7 +170,10 @@ void Room::broadcast(const QJsonObject &message, Thread* t) {
           i.value()->send(message);
     }
     QString word = message.value(MessageType::CONTENT).toString();
-//    std::cout << "STRIGLO U BROADCAST REC: " << word.toStdString() << std::endl;
-    std::cout << "Word: " << chosenWord.toStdString() << std::endl;
-    checkChatWord(word, t);
+
+//    const QJsonValue sender = message.value(MessageType::MESSAGE_SENDER);
+//    if(!(sender.isNull()))
+        checkChatWord(word, t);
+
+
 }

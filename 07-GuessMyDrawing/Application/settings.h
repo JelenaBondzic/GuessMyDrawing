@@ -25,18 +25,18 @@ signals:
     void signalThatGameWindowIsClosed();
 
 private slots:
-    void onSaveClicked();
-    void onBackClicked();
+    void SaveClicked();
+    void BackClicked();
 
-    void on_radioButton_3_clicked();
-    void on_radioButton_clicked();
-    void on_radioButton_2_clicked();
+    void radioButton_3_clicked();
+    void radioButton_clicked();
+    void radioButton_2_clicked();
 //    void on_lineEdit_editingFinished();
 //    void on_leUsername_editingFinished();
 
-    void on_leUsername_textChanged(const QString &arg1);
+    void leUsername_textChanged(const QString &arg1);
 
-    void on_lnRoomName_textChanged(const QString &arg1);
+    void lnRoomName_textChanged(const QString &arg1);
 
 private:
     Ui::Settings *ui;

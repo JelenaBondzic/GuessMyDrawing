@@ -9,7 +9,7 @@ Thread::Thread(qintptr ID, QObject *parent) :
     this->socketDescriptor = ID;
     if (!socketMessage->setSocketDescriptor(this->socketDescriptor)) {
         // emit error(socket->error());
-        std::cout << socketMessage->error();
+      //  std::cout << socketMessage->error();
         return;
     }
     connect(socketMessage, SIGNAL(readyRead()), this, SLOT(onMessageReadyRead()), Qt::DirectConnection);
@@ -19,7 +19,7 @@ Thread::Thread(qintptr ID, QObject *parent) :
     connect(socketCanvas, SIGNAL(disconnected()), this, SLOT(onDisconnectedCanvas()), Qt::DirectConnection);
 
     room_name = "";
-    std::cout << socketDescriptor << " Client connected!" << std::endl;
+   // std::cout << socketDescriptor << " Client connected!" << std::endl;
 }
 
 void Thread::send(QJsonObject message)
@@ -46,13 +46,13 @@ void Thread::onCanvasReadyRead() {
 }
 
 void Thread::onDisconnectedMessage() {
-    std::cout << socketDescriptor << " disconnected! " << std::endl;
+//    std::cout << socketDescriptor << " disconnected! " << std::endl;
     socketMessage->deleteLater();
     exit(0);
 }
 
 void Thread::onDisconnectedCanvas() {
-    std::cout << socketDescriptor << " disconnected! " << std::endl;
+  //  std::cout << socketDescriptor << " disconnected! " << std::endl;
     socketCanvas->deleteLater();
     exit(0);
 }
