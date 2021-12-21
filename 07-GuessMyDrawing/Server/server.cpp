@@ -23,11 +23,6 @@ void Server::incomingConnection(qintptr socketDescriptor) {
 
 void Server::parseMessage(const QJsonObject& message, Thread* thread) { 
     const QJsonValue type = message.value(MessageType::TYPE);
-  //  std::cout << type.toString().toStdString() << std::endl;
-
-//    for (auto k = message.begin(); k!=message.end(); k++){
-//        std::cout << k.key().toStdString() << " " << k.value().toString().toStdString() << std::endl;
-//      }
 
     if (type.toString().compare(MessageType::TEXT_MESSAGE) == 0) {
         const QJsonValue text = message.value(MessageType::CONTENT);
@@ -79,14 +74,13 @@ void Server::parseMessage(const QJsonObject& message, Thread* thread) {
         thread->send(return_message);
     }
 
-    // CANVAS
     if (type.toString().compare(MessageType::CANVAS_MESSAGE) == 0) {
         Room* room = getRoomFromThread(thread);
         if (room == nullptr) {
             std::cerr << "This client is not in any room";
             return;
         }
-        room->broadcastCanvas(message);
+        room->broadcastCanvas(message, thread);
     }
 
 }

@@ -28,7 +28,7 @@ public:
     Room(QString name, QString firstHost, int duration);
 
     void broadcastMessage(const QJsonObject& message, Thread *t);
-    void broadcastCanvas(const QJsonObject& message);
+    void broadcastCanvas(const QJsonObject& message, Thread *t);
 
     void start();
     void setDuration(int newDuration);

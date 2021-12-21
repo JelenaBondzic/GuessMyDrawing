@@ -27,8 +27,6 @@ Game::Game(Client* client, QWidget *parent) :
     connect(ui->pbDecPenWidth, &QPushButton::clicked,
             this, &Game::onDecPenWidth);
 
-
-
     // FOR CHAT
     mChatModel->insertColumn(0);
     ui->listView->setModel(mChatModel);
@@ -179,23 +177,12 @@ void Game::sendMessage()
 //  mChatModel->setData(mChatModel->index(newRow, 0), int(Qt::AlignLeft | Qt::AlignVCenter), Qt::TextAlignmentRole);
 //  ui->listView->scrollToBottom();
   ui->leInput->setText("");
-
-//  std::cout << "SENDING "<<std::endl;
-  if (client->isHost()){
-   //   std::cout << "SENDING "<<std::endl;
-      QByteArray b;
-      _canvas->takeSnapshot(b);
-//      std::cout << b.toStdString() << std::endl;
-      client->sendCanvas(b);
-    }
 }
 
 void Game::sendCanvasMessage() {
     if (client->isHost()){
-     //   std::cout << "SENDING "<<std::endl;
         QByteArray b;
         _canvas->takeSnapshot(b);
-  //      std::cout << b.toStdString() << std::endl;
         client->sendCanvas(b);
     }
 }
