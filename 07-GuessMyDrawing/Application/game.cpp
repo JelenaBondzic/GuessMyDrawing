@@ -133,7 +133,7 @@ void Game::You_Are_Host()
     ui->leInput->setDisabled(true);
 
     // only host can draw, clear his drawing or modify his pen
-    enableCanvas(true);
+//    enableCanvas(true);
 
     emit IAmHost();
 }
