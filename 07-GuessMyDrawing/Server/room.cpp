@@ -161,7 +161,7 @@ void Room::broadcast(const QJsonObject &message, Thread* t) {
           i.value()->send(message);
     }
     QString word = message.value(MessageType::CONTENT).toString();
-    std::cout << "STRIGLO U BROADCAST REC: " << word.toStdString() << std::endl;
+//    std::cout << "STRIGLO U BROADCAST REC: " << word.toStdString() << std::endl;
     std::cout << "Word: " << chosenWord.toStdString() << std::endl;
     checkChatWord(word, t);
 }

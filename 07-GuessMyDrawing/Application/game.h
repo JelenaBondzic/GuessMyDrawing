@@ -46,7 +46,7 @@ public slots:
     void onIncPenWidth();
     void onDecPenWidth();
     void onTakeSnap();
-    void onLoadImage();
+    void onLoadImage(QByteArray b);
 
 private slots:
 

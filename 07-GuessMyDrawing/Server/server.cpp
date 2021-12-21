@@ -105,6 +105,18 @@ void Server::parseMessage(const QJsonObject& message, Thread* thread) {
         thread->send(return_message);
     }
 
+    // CANVAS
+    if (type.toString().compare(MessageType::CANVAS_MESSAGE) == 0) {
+//        const QJsonValue text = message.value(MessageType::CONTENT);
+        std::cout << "canvasreceived" << std::endl;
+        Room* room = getRoomFromThread(thread);
+        if (room == nullptr) {
+            std::cerr << "This client is not in any room";
+            return;
+        }
+        room->broadcast(message, thread);
+    }
+
 }
 
 void Server::joinRoom(QString username, QString room_name, Thread* thread) {

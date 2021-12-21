@@ -113,7 +113,10 @@ void Client::getRooms()
 
 void Client::sendCanvas(QByteArray &canvas)
 {
-  canvasSocket->write(canvas);
+  QJsonObject message;
+  message[MessageType::TYPE] = MessageType::CANVAS_MESSAGE;
+  message[MessageType::CONTENT] = QString(canvas.toBase64());
+  messageSocket->write(QJsonDocument(message).toJson(QJsonDocument::Compact));
   messageSocket->flush();
 }
 
@@ -148,6 +151,8 @@ void Client::onMessageReadyRead()
           std::cerr << "DOC IS NOT JSON OBJECT" << std::endl;
       }
     else{
+//      emit canvasReceived(data);
+//        std::cout << data.toStdString() << std::endl;
       std::cerr << "PARSING JSON ERR : " << parseError.errorString().toStdString() << std::endl;
       }
     }
@@ -206,6 +211,8 @@ void Client::error(QAbstractSocket::SocketError socketError)
 void Client::jsonReceived(const QJsonObject &doc)
 {
   const QJsonValue typeVal = doc.value(MessageType::TYPE);
+
+  std::cout << typeVal.toString().toStdString() << std::endl;
 
   if (!fieldIsValid(typeVal)){
       return; // empty or unknown message recieved
@@ -276,9 +283,20 @@ void Client::jsonReceived(const QJsonObject &doc)
     emit startGame();
     }
   // message saying canvas can connect
-  else if(typeVal.toString().compare(MessageType::CANVAS_SOCKET)){
+  // TODO
+  else if(typeVal.toString().compare(MessageType::CANVAS_SOCKET)==0){
     idForCanvas = doc.value(MessageType::ID);
   //  canvasSocket->connectToHost(adress, port);
+    }
+  // CANVAS
+  else if(typeVal.toString().compare(MessageType::CANVAS_MESSAGE)==0){
+      const QJsonValue canvas_content = doc.value(MessageType::CONTENT);
+      if (!fieldIsValid(canvas_content)){
+        return;
+        }
+
+      QByteArray b = QByteArray::fromBase64(canvas_content.toString().toUtf8());
+      emit canvasReceived(b);
     }
 }
 
