@@ -34,7 +34,11 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QListWidget" name="listOfRooms"/>
+      <widget class="QListWidget" name="listOfRooms">
+       <property name="styleSheet">
+        <string notr="true">color: rgb(46, 52, 54);</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
