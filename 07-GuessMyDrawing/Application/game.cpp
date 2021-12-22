@@ -124,14 +124,14 @@ void Game::setDuration(int newDuration)
   duration = newDuration;
 }
 
-void Game::closeEvent(QCloseEvent *event)
-{
-  client->leaveRoom();
-  this->hide();
-  std::cout << "IM LEAVING " << std::endl;
-  QWidget *parent = this->parentWidget();
-  parent->show();
-}
+//void Game::closeEvent(QCloseEvent *event)
+//{
+//  client->leaveRoom();
+//  this->hide();
+//  std::cout << "IM LEAVING " << std::endl;
+//  QWidget *parent = this->parentWidget();
+//  parent->show();
+//}
 
 void Game::closeEvent(QCloseEvent *event)
 {
