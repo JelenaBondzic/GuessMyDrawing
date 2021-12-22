@@ -126,6 +126,9 @@ void Room::chooseRandomHost()
 
   std::cout << "CHOOSING RANDOM HOST  " << std::endl;
   int n = players.size();
+  if (n == 0) {
+      return ;
+  }
   int index = QRandomGenerator::global()->bounded(0, n); // index random igraca
   for (auto it=players.begin(); it != players.end(); it++){
     if(index==0){
