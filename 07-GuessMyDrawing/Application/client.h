@@ -41,14 +41,9 @@ public:
 
 private slots:
   void MessageReadyRead();
-  void CanvasReadyRead();
-
-  void connectedCanvas();
-  void disconnectedCanvas();
   void connectedMessage();
   void disconnectedMessage();
   void error(QAbstractSocket::SocketError socketError);
-
 
 signals:
 
@@ -57,7 +52,6 @@ signals:
   void userLeft(const QString &username);
   void roomList(const QVector<QString>* rooms);
   void joinedRoom(bool &success);
-  void youLeftRoom();
   void errorConnecting(QString *error);
   void youAreNewHost();
 
@@ -66,24 +60,22 @@ signals:
 
   void canvasReceived(QByteArray data);
 
+
 private:
   QString mName;
   int points;
+  bool imHost = false;
 
   Canvas* canvas;
 
-  bool imHost = false;
-
   QTcpSocket *messageSocket;
-  QTcpSocket *canvasSocket;
 
   void jsonReceived(const QJsonObject &doc);
   bool fieldIsValid(QJsonValue);
+  void sendMessage(QJsonObject &msg);
 
   QHostAddress adress;
   quint16 port;
-
-  QJsonValue idForCanvas;
 };
 
 #endif // CLIENT_H

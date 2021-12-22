@@ -22,6 +22,9 @@ private:
     QString host;
     bool gameIsStarted;
 
+    void chooseRandomHost();
+    void gameOver(Thread* t);
+
 
 public:
     //server call constructor for room and sends in constructor name of host

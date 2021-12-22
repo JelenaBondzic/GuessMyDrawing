@@ -71,7 +71,6 @@ private:
 
     // chat
     QStandardItemModel *mChatModel;
-
 };
 
 #endif // GAME_H

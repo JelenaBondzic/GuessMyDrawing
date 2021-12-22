@@ -121,7 +121,16 @@ int Game::getDuration() const
 
 void Game::setDuration(int newDuration)
 {
-    duration = newDuration;
+  duration = newDuration;
+}
+
+void Game::closeEvent(QCloseEvent *event)
+{
+  client->leaveRoom();
+  this->hide();
+  std::cout << "IM LEAVING " << std::endl;
+  QWidget *parent = this->parentWidget();
+  parent->show();
 }
 
 void Game::closeEvent(QCloseEvent *event)
@@ -227,7 +236,7 @@ void Game::userJoined(const QString &username)
   mChatModel->setData(mChatModel->index(newRow,0), username + " joined");
   mChatModel->setData(mChatModel->index(newRow, 0), int(Qt::AlignLeft | Qt::AlignVCenter), Qt::TextAlignmentRole);
   ui->listView->scrollToBottom();
-  show();
+//  show();
 }
 
 void Game::pbLeaveClicked()

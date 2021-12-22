@@ -26,6 +26,7 @@ ExistingRooms::ExistingRooms(Game* game, Client* client, QWidget *parent) :
 }
 ExistingRooms::~ExistingRooms()
 {
+  std::cout << "Existing rooms destrucotr" << std::endl;
     delete ui;
 }
 
@@ -44,6 +45,7 @@ void ExistingRooms::getActiveRooms(const QVector<QString> *r)
        ui->listOfRooms->addItem(activeRooms->at(i));
       // std::cout << activeRooms << std::endl;
     }
+//    delete r; // TODO check
 //    std::cout << r;
 //    std::cout << activeRooms;
 }
