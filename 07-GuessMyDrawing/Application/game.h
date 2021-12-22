@@ -42,6 +42,7 @@ private slots:
 signals:
  //   void MySignalToIndicateThatTheWindowIsClosing();
     void IAmHost();
+    void LeaveClicked();
 
 public slots:
     void onClearDrawing();

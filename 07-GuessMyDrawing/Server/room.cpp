@@ -132,12 +132,12 @@ void Room::joinClient(QString username, Thread* thread){
         thread->send(message);
 
 
-        if(players.size() == 1){
-            std::cout << "jeste jedan" << std::endl;
-            QJsonObject message;
-            message[MessageType::TYPE] = MessageType::NEW_HOST;
-            thread->send(message);
-        }
+//        if(players.size() == 1){
+//            std::cout << "jeste jedan" << std::endl;
+//            QJsonObject message;
+//            message[MessageType::TYPE] = MessageType::NEW_HOST;
+//            thread->send(message);
+//        }
 
         //if there is 2 or more players, start game
         if(players.size() >= 2 and !gameIsStarted)

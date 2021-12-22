@@ -7,6 +7,7 @@
 #include "existingrooms.h"
 #include "game.h"
 #include "settings.h"
+#include "chooseword.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -38,12 +39,13 @@ public:
   // ADDED
 private:
   Ui::MainWindow *ui;
-  Client* client;
+ // Client* client;
   ExistingRooms* existingRooms;
   Settings *settings;
   Client *chatClient;
 //  QStandardItemModel *mChatModel;
   Game* game;
+  ChooseWord* chooseWord;
 
 };
 #endif // MAINWINDOW_H

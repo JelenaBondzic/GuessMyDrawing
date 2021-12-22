@@ -235,6 +235,8 @@ void Game::pbLeaveClicked()
     this->hide();
     QWidget *parent = this->parentWidget();
 
+    emit LeaveClicked();
+
     parent->show();
     client->leaveRoom();
 }

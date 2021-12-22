@@ -17,6 +17,9 @@ MainWindow::MainWindow(QString username, QWidget *parent)
   connect(ui->pbCreateNewGame, &QPushButton::clicked, this, &MainWindow::CreateNewGameClicked);
   //  connect(game, &Game::MySignalToIndicateThatTheWindowIsClosing, this, &MainWindow::gameWindowClosed);
   game = new Game(chatClient, this);
+//  settings = new Settings(game, chatClient, this);
+//  existingRooms = new ExistingRooms(game, chatClient, this);
+  chooseWord = new ChooseWord(game, chatClient, this);
 
 }
 
