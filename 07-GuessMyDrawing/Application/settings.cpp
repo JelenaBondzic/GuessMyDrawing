@@ -43,7 +43,7 @@ void Settings::SaveClicked()
     parent->hide();
     username = ui->leUsername->text();
     roomName = ui->lnRoomName->text();
-    chooseWordWindow = new ChooseWord(game, username, roomName, client, this);
+  //  chooseWordWindow = new ChooseWord(game, username, roomName, client, this);
 
     sendSettingsToCLient(username, roomName, duration);
     //chooseWordWindow->show();

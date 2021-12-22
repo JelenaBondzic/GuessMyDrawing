@@ -211,10 +211,12 @@ void Client::jsonReceived(const QJsonObject &doc)
     }
   else if(typeVal.toString().compare(MessageType::NEW_HOST) == 0){
     imHost = true;
+    std::cout << "IM NEW HOST" << std::endl;
     emit youAreNewHost();
     }
   else if(typeVal.toString().compare(MessageType::GAME_OVER) == 0){
-    imHost = false; // if I was host I won't be anymore, and next host will get message later
+      std::cout << "I am not host anymore" << std::endl;
+    imHost = false; // if was host i won't be anymore, and next host will get message later
     emit gameOver();
     }
   else if(typeVal.toString().compare(MessageType::START) == 0){

@@ -45,7 +45,7 @@ private:
     QString roomName;
     Client *client;
     QString username;
-    ChooseWord* chooseWordWindow;
+ //   ChooseWord* chooseWordWindow;
 
 
 };

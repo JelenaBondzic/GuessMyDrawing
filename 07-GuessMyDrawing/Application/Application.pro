@@ -51,3 +51,7 @@ FORMS += \
 
 DISTFILES += \
     CMakeLists.txt
+
+RESOURCES += \
+    guess.qrc \
+    pctr2.qrc
