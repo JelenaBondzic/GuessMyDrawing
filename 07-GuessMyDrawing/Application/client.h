@@ -66,13 +66,15 @@ private:
   int points;
   bool imHost = false;
 
+  bool shouldBecomeHost = false;
+
   Canvas* canvas;
 
   QTcpSocket *messageSocket;
 
   void jsonReceived(const QJsonObject &doc);
   bool fieldIsValid(QJsonValue);
-  void sendMessage(QJsonObject &msg);
+  void sendMessage(QJsonObject msg);
 
   QHostAddress adress;
   quint16 port;

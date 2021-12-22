@@ -76,6 +76,7 @@ void Client::leaveRoom()
 
 void Client::chooseWord(QString word)
 {
+  std::cout << "Choosing word " << word.toStdString() << " " << MessageType::CHOOSE_WORD.toStdString()  << std::endl;
   QJsonObject message;
   message[MessageType::TYPE] = QString(MessageType::CHOOSE_WORD);
   message[MessageType::CONTENT] = word;
@@ -152,7 +153,8 @@ void Client::jsonReceived(const QJsonObject &doc)
 {
   const QJsonValue typeVal = doc.value(MessageType::TYPE);
 
-  std::cout << "Primljen tip: " << typeVal.toString().toStdString() << std::endl;
+  if (typeVal.toString().compare(MessageType::CANVAS_MESSAGE)!=0)
+    std::cout << "Primljen tip: " << typeVal.toString().toStdString() << std::endl;
 
   if (!fieldIsValid(typeVal)){
       return; // empty or unknown message recieved
@@ -210,16 +212,21 @@ void Client::jsonReceived(const QJsonObject &doc)
     emit roomList(room_list);
     }
   else if(typeVal.toString().compare(MessageType::NEW_HOST) == 0){
-    imHost = true;
+//    imHost = true;
+      shouldBecomeHost = true;
     std::cout << "IM NEW HOST" << std::endl;
     emit youAreNewHost();
     }
   else if(typeVal.toString().compare(MessageType::GAME_OVER) == 0){
-      std::cout << "I am not host anymore" << std::endl;
+    std::cout << "I am not host anymore" << std::endl;
     imHost = false; // if was host i won't be anymore, and next host will get message later
     emit gameOver();
     }
   else if(typeVal.toString().compare(MessageType::START) == 0){
+      if (shouldBecomeHost){
+        imHost = true;
+        shouldBecomeHost = false;
+        }
     emit startGame();
     }
   // CANVAS
@@ -240,7 +247,7 @@ bool Client::fieldIsValid(QJsonValue value)
   return !value.isNull() || value.isString();
 }
 
-void Client::sendMessage(QJsonObject &message)
+void Client::sendMessage(QJsonObject message)
 {
   auto msg = QJsonDocument(message).toJson(QJsonDocument::Compact);
   messageSocket->write(msg);
