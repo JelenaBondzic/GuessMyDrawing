@@ -21,11 +21,12 @@ ExistingRooms::ExistingRooms(Game* game, Client* client, QWidget *parent) :
     ui->pbJoin->setDisabled(true);
     ui->listOfRooms->setDisabled(true);
 
-    chooseWord = new ChooseWord(game, username, selectedRoom, client, this);
+ //   chooseWord = new ChooseWord(game, username, selectedRoom, client, this);
 
 }
 ExistingRooms::~ExistingRooms()
 {
+  std::cout << "Existing rooms destrucotr" << std::endl;
     delete ui;
 }
 
@@ -44,6 +45,7 @@ void ExistingRooms::getActiveRooms(const QVector<QString> *r)
        ui->listOfRooms->addItem(activeRooms->at(i));
       // std::cout << activeRooms << std::endl;
     }
+//    delete r; // TODO check
 //    std::cout << r;
 //    std::cout << activeRooms;
 }

@@ -3,21 +3,21 @@
 
 #include<iostream>
 
-ChooseWord::ChooseWord(Game* game, QString username, QString roomName, Client* client, QWidget *parent) :
+ChooseWord::ChooseWord(Game* game,Client* client, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ChooseWord),
     client(client),
-    username(username),
-    roomName(roomName),
     game(game)
 {
     ui->setupUi(this);
+    this->hide();
     connect(ui->pbFirstWord, &QPushButton::clicked, this, &ChooseWord::pbFirstWord_clicked);
     connect(ui->pbSecondWord, &QPushButton::clicked, this, &ChooseWord::pbSecondWord_clicked);
     connect(ui->pbThirdWord, &QPushButton::clicked, this, &ChooseWord::pbThirdWord_clicked);
     connect(ui->myWord, &QPushButton::clicked, this, &ChooseWord::myWord_clicked);
     connect(ui->pbCreateGame, &QPushButton::clicked, this, &ChooseWord::pbCreateGame_clicked);
     connect(game, &Game::IAmHost, this, &ChooseWord::show_Window);
+    connect(game, &Game::LeaveClicked, this, &ChooseWord::leave);
 
     ui->pbCreateGame->setDisabled(true);
 
@@ -76,4 +76,9 @@ void ChooseWord::show_Window()
 {
     //std::cout << "Stiglo u window" << std::endl;
     this->show();
+}
+
+void ChooseWord::leave()
+{
+ //   this->destroy(true, true);
 }

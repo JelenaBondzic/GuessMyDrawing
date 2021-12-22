@@ -17,6 +17,12 @@ MainWindow::MainWindow(QString username, QWidget *parent)
   connect(ui->pbCreateNewGame, &QPushButton::clicked, this, &MainWindow::CreateNewGameClicked);
   //  connect(game, &Game::MySignalToIndicateThatTheWindowIsClosing, this, &MainWindow::gameWindowClosed);
   game = new Game(chatClient, this);
+//  settings = new Settings(game, chatClient, this);
+//  existingRooms = new ExistingRooms(game, chatClient, this);
+  chooseWord = new ChooseWord(game, chatClient, this);
+
+//  existingRooms = new ExistingRooms(game, chatClient, this);
+//  settings = new Settings(game, chatClient, this);
 
 }
 
@@ -38,7 +44,7 @@ void MainWindow::JoinGameClicked()
     existingRooms->setModal(true);
     //opening the second window
     existingRooms->exec();
-
+    std::cout << "DONE settings" << std::endl;
 }
 
 void MainWindow::CreateNewGameClicked() {
@@ -47,7 +53,7 @@ void MainWindow::CreateNewGameClicked() {
     settings->setModal(true);
  //   settings->show();
     settings->exec();
-
+    std::cout << "DONE settings" << std::endl;
 }
 
 

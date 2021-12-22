@@ -28,7 +28,7 @@ public:
     int getDuration() const;
 
     void setDuration(int newDuration);
-    //void closeEvent( QCloseEvent* event );
+    void closeEvent( QCloseEvent* event ) override;
 
 private slots:
     void sendMessage();
@@ -36,11 +36,13 @@ private slots:
     void messageRecieved(const QString &sender, const QString &text);
     void userLeft(const QString &username);
     void userJoined(const QString &username);
+    void pbLeaveClicked();
 
 
 signals:
  //   void MySignalToIndicateThatTheWindowIsClosing();
     void IAmHost();
+    void LeaveClicked();
 
 public slots:
     void onClearDrawing();
@@ -52,7 +54,7 @@ public slots:
 private slots:
 
     void You_Are_Host();
-    void on_Game_finished(int result);
+  //  void on_Game_finished(int result);
     void Start_Game();
     void Game_Over();
 private:
@@ -69,7 +71,6 @@ private:
 
     // chat
     QStandardItemModel *mChatModel;
-
 };
 
 #endif // GAME_H

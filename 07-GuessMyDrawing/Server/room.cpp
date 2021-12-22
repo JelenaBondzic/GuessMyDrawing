@@ -1,7 +1,7 @@
 #include "room.h"
 #include "../Application/MessageType.h"
-#include<unordered_map>
-
+#include <unordered_map>
+#include <QRandomGenerator>
 
 void Room::setDuration(int newDuration)
 {
@@ -16,7 +16,10 @@ void Room::leaveRoom(Thread* thread)
 
     //broadcast others that player has left the game??
 
-  //QString name = "";
+  QString name = "";
+
+
+  std::cout<< "USER LEAVING" << std::endl;
   for (auto i=players.begin(); i!=players.end(); i++){
     if (i.value() == thread){
 
@@ -24,21 +27,39 @@ void Room::leaveRoom(Thread* thread)
         message[MessageType::TYPE] = MessageType::USER_LEFT;
         message[MessageType::USERNAME] = i.key();
 
-        broadcastMessage(message, thread);
+        std::cout<< "USER LEAVING: " << i.key().toStdString() << std::endl;
+
+        name = i.key();
+
+        std::cout << players.size() << std::endl;
 
         players.remove(i.key());
+
+        std::cout << players.size() << std::endl;
+
+        broadcastMessage(message, thread);
 
         break;
       }
     }
 
+  std::cout << "HOST: " << host.toStdString() << std::endl;
+  std::cout << "NAME: "<< name.toStdString() << std::endl;
 
+
+    if (name.compare(host)==0){ // ako izbacimo hosta
+      gameOver(thread);
+      chooseRandomHost();
+//      if (players.size() >= 2)
+//        start(); // ne treba igra da pocne dok novi igrac ne izabere rec
+      return;
+      }
 
     if(players.size() < 2){
-        QJsonObject message;
-        message[MessageType::TYPE] = MessageType::GAME_OVER;
+        gameOver(thread);
     }
 }
+
 
 bool Room::usernameIsValid(QString username)
 {
@@ -55,7 +76,9 @@ bool Room::usernameIsValid(QString username)
 void Room::setWordAndStartGame(const QString &newChosenWord)
 {
   std::cout << "1 Room word: " << chosenWord.toStdString() << std::endl;
-    chosenWord = newChosenWord;
+  std::cout << "isGameStarted: " << this->gameIsStarted << std::endl;
+
+  chosenWord = newChosenWord;
     //if there is 2 or more players, start game
     if(players.size() >= 2)
         start();
@@ -71,20 +94,23 @@ void Room::checkChatWord(QString word, Thread* senderUser)
 
 
         std::cout << "Correct;" << std::endl;
-        QJsonObject message1;
-        message1[MessageType::TYPE] = MessageType::GAME_OVER;
+//        QJsonObject message1;
+//        message1[MessageType::TYPE] = MessageType::GAME_OVER;
         QMapIterator<QString, Thread*> i(players);
         while (i.hasNext()) {
             i.next();
-            i.value()->send(message1);
+//            i.value()->send(message1);
+            if (i.value() == senderUser)
+              host = i.key();
          }
+
+//        gameIsStarted = false;
+
+        gameOver(senderUser);
 
         QJsonObject message;
         message[MessageType::TYPE] = MessageType::NEW_HOST;
         senderUser->send(message);
-
-
-
     }
 
 }
@@ -94,7 +120,38 @@ void Room::setName(const QString &newName)
     name = newName;
 }
 
-Room::Room(QString name, QString host, int duration): name(name), duration(duration), host(host)
+void Room::chooseRandomHost()
+{
+
+  std::cout << "CHOOSING RANDOM HOST  " << std::endl;
+  int n = players.size();
+  if (n == 0) {
+      return ;
+  }
+  int index = QRandomGenerator::global()->bounded(0, n); // index random igraca
+  for (auto it=players.begin(); it != players.end(); it++){
+    if(index==0){
+        QJsonObject message;
+        message[MessageType::TYPE] = MessageType::NEW_HOST;
+        it.value()->send(message);
+        host = it.key();
+        std::cout << " new random host " << host.toStdString() << std::endl;
+        break;
+      }
+    index--;
+    }
+}
+
+void Room::gameOver(Thread* t)
+{
+  std::cout << "GAME OVER " <<std::endl;
+  QJsonObject message;
+  message[MessageType::TYPE] = MessageType::GAME_OVER;
+  broadcastMessage(message, t);
+  gameIsStarted = false;
+}
+
+Room::Room(QString username, QString room_name, int duration): name(room_name), duration(duration), host(username)
 {
   gameIsStarted = false;
 }
@@ -109,7 +166,7 @@ void Room::joinClient(QString username, Thread* thread){
     //if username is taken
     if(!check){
         message[MessageType::TYPE] = QString(MessageType::JOIN_ROOM);
-        message[MessageType::ROOM_NAME] = "";
+//        message[MessageType::ROOM_NAME] = "";
         thread->send(message);
 
         std::cout << "USER NOT JOINED " << std::endl;
@@ -119,6 +176,7 @@ void Room::joinClient(QString username, Thread* thread){
     else{
     //if username is not taken
 
+        // javimo ostalima da se prikljucio
         QJsonObject m;
         m[MessageType::TYPE] = MessageType::USER_JOINED;
         m[MessageType::USERNAME] = username;
@@ -126,20 +184,29 @@ void Room::joinClient(QString username, Thread* thread){
 
 
         std::cout << "USER JOINED " << std::endl;
+      // javimo igracu da se prikljucio
         players.insert(username, thread);
         message[MessageType::TYPE] = QString(MessageType::JOIN_ROOM);
         message[MessageType::ROOM_NAME] = name;
         thread->send(message);
-
+        // javimo igracu da je igra vec u toku
+        if (gameIsStarted){
+          QJsonObject gameIsOn;
+          gameIsOn[MessageType::TYPE] = QString(MessageType::START);
+          thread->send(gameIsOn);
+      }
 
         if(players.size() == 1){
             std::cout << "jeste jedan" << std::endl;
             QJsonObject message;
+            host = username;
             message[MessageType::TYPE] = MessageType::NEW_HOST;
             thread->send(message);
         }
 
         //if there is 2 or more players, start game
+        std::cout << "JOIN isGameStarted: " << this->gameIsStarted << std::endl;
+
         if(players.size() >= 2 and !gameIsStarted)
             start();
 
@@ -168,11 +235,16 @@ void Room::broadcastMessage(const QJsonObject &message, Thread* t) {
     for (auto i=players.begin(); i!=players.end(); i++) {
           i.value()->send(message);
     }
+
+    QString type = message.value(MessageType::TYPE).toString();
     QString word = message.value(MessageType::CONTENT).toString();
 
-    const QJsonValue sender = message.value(MessageType::MESSAGE_SENDER);
-    if(!(sender.isNull()))
-        checkChatWord(word, t);
+    if (gameIsStarted && type.compare(MessageType::TEXT_MESSAGE)==0)
+      checkChatWord(word, t);
+
+//    const QJsonValue sender = message.value(MessageType::MESSAGE_SENDER);
+//    if(!(sender.isNull()))
+//        checkChatWord(word, t);
 }
 
 void Room::broadcastCanvas(const QJsonObject &message, Thread *t) {

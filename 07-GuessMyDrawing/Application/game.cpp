@@ -39,9 +39,9 @@ Game::Game(Client* client, QWidget *parent) :
     connect(client, &Client::youAreNewHost, this, &Game::You_Are_Host);
     connect(client, &Client::startGame, this, &Game::Start_Game);
     connect(client, &Client::gameOver, this, &Game::Game_Over);
+    connect(ui->pbLeave, &QPushButton::clicked, this, &Game::pbLeaveClicked);
 
     connect(ui->btnSend, &QPushButton::clicked, this, &Game::sendMessage);
-  //  connect(ui->btnSend, &QPushButton::clicked, this, &Game::sendMessage);
 
     connect(timerCanvas, &QTimer::timeout, this, &Game::sendCanvasMessage);
 
@@ -121,7 +121,21 @@ int Game::getDuration() const
 
 void Game::setDuration(int newDuration)
 {
-    duration = newDuration;
+  duration = newDuration;
+}
+
+//void Game::closeEvent(QCloseEvent *event)
+//{
+//  client->leaveRoom();
+//  this->hide();
+//  std::cout << "IM LEAVING " << std::endl;
+//  QWidget *parent = this->parentWidget();
+//  parent->show();
+//}
+
+void Game::closeEvent(QCloseEvent *event)
+{
+    event->ignore();
 }
 
 void Game::You_Are_Host()
@@ -139,15 +153,15 @@ void Game::You_Are_Host()
     emit IAmHost();
 }
 
-void Game::on_Game_finished(int result)
-{
-    this->hide();
-    QWidget *parent = this->parentWidget();
+//void Game::on_Game_finished(int result)
+//{
+//    this->hide();
+//    QWidget *parent = this->parentWidget();
 
-    parent->show();
-    client->leaveRoom();
+//    parent->show();
+//    client->leaveRoom();
 
-}
+//}
 
 void Game::Start_Game()
 {
@@ -222,7 +236,18 @@ void Game::userJoined(const QString &username)
   mChatModel->setData(mChatModel->index(newRow,0), username + " joined");
   mChatModel->setData(mChatModel->index(newRow, 0), int(Qt::AlignLeft | Qt::AlignVCenter), Qt::TextAlignmentRole);
   ui->listView->scrollToBottom();
-  show();
+//  show();
+}
+
+void Game::pbLeaveClicked()
+{
+    this->hide();
+    QWidget *parent = this->parentWidget();
+
+    emit LeaveClicked();
+
+    parent->show();
+    client->leaveRoom();
 }
 
 void Game::userLeft(const QString &username)

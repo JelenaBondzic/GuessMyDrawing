@@ -40,12 +40,12 @@ private slots:
 
 private:
     Ui::Settings *ui;
+    Client *client;
     Game *game;
     int duration;
     QString roomName;
-    Client *client;
     QString username;
-    ChooseWord* chooseWordWindow;
+ //   ChooseWord* chooseWordWindow;
 
 
 };

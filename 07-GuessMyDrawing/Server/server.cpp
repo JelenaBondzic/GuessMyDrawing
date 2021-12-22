@@ -24,6 +24,13 @@ void Server::incomingConnection(qintptr socketDescriptor) {
 void Server::parseMessage(const QJsonObject& message, Thread* thread) { 
     const QJsonValue type = message.value(MessageType::TYPE);
 
+    if (type.toString().compare(MessageType::CANVAS_MESSAGE) != 0){
+    std::cout << "SERVER RECEIVED: " << type.toString().toStdString() << std::endl;
+//    std::cout << "SERVER RECEIVED: " << message.toS << std::endl;
+    for (auto it=message.begin(); it !=  message.end(); it++)
+      std::cout << it.key().toStdString() << " " << it.value().toString().toStdString() << std::endl;
+
+      }
     if (type.toString().compare(MessageType::TEXT_MESSAGE) == 0) {
         const QJsonValue text = message.value(MessageType::CONTENT);
         const QJsonValue sender = message.value(MessageType::MESSAGE_SENDER);

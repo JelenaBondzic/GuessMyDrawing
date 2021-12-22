@@ -2,6 +2,7 @@
 #include "ui_settings.h"
 #include "game.h"
 #include "mainwindow.h"
+#include <iostream>
 
 Settings::Settings(Game* game, Client* client, QWidget *parent) :
     QDialog(parent),
@@ -30,6 +31,8 @@ Settings::Settings(Game* game, Client* client, QWidget *parent) :
 
 Settings::~Settings()
 {
+
+  std::cout << "Settings rooms destrucotr" << std::endl;
     delete ui;
 }
 
@@ -40,7 +43,7 @@ void Settings::SaveClicked()
     parent->hide();
     username = ui->leUsername->text();
     roomName = ui->lnRoomName->text();
-    chooseWordWindow = new ChooseWord(game, username, roomName, client, this);
+  //  chooseWordWindow = new ChooseWord(game, username, roomName, client, this);
 
     sendSettingsToCLient(username, roomName, duration);
     //chooseWordWindow->show();
