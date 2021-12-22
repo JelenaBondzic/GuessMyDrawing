@@ -96,14 +96,13 @@ void Room::checkChatWord(QString word, Thread* senderUser)
         std::cout << "Correct;" << std::endl;
 //        QJsonObject message1;
 //        message1[MessageType::TYPE] = MessageType::GAME_OVER;
-//        QMapIterator<QString, Thread*> i(players);
-//        while (i.hasNext()) {
-//            i.next();
+        QMapIterator<QString, Thread*> i(players);
+        while (i.hasNext()) {
+            i.next();
 //            i.value()->send(message1);
-
-//            if (i.value() == senderUser)
-//              host = i.key();
-//         }
+            if (i.value() == senderUser)
+              host = i.key();
+         }
 
 //        gameIsStarted = false;
 
