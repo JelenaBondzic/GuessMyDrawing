@@ -38,12 +38,11 @@ public:
   // ADDED
 private:
   Ui::MainWindow *ui;
-  Client* client;
+//  Client* client;
   ExistingRooms* existingRooms;
   Settings *settings;
   Client *chatClient;
 //  QStandardItemModel *mChatModel;
   Game* game;
-
 };
 #endif // MAINWINDOW_H

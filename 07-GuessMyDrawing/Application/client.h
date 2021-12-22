@@ -60,6 +60,7 @@ signals:
 
   void canvasReceived(QByteArray data);
 
+
 private:
   QString mName;
   int points;

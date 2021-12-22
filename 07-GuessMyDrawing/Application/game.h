@@ -28,7 +28,7 @@ public:
     int getDuration() const;
 
     void setDuration(int newDuration);
-    //void closeEvent( QCloseEvent* event );
+    void closeEvent( QCloseEvent* event ) override;
 
 private slots:
     void sendMessage();
@@ -69,7 +69,6 @@ private:
 
     // chat
     QStandardItemModel *mChatModel;
-
 };
 
 #endif // GAME_H

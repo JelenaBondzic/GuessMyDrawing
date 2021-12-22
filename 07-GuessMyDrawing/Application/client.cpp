@@ -7,6 +7,7 @@
 Client::Client(QString name, QObject *parent):
   QObject(parent),
   mName(name),
+  imHost(false),
   messageSocket(new QTcpSocket(this))
 {
   // connect and disconnect
@@ -191,6 +192,7 @@ void Client::jsonReceived(const QJsonObject &doc)
         // neuspelo prikljucivanje sobi ako je null ili prazno
       }
     std::cout << b << std::endl;
+    imHost = false;
     emit joinedRoom(b); // TODO proveriti prenos argumenata
     }
   else if(typeVal.toString().compare(MessageType::GET_ROOMS) == 0){
