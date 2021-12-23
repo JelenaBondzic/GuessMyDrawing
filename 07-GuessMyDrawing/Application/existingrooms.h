@@ -28,6 +28,7 @@ private slots:
 
     void leUsername_textEdited(const QString &arg1);
     void showPopUp();
+  //  void notJoinedAlert();
 
 private:
     Ui::ExistingRooms *ui;

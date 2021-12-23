@@ -16,6 +16,7 @@ ExistingRooms::ExistingRooms(Game* game, Client* client, QWidget *parent) :
     connect(ui->pbJoin, &QPushButton::clicked, this, &ExistingRooms::pbJoin_clicked);
     connect(client, &Client::joinedRoom, this, &ExistingRooms::JoinedRoom);
     connect(client, &Client::errorConnecting, this, &ExistingRooms::showPopUp);
+  //  connect(client, &Client::userNotJoined, this, &ExistingRooms::notJoinedAlert);
 
 
     client->getRooms();
@@ -65,9 +66,7 @@ void ExistingRooms::getActiveRooms(const QVector<QString> *r)
 
 void ExistingRooms::pbJoin_clicked()
 {
-    hide();
-    QWidget *parent = this->parentWidget();
-    parent->hide();
+
 
    // std::cout << username.toStdString() << std::endl;
 
@@ -77,8 +76,14 @@ void ExistingRooms::pbJoin_clicked()
 void ExistingRooms::JoinedRoom(bool p)
 {
     if(p){
+        hide();
+        QWidget *parent = this->parentWidget();
+        parent->hide();
         //game = new Game(client, this);
         game->show();
+    }
+    else {
+       ui->leUsername->setText("Please enter another name");
     }
 }
 
@@ -94,4 +99,9 @@ void ExistingRooms::showPopUp()
 {
     hide();
 }
+
+//void ExistingRooms::notJoinedAlert()
+//{
+//    ui->leUsername->setText("Please enter another name");
+//}
 
