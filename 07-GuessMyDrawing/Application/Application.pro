@@ -18,7 +18,6 @@ SOURCES += \
     mainwindow.cpp \
     canvas.cpp \
     client.cpp \
-    round.cpp \
     settings.cpp \
     existingrooms.cpp \
     game.cpp
@@ -28,7 +27,6 @@ HEADERS += \
     canvas.h \
     chooseword.h \
     client.h \
-    round.h \
     mainwindow.h \
     existingrooms.h \
     game.h \
