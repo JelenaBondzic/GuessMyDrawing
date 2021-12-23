@@ -19,16 +19,11 @@ public:
 
 private slots:
     void pbFirstWord_clicked();
-
     void pbSecondWord_clicked();
-
     void pbThirdWord_clicked();
-
     void myWord_clicked();
-
     void pbCreateGame_clicked();
     void show_Window();
-    void leave();
     void showPopUp();
 
 private:

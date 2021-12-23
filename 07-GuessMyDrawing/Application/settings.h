@@ -31,11 +31,8 @@ private slots:
     void radioButton_3_clicked();
     void radioButton_clicked();
     void radioButton_2_clicked();
-//    void on_lineEdit_editingFinished();
-//    void on_leUsername_editingFinished();
 
     void leUsername_textChanged(const QString &arg1);
-
     void lnRoomName_textChanged(const QString &arg1);
     void showPopUp();
 
@@ -46,7 +43,6 @@ private:
     int duration;
     QString roomName;
     QString username;
- //   ChooseWord* chooseWordWindow;
 
 
 };

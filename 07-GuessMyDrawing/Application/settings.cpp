@@ -11,10 +11,9 @@ Settings::Settings(Game* game, Client* client, QWidget *parent) :
     game(game)
 {
     ui->setupUi(this);
+
     connect(ui->pbSave, &QPushButton::clicked, this, &Settings::SaveClicked);
     connect(ui->pushButton_2, &QPushButton::clicked, this, &Settings::BackClicked);
-
- //   connect(ui->leUsername, &QLineEdit::editingFinished, this,  &Settings::on_leUsername_editingFinished);
     connect(ui->leUsername, &QLineEdit::textChanged, this,  &Settings::leUsername_textChanged);
     connect(ui->lnRoomName, &QLineEdit::textChanged, this, &Settings::lnRoomName_textChanged);
     connect(ui->radioButton, &QRadioButton::clicked, this, &Settings::radioButton_clicked);
@@ -45,10 +44,9 @@ void Settings::SaveClicked()
     parent->hide();
     username = ui->leUsername->text();
     roomName = ui->lnRoomName->text();
-  //  chooseWordWindow = new ChooseWord(game, username, roomName, client, this);
 
     sendSettingsToCLient(username, roomName, duration);
-    //chooseWordWindow->show();
+    ui->pbSave->setDisabled(true);
 }
 
 void Settings::BackClicked(){
@@ -80,27 +78,16 @@ void Settings::radioButton_3_clicked()
 }
 
 
-//void Settings::on_lineEdit_editingFinished()
-//{
-//    ui->pbCreateGame->setDisabled(true);
-//}
-
-
 void Settings::sendSettingsToCLient(QString username, QString roomName, int duration){
     client->createRoom(username, roomName, duration);
 }
 
 
-//void Settings::on_leUsername_editingFinished()
-//{
-//  //   ui->pbSave->setDisabled(false);
-//}
 
 
 void Settings::leUsername_textChanged(const QString &arg1)
 {
-//    QString roomName1 = ui->lnRoomName->text();
-//    if(roomName.compare("") != 0)
+
         ui->pbSave->setDisabled(false);
 
 }

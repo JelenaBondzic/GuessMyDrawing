@@ -18,7 +18,6 @@ private:
     QString chosenWord;
     int numOfPlayers = players.size();
     int duration;
-//    Client* host;
     QString host;
     bool gameIsStarted;
 

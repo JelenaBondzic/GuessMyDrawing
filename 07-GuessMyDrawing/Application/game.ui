@@ -138,19 +138,6 @@
     <string>Send</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pbLeave">
-   <property name="geometry">
-    <rect>
-     <x>828</x>
-     <y>534</y>
-     <width>131</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>leave game</string>
-   </property>
-  </widget>
  </widget>
  <resources/>
  <connections/>
