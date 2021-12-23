@@ -248,6 +248,8 @@ void Game::userJoined(const QString &username)
 
 void Game::pbLeaveClicked()
 {
+    mChatModel->removeRows(0, mChatModel->rowCount());
+
     this->hide();
     QWidget *parent = this->parentWidget();
 
