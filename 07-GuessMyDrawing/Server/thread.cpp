@@ -18,7 +18,7 @@ Thread::Thread(qintptr ID, QObject *parent) :
 }
 
 Thread::~Thread() {
-    delete socketMessage;
+    socketMessage->deleteLater();
 }
 
 void Thread::send(QJsonObject message)
@@ -37,7 +37,6 @@ void Thread::onMessageReadyRead() {
 void Thread::onDisconnectedMessage() {
     std::cout << socketDescriptor << " disconnected! " << std::endl;
     socketMessage->deleteLater();
-    exit(0);
 }
 
 quintptr Thread::getSocketDescriptor() {
