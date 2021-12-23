@@ -16,7 +16,6 @@ ExistingRooms::ExistingRooms(Game* game, Client* client, QWidget *parent) :
     connect(ui->pbJoin, &QPushButton::clicked, this, &ExistingRooms::pbJoin_clicked);
     connect(client, &Client::joinedRoom, this, &ExistingRooms::JoinedRoom);
     connect(client, &Client::errorConnecting, this, &ExistingRooms::showPopUp);
-  //  connect(client, &Client::userNotJoined, this, &ExistingRooms::notJoinedAlert);
 
 
     client->getRooms();
@@ -24,7 +23,6 @@ ExistingRooms::ExistingRooms(Game* game, Client* client, QWidget *parent) :
     ui->pbJoin->setDisabled(true);
     ui->listOfRooms->setDisabled(true);
 
- //   chooseWord = new ChooseWord(game, username, selectedRoom, client, this);
 
 }
 ExistingRooms::~ExistingRooms()
@@ -37,7 +35,6 @@ void ExistingRooms::listOfRooms_itemClicked(QListWidgetItem *item)
 {
     ui->pbJoin->setDisabled(false);
     selectedRoom = ui->listOfRooms->selectedItems()[0]->text();
-//    std::cout << selectedRoom.toStdString() << std::endl;
 }
 
 void ExistingRooms::getActiveRooms(const QVector<QString> *r)
@@ -46,45 +43,40 @@ void ExistingRooms::getActiveRooms(const QVector<QString> *r)
 
     for (int i=0; i< activeRooms->size() ; ++i) {
        ui->listOfRooms->addItem(activeRooms->at(i));
-      // std::cout << activeRooms << std::endl;
     }
 //    delete r; // TODO check
-//    std::cout << r;
-//    std::cout << activeRooms;
+
 }
 
-
-//void ExistingRooms::on_leUsername_editingFinished()
-//{
-//    username = ui->leUsername->text();
-//    if(username.compare("") != 0){
-//        ui->pbJoin->setDisabled(false);
-
-//    }
-//}
 
 
 void ExistingRooms::pbJoin_clicked()
 {
 
-
+//    hide();
+//    QWidget *parent = this->parentWidget();
+//    parent->hide();
    // std::cout << username.toStdString() << std::endl;
 
+   // hide();
     client->joinRoom(username, selectedRoom);
+    ui->pbJoin->setDisabled(true);
 }
 
 void ExistingRooms::JoinedRoom(bool p)
 {
+  //  std::cout << "Ovde je p" << p << std::endl;
     if(p){
         hide();
         QWidget *parent = this->parentWidget();
         parent->hide();
-        //game = new Game(client, this);
         game->show();
     }
     else {
        ui->leUsername->setText("Please enter another name");
     }
+
+
 }
 
 
@@ -100,8 +92,5 @@ void ExistingRooms::showPopUp()
     hide();
 }
 
-//void ExistingRooms::notJoinedAlert()
-//{
-//    ui->leUsername->setText("Please enter another name");
-//}
+
 
