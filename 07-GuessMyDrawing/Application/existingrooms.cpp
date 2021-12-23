@@ -19,7 +19,7 @@ ExistingRooms::ExistingRooms(Game* game, Client* client, QWidget *parent) :
   //  connect(client, &Client::userNotJoined, this, &ExistingRooms::notJoinedAlert);
 
 
-    client->getRooms();
+//    client->getRooms();
 
     ui->pbJoin->setDisabled(true);
     ui->listOfRooms->setDisabled(true);
@@ -44,6 +44,7 @@ void ExistingRooms::getActiveRooms(const QVector<QString> *r)
 {
     activeRooms = r;
 
+    ui->listOfRooms->clear();
     for (int i=0; i< activeRooms->size() ; ++i) {
        ui->listOfRooms->addItem(activeRooms->at(i));
       // std::cout << activeRooms << std::endl;

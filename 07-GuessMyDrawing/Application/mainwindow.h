@@ -42,8 +42,8 @@ public:
 private:
   Ui::MainWindow *ui;
  // Client* client;
-  ExistingRooms* existingRooms;
-  Settings *settings;
+  ExistingRooms* existingRooms = nullptr;
+  Settings *settings = nullptr;
   Client *chatClient;
 //  QStandardItemModel *mChatModel;
   Game *game;

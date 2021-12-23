@@ -21,7 +21,8 @@ MainWindow::MainWindow(QString username, QWidget *parent)
   chooseWord = new ChooseWord(game, chatClient, this);
   popUpWindow = new PopUp(chatClient, this);
 
-
+//  existingRooms = new ExistingRooms(game, chatClient, this);
+//  settings = new Settings(game, chatClient, this);
 }
 
 MainWindow::~MainWindow()
@@ -38,7 +39,10 @@ void MainWindow::attemptConnection(qint16 port)
 
 void MainWindow::JoinGameClicked()
 {
-    existingRooms = new ExistingRooms(game, chatClient, this);
+//    existingRooms = new ExistingRooms(game, chatClient, this);
+    chatClient->getRooms();
+    if (existingRooms == nullptr)
+      existingRooms = new ExistingRooms(game, chatClient, this);
     existingRooms->setModal(true);
     //opening the second window
     existingRooms->exec();
@@ -47,7 +51,9 @@ void MainWindow::JoinGameClicked()
 
 void MainWindow::CreateNewGameClicked() {
  //   hide();
-    settings = new Settings(game, chatClient, this);
+//    settings = new Settings(game, chatClient, this);
+    if (settings==nullptr)
+        settings = new Settings(game, chatClient, this);
     settings->setModal(true);
  //   settings->show();
     settings->exec();
