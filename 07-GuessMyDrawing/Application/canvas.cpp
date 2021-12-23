@@ -17,12 +17,12 @@ void Canvas::takeSnapshot(QByteArray &barr)
 {
     QBuffer buffer(&barr);
     buffer.open(QIODevice::WriteOnly);
-    bool imageSaved = _image.save(&buffer, "PNG");
+    _image.save(&buffer, "PNG");
 }
 
 void Canvas::loadFromSnapshot(const QByteArray &arr)
 {
-    bool imageLoaded = _image.loadFromData(arr, "PNG");
+    _image.loadFromData(arr, "PNG");
     _modified = true;
     update();
 }
@@ -56,6 +56,8 @@ void Canvas::mouseReleaseEvent(QMouseEvent *event)
     }
 }
 
+// code from Qt documentation Scribble example:
+// https://code.qt.io/cgit/qt/qtbase.git/tree/examples/widgets/widgets/scribble?h=5.15
 void Canvas::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
@@ -63,6 +65,8 @@ void Canvas::paintEvent(QPaintEvent *event)
     painter.drawImage(dirtyRect, _image, dirtyRect);
 }
 
+// code from Qt documentation Scribble example:
+// https://code.qt.io/cgit/qt/qtbase.git/tree/examples/widgets/widgets/scribble?h=5.15
 void Canvas::resizeEvent(QResizeEvent *event)
 {
     if (width() > _image.width() || height() > _image.height()) {
@@ -74,6 +78,8 @@ void Canvas::resizeEvent(QResizeEvent *event)
     QWidget::resizeEvent(event);
 }
 
+// code from Qt documentation Scribble example:
+// https://code.qt.io/cgit/qt/qtbase.git/tree/examples/widgets/widgets/scribble?h=5.15
 void Canvas::drawLineTo(const QPoint &endPoint)
 {
     QPainter painter(&_image);
@@ -86,6 +92,8 @@ void Canvas::drawLineTo(const QPoint &endPoint)
     _lastPoint = endPoint;
 }
 
+// code from Qt documentation Scribble example:
+// https://code.qt.io/cgit/qt/qtbase.git/tree/examples/widgets/widgets/scribble?h=5.15
 void Canvas::resizeImage(QImage *image, const QSize &newSize)
 {
     if (image->size() == newSize)
