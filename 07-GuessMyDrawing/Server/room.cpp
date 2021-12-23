@@ -50,13 +50,17 @@ void Room::leaveRoom(Thread* thread)
     if (name.compare(host)==0){ // ako izbacimo hosta
       gameOver(thread);
       chooseRandomHost();
-//      if (players.size() >= 2)
-//        start(); // ne treba igra da pocne dok novi igrac ne izabere rec
       return;
       }
 
+    // nismo izbacili hosta
     if(players.size() < 2){
         gameOver(thread);
+
+        // ako je host ostao sam onda mora da mu se kaze da je i dalje host, jer je izgubio "host" privilegije sa gameOver()
+        QJsonObject message;
+        message[MessageType::TYPE] = MessageType::NEW_HOST;
+        players[host]->send(message);
     }
 }
 
