@@ -37,6 +37,7 @@ private slots:
     void leUsername_textChanged(const QString &arg1);
 
     void lnRoomName_textChanged(const QString &arg1);
+    void showPopUp();
 
 private:
     Ui::Settings *ui;

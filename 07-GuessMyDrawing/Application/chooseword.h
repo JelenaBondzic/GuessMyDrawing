@@ -29,6 +29,7 @@ private slots:
     void pbCreateGame_clicked();
     void show_Window();
     void leave();
+    void showPopUp();
 
 private:
     Ui::ChooseWord *ui;

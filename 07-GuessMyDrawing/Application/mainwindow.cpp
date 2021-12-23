@@ -15,14 +15,12 @@ MainWindow::MainWindow(QString username, QWidget *parent)
   ui->setupUi(this);
   connect(ui->pbJoinGame, &QPushButton::clicked, this, &MainWindow::JoinGameClicked);
   connect(ui->pbCreateNewGame, &QPushButton::clicked, this, &MainWindow::CreateNewGameClicked);
-  //  connect(game, &Game::MySignalToIndicateThatTheWindowIsClosing, this, &MainWindow::gameWindowClosed);
-  game = new Game(chatClient, this);
-//  settings = new Settings(game, chatClient, this);
-//  existingRooms = new ExistingRooms(game, chatClient, this);
-  chooseWord = new ChooseWord(game, chatClient, this);
+  connect(chatClient, &Client::errorConnecting, this, &MainWindow::showPopUp);
 
-//  existingRooms = new ExistingRooms(game, chatClient, this);
-//  settings = new Settings(game, chatClient, this);
+  game = new Game(chatClient, this);
+  chooseWord = new ChooseWord(game, chatClient, this);
+  popUpWindow = new PopUp(chatClient, this);
+
 
 }
 
@@ -60,6 +58,12 @@ void MainWindow::CreateNewGameClicked() {
 
 void MainWindow::gameWindowClosed()
 {
-   // std::cout  << "mainnn" << std::endl;
+    // std::cout  << "mainnn" << std::endl;
+}
+
+void MainWindow::showPopUp()
+{
+    hide();
+    popUpWindow->show();
 }
 

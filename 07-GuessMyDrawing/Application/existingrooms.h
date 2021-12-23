@@ -27,6 +27,7 @@ private slots:
     void JoinedRoom(bool p);
 
     void leUsername_textEdited(const QString &arg1);
+    void showPopUp();
 
 private:
     Ui::ExistingRooms *ui;

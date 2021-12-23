@@ -8,6 +8,7 @@
 #include "game.h"
 #include "settings.h"
 #include "chooseword.h"
+#include "popup.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -25,6 +26,7 @@ public slots:
   void JoinGameClicked();
   void CreateNewGameClicked();
   void gameWindowClosed();
+  void showPopUp();
 
 
 public:
@@ -44,8 +46,9 @@ private:
   Settings *settings;
   Client *chatClient;
 //  QStandardItemModel *mChatModel;
-  Game* game;
-  ChooseWord* chooseWord;
+  Game *game;
+  ChooseWord *chooseWord;
+  PopUp *popUpWindow;
 
 };
 #endif // MAINWINDOW_H

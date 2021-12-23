@@ -15,6 +15,8 @@ ExistingRooms::ExistingRooms(Game* game, Client* client, QWidget *parent) :
     connect(ui->listOfRooms, &QListWidget::itemClicked, this, &ExistingRooms::listOfRooms_itemClicked);
     connect(ui->pbJoin, &QPushButton::clicked, this, &ExistingRooms::pbJoin_clicked);
     connect(client, &Client::joinedRoom, this, &ExistingRooms::JoinedRoom);
+    connect(client, &Client::errorConnecting, this, &ExistingRooms::showPopUp);
+
 
     client->getRooms();
 
@@ -86,5 +88,10 @@ void ExistingRooms::leUsername_textEdited(const QString &arg1)
     username = ui->leUsername->text();
 
     ui->listOfRooms->setDisabled(false);
+}
+
+void ExistingRooms::showPopUp()
+{
+    hide();
 }
 

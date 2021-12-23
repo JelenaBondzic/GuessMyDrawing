@@ -20,6 +20,8 @@ Settings::Settings(Game* game, Client* client, QWidget *parent) :
     connect(ui->radioButton, &QRadioButton::clicked, this, &Settings::radioButton_clicked);
     connect(ui->radioButton_2, &QRadioButton::clicked, this, &Settings::radioButton_2_clicked);
     connect(ui->radioButton_3, &QRadioButton::clicked, this, &Settings::radioButton_3_clicked);
+    connect(client, &Client::errorConnecting, this, &Settings::showPopUp);
+
 
     ui->pbSave->setDisabled(true);
     ui->leUsername->setDisabled(true);
@@ -109,5 +111,10 @@ void Settings::lnRoomName_textChanged(const QString &arg1)
     ui->radioButton->setDisabled(false);
     ui->radioButton_2->setDisabled(false);
     ui->radioButton_3->setDisabled(false);
+}
+
+void Settings::showPopUp()
+{
+    hide();
 }
 

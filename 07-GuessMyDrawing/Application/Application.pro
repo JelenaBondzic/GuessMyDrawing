@@ -18,6 +18,7 @@ SOURCES += \
     mainwindow.cpp \
     canvas.cpp \
     client.cpp \
+    popup.cpp \
     settings.cpp \
     existingrooms.cpp \
     game.cpp
@@ -30,6 +31,7 @@ HEADERS += \
     mainwindow.h \
     existingrooms.h \
     game.h \
+    popup.h \
     settings.h \
 
 
@@ -38,6 +40,7 @@ FORMS += \
     existingrooms.ui \
     game.ui \
     mainwindow.ui \
+    popup.ui \
     settings.ui
 
 

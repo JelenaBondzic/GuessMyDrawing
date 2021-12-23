@@ -40,6 +40,8 @@ Game::Game(Client* client, QWidget *parent) :
     connect(client, &Client::startGame, this, &Game::Start_Game);
     connect(client, &Client::gameOver, this, &Game::Game_Over);
     connect(ui->pbLeave, &QPushButton::clicked, this, &Game::pbLeaveClicked);
+    connect(client, &Client::errorConnecting, this, &Game::showPopUp);
+
 
     connect(ui->btnSend, &QPushButton::clicked, this, &Game::sendMessage);
 
@@ -187,6 +189,11 @@ void Game::Game_Over()
    ui->leInput->setDisabled(true);
 
 
+}
+
+void Game::showPopUp()
+{
+    hide();
 }
 
 void Game::enableCanvas(const bool isHost)

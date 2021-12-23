@@ -57,6 +57,7 @@ private slots:
   //  void on_Game_finished(int result);
     void Start_Game();
     void Game_Over();
+    void showPopUp();
 private:
     Ui::Game *ui;
     Canvas *_canvas;

@@ -18,6 +18,8 @@ ChooseWord::ChooseWord(Game* game,Client* client, QWidget *parent) :
     connect(ui->pbCreateGame, &QPushButton::clicked, this, &ChooseWord::pbCreateGame_clicked);
     connect(game, &Game::IAmHost, this, &ChooseWord::show_Window);
     connect(game, &Game::LeaveClicked, this, &ChooseWord::leave);
+    connect(client, &Client::errorConnecting, this, &ChooseWord::showPopUp);
+
 
     ui->pbCreateGame->setDisabled(true);
 
@@ -80,5 +82,11 @@ void ChooseWord::show_Window()
 
 void ChooseWord::leave()
 {
- //   this->destroy(true, true);
+    //   this->destroy(true, true);
+}
+
+void ChooseWord::showPopUp()
+{
+    hide();
+
 }
