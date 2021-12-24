@@ -41,6 +41,11 @@ void MainWindow::attemptConnection(qint16 port) {
   chatClient->connectToServer(QHostAddress::LocalHost, port);
 }
 
+void MainWindow::closeEvent(QCloseEvent *event) {
+    std::cout << "MainWindow close event!" << std::endl;
+    exit(0);
+}
+
 void MainWindow::JoinGameClicked() {
     chatClient->getRooms();
     if (existingRooms == nullptr)

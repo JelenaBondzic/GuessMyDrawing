@@ -19,6 +19,7 @@ class MainWindow : public QMainWindow {
 public:
   MainWindow(QString username, QWidget *parent = nullptr);
   ~MainWindow();
+  void closeEvent(QCloseEvent* event) override;
 public slots:
   void JoinGameClicked();
   void CreateNewGameClicked();
