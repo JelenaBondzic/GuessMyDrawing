@@ -114,6 +114,13 @@ void Server::createRoom(QString username, QString room_name, int duration) {
 
 void Server::leaveRoom(Thread* thread) {
   Room *room = getRoomFromThread(thread);
+
+  if (room == nullptr) {
+      // izlazi iz igre
+      std::cout << "Izlazenje iz igre" << std::endl;
+      thread->deleteLater();
+      return;
+  }
   room->leaveRoom(thread);
   thread->setRoomName("");
 }
@@ -130,7 +137,7 @@ QString Server::getRooms() {
 
 Room* Server::getRoomFromThread(Thread* thread) {
     if (thread->getRoomName() == "") {
-        std::cerr << "This client is not in any room.";
+        //std::cerr << "This client is not in any room.";
         return nullptr;
     }
     QString room_name = thread->getRoomName();
