@@ -17,6 +17,10 @@ Thread::Thread(qintptr ID, QObject *parent) :
     std::cout << socketDescriptor << " Client connected!" << std::endl;
 }
 
+void Thread::disconnect() {
+    socketMessage->deleteLater();
+}
+
 Thread::~Thread() {
     socketMessage->deleteLater();
 }

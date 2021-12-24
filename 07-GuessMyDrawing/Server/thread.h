@@ -17,6 +17,7 @@ class Thread : public QObject {
     void send(QJsonObject message);
     void setRoomName(QString room_name);
     QString getRoomName();
+    void disconnect();
 signals:
     void error(QTcpSocket::SocketError socket_error);
     void messageReceived(QJsonObject message, Thread* thread);

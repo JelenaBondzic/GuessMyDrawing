@@ -118,7 +118,7 @@ void Server::leaveRoom(Thread* thread) {
   if (room == nullptr) {
       // izlazi iz igre
       std::cout << "Izlazenje iz igre" << std::endl;
-      thread->deleteLater();
+      thread->disconnect();
       return;
   }
   room->leaveRoom(thread);
