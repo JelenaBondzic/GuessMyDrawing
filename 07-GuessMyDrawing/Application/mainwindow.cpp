@@ -7,8 +7,7 @@
 
 MainWindow::MainWindow(QString username, QWidget *parent)
   : QMainWindow(parent)
-  , ui(new Ui::MainWindow)
-{
+  , ui(new Ui::MainWindow) {
   chatClient = new Client(username, this);
   attemptConnection(1234);
 
@@ -20,26 +19,34 @@ MainWindow::MainWindow(QString username, QWidget *parent)
   game = new Game(chatClient, this);
   chooseWord = new ChooseWord(game, chatClient, this);
   popUpWindow = new PopUp(chatClient, this);
-
-//  existingRooms = new ExistingRooms(game, chatClient, this);
-//  settings = new Settings(game, chatClient, this);
 }
 
-MainWindow::~MainWindow()
-{
-  delete ui;
+MainWindow::~MainWindow() {
+    delete ui;
+    delete chatClient;
+    delete game;
+    delete chooseWord;
+    delete popUpWindow;
+    if (!existingRooms) {
+        delete existingRooms;
+    }
+    if (!settings) {
+        delete settings;
+    }
 }
 
-void MainWindow::attemptConnection(qint16 port)
-{
+void MainWindow::attemptConnection(qint16 port) {
   // Update
   // Possibly static adres and port from server?
   chatClient->connectToServer(QHostAddress::LocalHost, port);
 }
 
-void MainWindow::JoinGameClicked()
-{
-//    existingRooms = new ExistingRooms(game, chatClient, this);
+void MainWindow::closeEvent(QCloseEvent *event) {
+    std::cout << "MainWindow close event!" << std::endl;
+    exit(0);
+}
+
+void MainWindow::JoinGameClicked() {
     chatClient->getRooms();
     if (existingRooms == nullptr)
       existingRooms = new ExistingRooms(game, chatClient, this);
@@ -50,8 +57,6 @@ void MainWindow::JoinGameClicked()
 }
 
 void MainWindow::CreateNewGameClicked() {
- //   hide();
-//    settings = new Settings(game, chatClient, this);
     if (settings==nullptr)
         settings = new Settings(game, chatClient, this);
     settings->setModal(true);
@@ -62,13 +67,10 @@ void MainWindow::CreateNewGameClicked() {
 
 
 
-void MainWindow::gameWindowClosed()
-{
-    // std::cout  << "mainnn" << std::endl;
+void MainWindow::gameWindowClosed() {
 }
 
-void MainWindow::showPopUp()
-{
+void MainWindow::showPopUp() {
     hide();
     popUpWindow->show();
 }
