@@ -145,6 +145,7 @@ void Client::disconnectedMessage()
 
 void Client::error(QAbstractSocket::SocketError socketError)
 {
+  Q_UNUSED(socketError);
   QString *s = new QString("Something went wrong with cnnnection. Please try again.");
   emit errorConnecting(s);
 }
@@ -152,6 +153,9 @@ void Client::error(QAbstractSocket::SocketError socketError)
 void Client::jsonReceived(const QJsonObject &doc)
 {
   const QJsonValue typeVal = doc.value(MessageType::TYPE);
+  if (!fieldIsValid(typeVal)){
+        return; // missing type field
+     }
 
   if (typeVal.toString().compare(MessageType::CANVAS_MESSAGE)!=0)
     std::cout << "Primljen tip: " << typeVal.toString().toStdString() << std::endl;
@@ -244,7 +248,7 @@ void Client::jsonReceived(const QJsonObject &doc)
 // valid value in QJSonValue isn't null and it's type String
 bool Client::fieldIsValid(QJsonValue value)
 {
-  return !value.isNull() || value.isString();
+  return !value.isUndefined() && !value.isNull() && value.isString();
 }
 
 void Client::sendMessage(QJsonObject message)
