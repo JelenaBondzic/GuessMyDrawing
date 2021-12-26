@@ -20,6 +20,12 @@ Client::Client(QString name, QObject *parent):
   connect(messageSocket, SIGNAL(errorOccurred(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));
 }
 
+Client::~Client()
+{
+  delete messageSocket;
+  delete parser;
+}
+
 void Client::connectToServer(const QHostAddress &adress, quint16 port)
 {
   messageSocket->connectToHost(adress, port);
