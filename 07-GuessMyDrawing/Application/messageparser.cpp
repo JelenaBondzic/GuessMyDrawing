@@ -1,4 +1,5 @@
 #include "messageparser.h"
+#include <iostream>
 
 MessageParser::MessageParser()
 {
@@ -128,6 +129,7 @@ MessageReceivedType MessageParser::parseReceivedMessage(const QJsonObject &messa
 
     auto room_split = rooms.toString().split(",");
     for(QString& r : room_split){
+        if (r.isEmpty()) continue;
         ret.append(r);
       }
     return MessageReceivedType::GET_ROOMS;
