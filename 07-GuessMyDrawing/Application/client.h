@@ -14,7 +14,6 @@
 #include <QList>
 
 #include "canvas.h"
-#include "MessageType.h"
 #include "messageparser.h"
 #include "MessageReceivedEnum.h"
 
@@ -77,7 +76,6 @@ private:
   MessageParser *parser;
 
   void jsonReceived(const QJsonObject &doc);
-  bool fieldIsValid(QJsonValue);
   void sendMessage(QJsonObject msg);
 
   QHostAddress adress;

@@ -41,28 +41,4 @@ public:
   inline static const QString ID = "id";
 };
 
-//enum class MessageType {
-//  MESSAGE_TYPE,
-//  MESSAGE_SENDER,
-
-//  TEXT_MESSAGE,
-//  CANVAS_MESSAGE,
-//  USER_JOINED,
-
-//  UKNOWN
-//};
-
-//QString EnumToString(MessageType e){
-//  switch (e) {
-//    case MessageType::MESSAGE_TYPE: return "type";
-//    case MessageType::MESSAGE_SENDER: return "sender";
-
-//    case MessageType::TEXT_MESSAGE: return "text_mesage";
-//    case MessageType::CANVAS_MESSAGE: return "canvas_message";
-//    case MessageType::USER_JOINED: return "user_joined";
-//    default: return "unknown";
-//    }
-//}
-
-
 #endif // MESSAGETYPE_H

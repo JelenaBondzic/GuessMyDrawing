@@ -114,17 +114,10 @@ MessageReceivedType MessageParser::parseReceivedMessage(const QJsonObject &messa
 
   else if(typeVal.toString().compare(MessageType::JOIN_ROOM) == 0){
     const QJsonValue room = message.value(MessageType::ROOM_NAME);
-//    std::cout << room.toString().toStdString() << std::endl;
-//    bool b = true;
     if (!isFieldValid(room) || room.toString().isEmpty()){
         ret.append("Failed to join room!");
-//        b=false;
-        // neuspelo prikljucivanje sobi ako je null ili prazno
       }
     return MessageReceivedType::JOINED_ROOM;
-//    std::cout << b << std::endl;
-//    imHost = false;
-//    emit joinedRoom(b); // TODO proveriti prenos argumenata
     }
   else if(typeVal.toString().compare(MessageType::GET_ROOMS) == 0){
     const QJsonValue rooms = message.value(MessageType::CONTENT);
@@ -133,39 +126,24 @@ MessageReceivedType MessageParser::parseReceivedMessage(const QJsonObject &messa
         return MessageReceivedType::ERROR; // nema liste soba
       }
 
-    // TODO check copy and memory
-//    QVector<QString> *room_list = new QVector<QString>;
     auto room_split = rooms.toString().split(",");
     for(QString& r : room_split){
-//        room_list->push_back(r);
         ret.append(r);
       }
     return MessageReceivedType::GET_ROOMS;
     }
 
   else if(typeVal.toString().compare(MessageType::NEW_HOST) == 0){
-//    imHost = true;
-//      shouldBecomeHost = true;
-//    std::cout << "IM NEW HOST" << std::endl;
       return MessageReceivedType::NEW_HOST;
     }
 
   else if(typeVal.toString().compare(MessageType::GAME_OVER) == 0){
-//    std::cout << "I am not host anymore" << std::endl;
-//    imHost = false; // if was host i won't be anymore, and next host will get message later
-//    emit gameOver();
       return MessageReceivedType::GAME_OVER;
     }
 
   else if(typeVal.toString().compare(MessageType::START) == 0){
-//      if (shouldBecomeHost){
-//        imHost = true;
-//        shouldBecomeHost = false;
-//        }
-//    emit startGame();
       return MessageReceivedType::GAME_START;
     }
-  // CANVAS
   else if(typeVal.toString().compare(MessageType::CANVAS_MESSAGE)==0){
       const QJsonValue canvas_content = message.value(MessageType::CONTENT);
       if (!isFieldValid(canvas_content)){
@@ -173,10 +151,8 @@ MessageReceivedType MessageParser::parseReceivedMessage(const QJsonObject &messa
         return MessageReceivedType::ERROR;
         }
 
-//      QByteArray b = QByteArray::fromBase64(canvas_content.toString().toUtf8());
       ret.append(canvas_content.toString().toUtf8());
       return MessageReceivedType::CANVAS_MESSAGE;
-//      emit canvasReceived(b);
     }
 
   ret.append("Unknow type of message!");

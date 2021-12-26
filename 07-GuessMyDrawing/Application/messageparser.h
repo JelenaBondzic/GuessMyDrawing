@@ -1,7 +1,7 @@
 #ifndef MESSAGEPARSER_H
 #define MESSAGEPARSER_H
 
-#include "MessageType.h"
+#include "../MessageType.h"
 #include "MessageReceivedEnum.h"
 #include <QJsonObject>
 #include <QByteArray>
