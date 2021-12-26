@@ -15,6 +15,8 @@
 
 #include "canvas.h"
 #include "MessageType.h"
+#include "messageparser.h"
+#include "MessageReceivedEnum.h"
 
 class Client : public QObject
 {
@@ -71,6 +73,8 @@ private:
   Canvas* canvas;
 
   QTcpSocket *messageSocket;
+
+  MessageParser *parser;
 
   void jsonReceived(const QJsonObject &doc);
   bool fieldIsValid(QJsonValue);
