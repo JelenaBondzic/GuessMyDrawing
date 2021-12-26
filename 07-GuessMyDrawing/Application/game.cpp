@@ -127,6 +127,8 @@ void Game::setDuration(int newDuration)
 
 void Game::closeEvent(QCloseEvent *event)
 {
+  Q_UNUSED(event);
+
   std::cout << "Game close event!" << std::endl;
   mChatModel->removeRows(0, mChatModel->rowCount());
 

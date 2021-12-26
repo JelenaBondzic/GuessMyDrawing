@@ -33,6 +33,8 @@ ExistingRooms::~ExistingRooms()
 
 void ExistingRooms::listOfRooms_itemClicked(QListWidgetItem *item)
 {
+    Q_UNUSED(item);
+
     ui->pbJoin->setDisabled(false);
     selectedRoom = ui->listOfRooms->selectedItems()[0]->text();
 }
@@ -83,6 +85,8 @@ void ExistingRooms::JoinedRoom(bool p)
 
 void ExistingRooms::leUsername_textEdited(const QString &arg1)
 {
+    Q_UNUSED(arg1);
+
     username = ui->leUsername->text();
 
     ui->listOfRooms->setDisabled(false);
