@@ -52,7 +52,7 @@ signals:
   void userLeft(const QString &username);
   void roomList(const QVector<QString>* rooms);
   void joinedRoom(bool &success);
-  void errorConnecting(QString *error);
+  void errorConnecting();
   void youAreNewHost();
 
   void startGame();

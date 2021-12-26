@@ -146,8 +146,8 @@ void Client::disconnectedMessage()
 void Client::error(QAbstractSocket::SocketError socketError)
 {
   Q_UNUSED(socketError);
-  QString *s = new QString("Something went wrong with cnnnection. Please try again.");
-  emit errorConnecting(s);
+//  QString *s = new QString("Something went wrong with cnnnection. Please try again.");
+  emit errorConnecting();
 }
 
 void Client::jsonReceived(const QJsonObject &doc)
