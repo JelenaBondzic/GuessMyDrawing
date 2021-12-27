@@ -12,11 +12,9 @@ class Canvas : public QWidget
 
 public:
     Canvas(QWidget *parent = nullptr);
+    ~Canvas() = default;
 
-    bool isModified() const {
-        return _modified;
-    }
-
+    bool isModified() const;
 
     void takeSnapshot(QByteArray& barr);
     void loadFromSnapshot(const QByteArray& arr);
@@ -44,8 +42,8 @@ private:
     bool _modified = false;
     bool _drawing = false;
     int _myPenWidth = 5;
-    int _maxPenWidth = 10;
-    int _minPenWidth = 1;
+    const int _maxPenWidth = 10;
+    const int _minPenWidth = 1;
 
     QColor _myPenColor = Qt::black;
     QImage _image;

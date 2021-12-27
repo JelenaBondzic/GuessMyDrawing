@@ -12,6 +12,10 @@ Canvas::Canvas(QWidget *parent)
 
 }
 
+bool Canvas::isModified() const {
+    return _modified;
+}
+
 
 void Canvas::takeSnapshot(QByteArray &barr)
 {
