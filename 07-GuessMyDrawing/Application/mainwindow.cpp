@@ -42,6 +42,8 @@ void MainWindow::attemptConnection(qint16 port) {
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
+    Q_UNUSED(event);
+
     std::cout << "MainWindow close event!" << std::endl;
     exit(0);
 }

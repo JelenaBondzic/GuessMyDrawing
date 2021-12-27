@@ -87,14 +87,17 @@ void Settings::sendSettingsToCLient(QString username, QString roomName, int dura
 
 void Settings::leUsername_textChanged(const QString &arg1)
 {
+    Q_UNUSED(arg1);
 
-        ui->pbSave->setDisabled(false);
+    ui->pbSave->setDisabled(false);
 
 }
 
 
 void Settings::lnRoomName_textChanged(const QString &arg1)
 {
+    Q_UNUSED(arg1);
+
     ui->radioButton->setDisabled(false);
     ui->radioButton_2->setDisabled(false);
     ui->radioButton_3->setDisabled(false);

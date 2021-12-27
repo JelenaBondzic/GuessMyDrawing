@@ -9,6 +9,7 @@
 #include<QMap>
 #include<QJsonObject>
 #include "thread.h"
+#include "messageparser.h"
 
 class Room
 {
@@ -20,6 +21,7 @@ private:
     int duration;
     QString host;
     bool gameIsStarted;
+    MessageParser *parser;
 
     void chooseRandomHost();
     void gameOver(Thread* t);
@@ -36,13 +38,12 @@ public:
     void setDuration(int newDuration);
     void leaveRoom(Thread* thread);
 
-    bool usernameIsValid(QString username);
+    bool usernameIsTaken(QString username);
     void setWordAndStartGame(const QString &newChosenWord);
     void checkChatWord(QString word, Thread* senderUser);
     void joinClient(QString username, Thread* thread);
 
     QString getWord() {return chosenWord;}
-    void setName(const QString &newName);
 };
 
 #endif // ROOM_H
