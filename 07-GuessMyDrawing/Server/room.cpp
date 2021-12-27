@@ -1,5 +1,5 @@
 #include "room.h"
-#include "../Application/MessageType.h"
+#include "../MessageType.h"
 #include <unordered_map>
 #include <QRandomGenerator>
 

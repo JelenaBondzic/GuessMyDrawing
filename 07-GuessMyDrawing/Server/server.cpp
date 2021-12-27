@@ -1,5 +1,5 @@
 #include "server.h"
-#include "../Application/MessageType.h"
+#include "../MessageType.h"
 #include <iostream>
 
 Server::Server(QObject* parent): QTcpServer(parent) {}

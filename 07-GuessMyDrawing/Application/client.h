@@ -14,7 +14,8 @@
 #include <QList>
 
 #include "canvas.h"
-#include "MessageType.h"
+#include "messageparser.h"
+#include "MessageReceivedEnum.h"
 
 class Client : public QObject
 {
@@ -23,16 +24,17 @@ class Client : public QObject
 public:
   explicit Client(QString name, QObject *parent=nullptr);
 
+  ~Client();
+
   void connectToServer(const QHostAddress &adress, quint16 port);
   void disconnectFromHost();
-  void send(const QString &text);
 
+  void send(const QString &text);
   void joinRoom(QString username, QString room);
   void createRoom(QString username, QString room_name, int duration);
   void leaveRoom();
   void chooseWord(QString word);
   void getRooms();
-
   void sendCanvas(QByteArray &canvas);
 
   inline bool isHost() {return imHost; }
@@ -46,14 +48,14 @@ private slots:
   void error(QAbstractSocket::SocketError socketError);
 
 signals:
-
   void messageReceived(const QString &sender, const QString &test);
   void userJoined(const QString &username);
   void userLeft(const QString &username);
   void roomList(const QVector<QString>* rooms);
   void joinedRoom(bool &success);
-  void errorConnecting();
   void youAreNewHost();
+
+  void errorConnecting();
 
   void startGame();
   void gameOver();
@@ -65,15 +67,13 @@ private:
   QString mName;
   int points;
   bool imHost = false;
-
   bool shouldBecomeHost = false;
 
-  Canvas* canvas;
-
+//  Canvas* canvas;
   QTcpSocket *messageSocket;
+  MessageParser *parser;
 
   void jsonReceived(const QJsonObject &doc);
-  bool fieldIsValid(QJsonValue);
   void sendMessage(QJsonObject msg);
 
   QHostAddress adress;

@@ -1,14 +1,13 @@
 #include "client.h"
-#include "MessageType.h"
+#include "../MessageType.h"
 #include <iostream>
-
-#include <iomanip>
 
 Client::Client(QString name, QObject *parent):
   QObject(parent),
   mName(name),
   imHost(false),
-  messageSocket(new QTcpSocket(this))
+  messageSocket(new QTcpSocket(this)),
+  parser(new MessageParser())
 {
   // connect and disconnect
   connect(messageSocket, &QTcpSocket::connected, this, &Client::connectedMessage);
@@ -19,6 +18,12 @@ Client::Client(QString name, QObject *parent):
   connect(messageSocket, &QTcpSocket::readyRead, this, &Client::MessageReadyRead);
 
   connect(messageSocket, SIGNAL(errorOccurred(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));
+}
+
+Client::~Client()
+{
+  delete messageSocket;
+  delete parser;
 }
 
 void Client::connectToServer(const QHostAddress &adress, quint16 port)
@@ -35,72 +40,45 @@ void Client::disconnectFromHost()
 
 void Client::send(const QString &text)
 {
-  if (text.isEmpty())
-      return;
-  QJsonObject message;
-  message[MessageType::TYPE] = QString(MessageType::TEXT_MESSAGE);
-  message[MessageType::CONTENT] = QString(text);
-  message[MessageType::MESSAGE_SENDER] = QString(mName);
-  sendMessage(message);
+  sendMessage(parser->textMessage(text, mName));
 }
 
 void Client::joinRoom(QString username, QString roomName)
 {
-  QJsonObject message;
-  message[MessageType::TYPE] = QString(MessageType::JOIN_ROOM);
-  message[MessageType::ROOM_NAME] = roomName;
-  message[MessageType::USERNAME] = username;
   this->mName = username;
-  sendMessage(message);
+  sendMessage(parser->joinRoomMessage(username, roomName));
 }
 
 void Client::createRoom(QString username, QString room_name, int duration)
 {
-  QJsonObject message;
-  message[MessageType::TYPE] = QString(MessageType::CREATE_ROOM);
-  message[MessageType::USERNAME] = username;
-  message[MessageType::ROOM_NAME] = room_name;
-  message[MessageType::DURATION] = QString::number(duration);
   this->mName = username;
-  sendMessage(message);
+  sendMessage(parser->createRoomMessage(username, room_name, duration));
 }
 
 void Client::leaveRoom()
 {
-  QJsonObject message;
-  message[MessageType::TYPE] = QString(MessageType::LEAVE_ROOM);
-  sendMessage(message);
+  sendMessage(parser->leaveRoomMessage());
   this->imHost = false;
 }
 
 
 void Client::chooseWord(QString word)
 {
-  std::cout << "Choosing word " << word.toStdString() << " " << MessageType::CHOOSE_WORD.toStdString()  << std::endl;
-  QJsonObject message;
-  message[MessageType::TYPE] = QString(MessageType::CHOOSE_WORD);
-  message[MessageType::CONTENT] = word;
-  sendMessage(message);
+  sendMessage(parser->chooseWordMessage(word));
 }
 
 void Client::getRooms()
 {
-  QJsonObject message;
-  message[MessageType::TYPE] = QString(MessageType::GET_ROOMS);
-  sendMessage(message);
+  sendMessage(parser->getRoomsMessage());
 }
 
 void Client::sendCanvas(QByteArray &canvas)
 {
-  QJsonObject message;
-  message[MessageType::TYPE] = MessageType::CANVAS_MESSAGE;
-  message[MessageType::CONTENT] = QString(canvas.toBase64());
-  sendMessage(message);
+  sendMessage(parser->canvasMessage(canvas));
 }
 
 void Client::reconnect()
 {
-  // TODO chceck
   connectToServer(this->adress, this->port);
 }
 
@@ -152,104 +130,93 @@ void Client::error(QAbstractSocket::SocketError socketError)
 
 void Client::jsonReceived(const QJsonObject &doc)
 {
-  const QJsonValue typeVal = doc.value(MessageType::TYPE);
-  if (!fieldIsValid(typeVal)){
-        return; // missing type field
-     }
+  QVector<QString> ret;
+  MessageReceivedType type = parser->parseReceivedMessage(doc, ret);
 
-  if (typeVal.toString().compare(MessageType::CANVAS_MESSAGE)!=0)
-    std::cout << "Primljen tip: " << typeVal.toString().toStdString() << std::endl;
-
-  if (!fieldIsValid(typeVal)){
-      return; // empty or unknown message recieved
-    }
-
-  if(typeVal.toString().compare(MessageType::TEXT_MESSAGE) == 0){
-      const QJsonValue text = doc.value(MessageType::CONTENT);
-      if (!fieldIsValid(text)){
-          return; // no text
-        }
-      const QJsonValue sender = doc.value(MessageType::MESSAGE_SENDER);
-      if (!fieldIsValid(sender)){
-          return; // sender missing
-        }
-      emit messageReceived(sender.toString(), text.toString());
-    }
-  else if(typeVal.toString().compare(MessageType::USER_JOINED) == 0){
-    const QJsonValue username = doc.value(MessageType::USERNAME);
-    if (!fieldIsValid(username)){
-        return; // username missing or invalid
-      }
-    emit userJoined(username.toString());
-    }
-  else if(typeVal.toString().compare(MessageType::USER_LEFT) == 0){
-    const QJsonValue username = doc.value(MessageType::USERNAME);
-    if (!fieldIsValid(username)){
-        return; // username missing or invalid
-      }
-    emit userLeft(username.toString());
-    }
-  else if(typeVal.toString().compare(MessageType::JOIN_ROOM) == 0){
-    const QJsonValue room = doc.value(MessageType::ROOM_NAME);
-    std::cout << room.toString().toStdString() << std::endl;
-    bool b = true;
-    if (!fieldIsValid(room) || room.toString().isEmpty()){
-        b=false;
-        // neuspelo prikljucivanje sobi ako je null ili prazno
-      }
-    std::cout << b << std::endl;
-    imHost = false;
-    emit joinedRoom(b); // TODO proveriti prenos argumenata
-    }
-  else if(typeVal.toString().compare(MessageType::GET_ROOMS) == 0){
-    const QJsonValue rooms = doc.value(MessageType::CONTENT);
-    if (!fieldIsValid(rooms)){
-        return; // nema liste soba
+  switch (type) {
+    case MessageReceivedType::TEXT_MESSAGE:{
+        if (ret.size() != 2){
+            std::cerr << "Missing argument for text message" << std::endl;
+            return;
+          }
+        emit messageReceived(ret[0], ret[1]);
+        break;
       }
 
-    // TODO check copy and memory
-    QVector<QString> *room_list = new QVector<QString>;
-    auto room_split = rooms.toString().split(",");
-    for(QString& r : room_split){
-        room_list->push_back(r);
+    case MessageReceivedType::USER_JOINED:{
+        if (ret.size() != 1){
+            std::cerr << "Missing argument for user joined" << std::endl;
+            return;
+          }
+        emit userJoined(ret[0]);
+        break;
       }
-    emit roomList(room_list);
-    }
-  else if(typeVal.toString().compare(MessageType::NEW_HOST) == 0){
-//    imHost = true;
-      shouldBecomeHost = true;
-    std::cout << "IM NEW HOST" << std::endl;
-    emit youAreNewHost();
-    }
-  else if(typeVal.toString().compare(MessageType::GAME_OVER) == 0){
-    std::cout << "I am not host anymore" << std::endl;
-    imHost = false; // if was host i won't be anymore, and next host will get message later
-    emit gameOver();
-    }
-  else if(typeVal.toString().compare(MessageType::START) == 0){
-      if (shouldBecomeHost){
-        imHost = true;
-        shouldBecomeHost = false;
-        }
-    emit startGame();
-    }
-  // CANVAS
-  else if(typeVal.toString().compare(MessageType::CANVAS_MESSAGE)==0){
-      const QJsonValue canvas_content = doc.value(MessageType::CONTENT);
-      if (!fieldIsValid(canvas_content)){
-        return;
-        }
 
-      QByteArray b = QByteArray::fromBase64(canvas_content.toString().toUtf8());
-      emit canvasReceived(b);
+    case MessageReceivedType::USER_LEFT:{
+        if (ret.size() != 1){
+            std::cerr << "Missing argument for user left" << std::endl;
+            return;
+          }
+        emit userLeft(ret[0]);
+        break;
+      }
+
+    case MessageReceivedType::GET_ROOMS:{
+        QVector<QString> *room_list = new QVector<QString>;
+        for(QString& r : ret){
+            room_list->push_back(r);
+          }
+        emit roomList(room_list);
+        break;
+      }
+
+    case MessageReceivedType::JOINED_ROOM:{
+        bool bJoined = true;
+        if (ret.length() != 0)
+          bJoined = false; // in ret is message that it wasnt able to join
+        emit joinedRoom(bJoined);
+        break;
+      }
+
+    case MessageReceivedType::NEW_HOST: {
+      shouldBecomeHost = true; // can't become host yet, because as soon as plaeyr becomes host it'll star sendin canvas messages, and may loose choose word message
+      emit youAreNewHost();
+      break;
+      }
+
+    case MessageReceivedType::GAME_OVER: {
+        imHost = false;
+        emit gameOver();
+        break;
+      }
+
+    case MessageReceivedType::GAME_START: {
+        if (shouldBecomeHost){
+            imHost = true;
+            shouldBecomeHost = false;
+          }
+        emit startGame();
+        break;
+      }
+
+    case MessageReceivedType::CANVAS_MESSAGE:{
+        if (ret.size() != 1){
+            std::cerr << "Missing argument for canvas message" << std::endl;
+            return;
+          }
+        QByteArray b = QByteArray::fromBase64(ret[0].toUtf8());
+        emit canvasReceived(b);
+        break;
+      }
+
+    case MessageReceivedType::ERROR: {
+        std::cerr << "Error occured" << std::endl;
+        for (auto i : ret)
+          std::cout << i.toStdString() << std::endl;
+      }
     }
 }
 
-// valid value in QJSonValue isn't null and it's type String
-bool Client::fieldIsValid(QJsonValue value)
-{
-  return !value.isUndefined() && !value.isNull() && value.isString();
-}
 
 void Client::sendMessage(QJsonObject message)
 {

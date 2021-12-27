@@ -45,7 +45,8 @@ void ExistingRooms::getActiveRooms(const QVector<QString> *r)
     for (int i=0; i< activeRooms->size() ; ++i) {
        ui->listOfRooms->addItem(activeRooms->at(i));
     }
-//    delete r; // TODO check
+    // TODO check
+    delete r;
 
 }
 

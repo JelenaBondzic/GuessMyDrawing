@@ -18,12 +18,14 @@ SOURCES += \
     mainwindow.cpp \
     canvas.cpp \
     client.cpp \
+    messageparser.cpp \
     popup.cpp \
     settings.cpp \
     existingrooms.cpp \
     game.cpp
 
 HEADERS += \
+    MessageReceivedEnum.h \
     MessageType.h \
     canvas.h \
     chooseword.h \
@@ -31,6 +33,7 @@ HEADERS += \
     mainwindow.h \
     existingrooms.h \
     game.h \
+    messageparser.h \
     popup.h \
     settings.h \
 
