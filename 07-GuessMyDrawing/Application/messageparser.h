@@ -18,7 +18,8 @@ public:
   QJsonObject leaveRoomMessage();
   QJsonObject chooseWordMessage(QString &word);
   QJsonObject getRoomsMessage();
-  QJsonObject canvasMessage(QByteArray &canvas);
+//  QJsonObject canvasMessage(QByteArray &canvas);
+  QJsonObject canvasMessage(QString &canvas);
 
   MessageReceivedType parseReceivedMessage(const QJsonObject& message, QVector<QString> &ret);
 

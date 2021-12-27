@@ -5,6 +5,7 @@
 #include <QImage>
 #include <QPoint>
 #include <QWidget>
+#include <QString>
 
 class Canvas : public QWidget
 {
@@ -16,8 +17,10 @@ public:
 
     bool isModified() const;
 
-    void takeSnapshot(QByteArray& barr);
-    void loadFromSnapshot(const QByteArray& arr);
+//    void takeSnapshot(QByteArray& barr);
+//    void loadFromSnapshot(const QByteArray& arr);
+    QString takeSnapshot();
+    void loadFromSnapshot(QString &qstring);
 
     int penWidth() const;
     void setPenWidth(int width);

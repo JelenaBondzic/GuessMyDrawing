@@ -10,8 +10,8 @@ Game::Game(Client* client, QWidget *parent) :
     ui(new Ui::Game),
     _canvas(new Canvas(this)),
     client(client),
-    mChatModel(new QStandardItemModel(this)),
-    timerCanvas(new QTimer(this))
+    timerCanvas(new QTimer(this)),
+    mChatModel(new QStandardItemModel(this))
 {
     ui->setupUi(this);
     _canvas->resize(600, 600); // showing canvas
@@ -50,11 +50,12 @@ Game::Game(Client* client, QWidget *parent) :
     connect(ui->leInput, &QLineEdit::returnPressed, this, &Game::sendMessage); // send on enter
 
     // CANVAS
-    connect(client, &Client::canvasReceived, this, &Game::onLoadImage); // send on enter
+    connect(client, &Client::canvasReceived, this, &Game::onLoadCanvas); // send on enter
     timerCanvas->start(50);
 }
 Game::~Game()
 {
+    delete mChatModel;
     delete _canvas;
     delete ui;
 }
@@ -106,13 +107,16 @@ void Game::onDecPenWidth()
     _canvas->setPenWidth(currPenWidth-1);
 }
 
-
-void Game::onLoadImage(QByteArray b)
-{
- // std::cout << "LOADING" <<std::endl;
-//  std::cout << b.toStdString() << std::endl;
-    _canvas->loadFromSnapshot(b);
+void Game::onLoadCanvas(QString s){
+    _canvas->loadFromSnapshot(s);
 }
+
+//void Game::onLoadImage(QByteArray b)
+//{
+// // std::cout << "LOADING" <<std::endl;
+////  std::cout << b.toStdString() << std::endl;
+//    _canvas->loadFromSnapshot(b);
+//}
 
 int Game::getDuration() const
 {
@@ -205,9 +209,11 @@ void Game::sendMessage()
 
 void Game::sendCanvasMessage() {
     if (client->isHost()){
-        QByteArray b;
-        _canvas->takeSnapshot(b);
-        client->sendCanvas(b);
+//        QByteArray b;
+//        _canvas->takeSnapshot(b);
+//        client->sendCanvas(b);
+        QString s = _canvas->takeSnapshot();
+        client->sendCanvas(s);
     }
 }
 

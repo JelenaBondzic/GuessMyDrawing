@@ -5,6 +5,7 @@
 #include <iostream>
 #include <QByteArray>
 #include <QBuffer>
+#include "canvasserializer.h"
 
 Canvas::Canvas(QWidget *parent)
     : QWidget(parent)
@@ -16,20 +17,37 @@ bool Canvas::isModified() const {
     return _modified;
 }
 
-
-void Canvas::takeSnapshot(QByteArray &barr)
+QString Canvas::takeSnapshot()
 {
+    QByteArray barr;
     QBuffer buffer(&barr);
     buffer.open(QIODevice::WriteOnly);
     _image.save(&buffer, "PNG");
+
+    return CanvasSerializer::toQString(barr);
 }
 
-void Canvas::loadFromSnapshot(const QByteArray &arr)
-{
-    _image.loadFromData(arr, "PNG");
+void Canvas::loadFromSnapshot(QString &qstring) {
+    QByteArray barr = CanvasSerializer::toQByteArray(qstring);
+    _image.loadFromData(barr, "PNG");
     _modified = true;
     update();
 }
+
+//void Canvas::takeSnapshot(QByteArray &barr)
+//{
+//    QBuffer buffer(&barr);
+//    buffer.open(QIODevice::WriteOnly);
+//    _image.save(&buffer, "PNG");
+//}
+
+//void Canvas::loadFromSnapshot(const QByteArray &arr)
+//{
+//    _image.loadFromData(arr, "PNG");
+//    _modified = true;
+//    update();
+//}
+
 
 void Canvas::clearImage()
 {

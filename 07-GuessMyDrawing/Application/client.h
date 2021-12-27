@@ -13,7 +13,6 @@
 #include <QVector>
 #include <QList>
 
-#include "canvas.h"
 #include "messageparser.h"
 #include "MessageReceivedEnum.h"
 
@@ -35,7 +34,7 @@ public:
   void leaveRoom();
   void chooseWord(QString word);
   void getRooms();
-  void sendCanvas(QByteArray &canvas);
+  void sendCanvas(QString& canvas);
 
   inline bool isHost() {return imHost; }
 
@@ -60,7 +59,7 @@ signals:
   void startGame();
   void gameOver();
 
-  void canvasReceived(QByteArray data);
+  void canvasReceived(QString data);
 
 
 private:
@@ -69,7 +68,6 @@ private:
   bool imHost = false;
   bool shouldBecomeHost = false;
 
-//  Canvas* canvas;
   QTcpSocket *messageSocket;
   MessageParser *parser;
 
