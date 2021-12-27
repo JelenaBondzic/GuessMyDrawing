@@ -208,24 +208,6 @@ TEST_CASE("getRooms - fuction that returns QJsonObject for asking for list of av
     }
 }
 
-TEST_CASE("canvasMessage - fuction that returns QJsonObject for sending canvas.", "[function]"){
-    
-    SECTION("Message contians correct values fro TYPE and CONTENT."){
-        // Arrange 
-        MessageParser parser = MessageParser();
-        QByteArray b = QByteArray("1111111111");
-        
-        // Act
-        QJsonObject message = parser.canvasMessage(b);
-        
-        CHECK(message.length() == 2);
-        
-        // Assert
-        REQUIRE(message[MessageType::TYPE].toString().compare(MessageType::CANVAS_MESSAGE)==0);
-        REQUIRE(message[MessageType::CONTENT].toString().compare(b.toBase64())==0);
-    }
-}
-
 
 TEST_CASE("parseReceivedMessage - function returns correct enum for received message and ret contains parameters if necessary..", "[function]"){
     

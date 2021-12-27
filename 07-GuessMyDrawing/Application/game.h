@@ -44,7 +44,8 @@ public slots:
     void onChangePenColor();
     void onIncPenWidth();
     void onDecPenWidth();
-    void onLoadImage(QByteArray b);
+//    void onLoadImage(QByteArray b);
+    void onLoadCanvas(QString s);
 
 signals:
     void IAmHost();

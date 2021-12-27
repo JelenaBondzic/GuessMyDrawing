@@ -72,7 +72,7 @@ void Client::getRooms()
   sendMessage(parser->getRoomsMessage());
 }
 
-void Client::sendCanvas(QByteArray &canvas)
+void Client::sendCanvas(QString& canvas)
 {
   sendMessage(parser->canvasMessage(canvas));
 }
@@ -204,15 +204,15 @@ void Client::jsonReceived(const QJsonObject &doc)
             std::cerr << "Missing argument for canvas message" << std::endl;
             return;
           }
-        QByteArray b = QByteArray::fromBase64(ret[0].toUtf8());
-        emit canvasReceived(b);
+//        QByteArray b = QByteArray::fromBase64(ret[0].toUtf8());
+        emit canvasReceived(ret[0]);
         break;
       }
 
     case MessageReceivedType::ERROR: {
         std::cerr << "Error occured" << std::endl;
-        for (auto i : ret)
-          std::cout << i.toStdString() << std::endl;
+//        for (auto i : ret)
+//          std::cout << i.toStdString() << std::endl;
       }
     }
 }
