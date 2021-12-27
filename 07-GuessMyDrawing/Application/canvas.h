@@ -5,6 +5,7 @@
 #include <QImage>
 #include <QPoint>
 #include <QWidget>
+#include <QString>
 
 class Canvas : public QWidget
 {
@@ -12,14 +13,14 @@ class Canvas : public QWidget
 
 public:
     Canvas(QWidget *parent = nullptr);
+    ~Canvas() = default;
 
-    bool isModified() const {
-        return _modified;
-    }
+    bool isModified() const;
 
-
-    void takeSnapshot(QByteArray& barr);
-    void loadFromSnapshot(const QByteArray& arr);
+//    void takeSnapshot(QByteArray& barr);
+//    void loadFromSnapshot(const QByteArray& arr);
+    QString takeSnapshot();
+    void loadFromSnapshot(QString &qstring);
 
     int penWidth() const;
     void setPenWidth(int width);
@@ -44,8 +45,8 @@ private:
     bool _modified = false;
     bool _drawing = false;
     int _myPenWidth = 5;
-    int _maxPenWidth = 10;
-    int _minPenWidth = 1;
+    const int _maxPenWidth = 10;
+    const int _minPenWidth = 1;
 
     QColor _myPenColor = Qt::black;
     QImage _image;

@@ -64,6 +64,7 @@ void ExistingRooms::pbJoin_clicked()
 
    // hide();
     client->joinRoom(username, selectedRoom);
+    game->setWindowTitle(selectedRoom);
     ui->pbJoin->setDisabled(true);
 }
 

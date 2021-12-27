@@ -45,6 +45,7 @@ void Settings::SaveClicked()
     username = ui->leUsername->text();
     roomName = ui->lnRoomName->text();
 
+    game->setWindowTitle(roomName);
     sendSettingsToCLient(username, roomName, duration);
     ui->pbSave->setDisabled(true);
 }

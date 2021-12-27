@@ -58,11 +58,12 @@ QJsonObject MessageParser::getRoomsMessage()
   return message;
 }
 
-QJsonObject MessageParser::canvasMessage(QByteArray &canvas)
+QJsonObject MessageParser::canvasMessage(QString &canvas)
 {
   QJsonObject message;
   message[MessageType::TYPE] = MessageType::CANVAS_MESSAGE;
-  message[MessageType::CONTENT] = QString(canvas.toBase64());
+//  message[MessageType::CONTENT] = QString(canvas.toBase64());
+  message[MessageType::CONTENT] = canvas;
   return message;
 }
 
@@ -153,7 +154,8 @@ MessageReceivedType MessageParser::parseReceivedMessage(const QJsonObject &messa
         return MessageReceivedType::ERROR;
         }
 
-      ret.append(canvas_content.toString().toUtf8());
+//      ret.append(canvas_content.toString().toUtf8());
+      ret.append(canvas_content.toString());
       return MessageReceivedType::CANVAS_MESSAGE;
     }
 
