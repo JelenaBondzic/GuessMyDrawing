@@ -2,4 +2,9 @@ build-07-GuessMyDrawing*
 build-Application*
 build-Server*
 
-
+/tests/*.o
+/tests/test 
+/tests/Makefile
+/tests/catch.hpp
+/tests/moc_*
+/tests/.qmake.stash
