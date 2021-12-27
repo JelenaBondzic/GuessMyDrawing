@@ -13,17 +13,17 @@ TEMPLATE = app
 
 SOURCES += \
     main.cpp \
-    messageparser.cpp \
     server.cpp \
     room.cpp \
     servermainwindow.cpp\
+    servermessageparser.cpp \
     thread.cpp
 
 HEADERS += \
-    messageparser.h \
     server.h \
     room.h \
     servermainwindow.h \
+    servermessageparser.h \
     thread.h
 
 FORMS += \

@@ -9,7 +9,7 @@
 #include<QMap>
 #include<QJsonObject>
 #include "thread.h"
-#include "messageparser.h"
+#include "servermessageparser.h"
 
 class Room
 {
@@ -21,7 +21,7 @@ private:
     int duration;
     QString host;
     bool gameIsStarted;
-    MessageParser *parser;
+    ServerMessageParser *parser;
 
     void chooseRandomHost();
     void gameOver(Thread* t);

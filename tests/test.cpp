@@ -3,3 +3,4 @@
 
 #include "client_test.cpp"
 #include "messageparser_test.cpp"
+#include "server_messageparser_test.cpp"

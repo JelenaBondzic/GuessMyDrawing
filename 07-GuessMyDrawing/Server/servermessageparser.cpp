@@ -1,12 +1,11 @@
-#include "messageparser.h"
+#include "servermessageparser.h"
 
-MessageParser::MessageParser()
+ServerMessageParser::ServerMessageParser()
 {
 
 }
 
-
-QJsonObject MessageParser::startMessage()
+QJsonObject ServerMessageParser::startMessage()
 {
     QJsonObject message;
     message[MessageType::TYPE] = MessageType::START;
@@ -14,7 +13,7 @@ QJsonObject MessageParser::startMessage()
     return message;
 }
 
-QJsonObject MessageParser::userJoinedMessage(QString &username)
+QJsonObject ServerMessageParser::userJoinedMessage(QString &username)
 {
     QJsonObject message;
     message[MessageType::TYPE] = MessageType::USER_JOINED;
@@ -23,7 +22,7 @@ QJsonObject MessageParser::userJoinedMessage(QString &username)
     return message;
 }
 
-QJsonObject MessageParser::joinRoomMessage(QString &roomName)
+QJsonObject ServerMessageParser::joinRoomMessage(QString &roomName)
 {
     QJsonObject message;
     message[MessageType::TYPE] = MessageType::JOIN_ROOM;
@@ -32,7 +31,7 @@ QJsonObject MessageParser::joinRoomMessage(QString &roomName)
     return message;
 }
 
-QJsonObject MessageParser::gameOverMessage()
+QJsonObject ServerMessageParser::gameOverMessage()
 {
     QJsonObject message;
     message[MessageType::TYPE] = MessageType::GAME_OVER;
@@ -40,7 +39,7 @@ QJsonObject MessageParser::gameOverMessage()
     return message;
 }
 
-QJsonObject MessageParser::newHostMessage()
+QJsonObject ServerMessageParser::newHostMessage()
 {
     QJsonObject message;
     message[MessageType::TYPE] = MessageType::NEW_HOST;
@@ -48,7 +47,7 @@ QJsonObject MessageParser::newHostMessage()
     return message;
 }
 
-QJsonObject MessageParser::userLeftMessage(QString username)
+QJsonObject ServerMessageParser::userLeftMessage(QString username)
 {
     QJsonObject message;
     message[MessageType::TYPE] = MessageType::USER_LEFT;

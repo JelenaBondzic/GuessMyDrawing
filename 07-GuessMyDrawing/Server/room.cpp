@@ -7,7 +7,7 @@
 Room::Room(QString username, QString room_name, int duration): name(room_name), duration(duration), host(username)
 {
   gameIsStarted = false;
-  parser = new MessageParser();
+  parser = new ServerMessageParser();
 }
 
 Room::~Room()

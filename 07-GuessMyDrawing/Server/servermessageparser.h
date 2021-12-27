@@ -1,14 +1,14 @@
-#ifndef MESSAGEPARSER_H
-#define MESSAGEPARSER_H
+#ifndef SERVERMESSAGEPARSER_H
+#define SERVERMESSAGEPARSER_H
 
 #include<QJsonObject>
 #include "../MessageType.h"
 
 
-class MessageParser
+class ServerMessageParser
 {
 public:
-    MessageParser();
+    ServerMessageParser();
 
     QJsonObject startMessage();
     QJsonObject userJoinedMessage(QString &username);
@@ -20,4 +20,4 @@ public:
 
 };
 
-#endif // MESSAGEPARSER_H
+#endif // SERVERMESSAGEPARSER_H
