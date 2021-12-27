@@ -2,7 +2,7 @@
 #define MESSAGEPARSER_H
 
 #include<QJsonObject>
-#include "../Application/MessageType.h"
+#include "../MessageType.h"
 
 
 class MessageParser
