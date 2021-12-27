@@ -5,6 +5,7 @@ MessageParser::MessageParser()
 
 }
 
+
 QJsonObject MessageParser::startMessage()
 {
     QJsonObject message;

@@ -10,6 +10,11 @@ Room::Room(QString username, QString room_name, int duration): name(room_name), 
   parser = new MessageParser();
 }
 
+Room::~Room()
+{
+    delete parser;
+}
+
 void Room::setDuration(int newDuration)
 {
     duration = newDuration;

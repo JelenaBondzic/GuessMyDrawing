@@ -30,6 +30,7 @@ private:
 public:
     //server call constructor for room and sends in constructor name of host
     Room(QString name, QString firstHost, int duration);
+    ~Room();
 
     void broadcastMessage(const QJsonObject& message, Thread *t);
     void broadcastCanvas(const QJsonObject& message, Thread *t);
