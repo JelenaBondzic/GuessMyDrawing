@@ -18,6 +18,8 @@ TEST_CASE("Construction of a message to start the game", "[startMessage][functio
         //Assert
         REQUIRE(message[MessageType::TYPE].toString().compare(MessageType::START)==0);
 
+
+    
     }
 
 
@@ -32,7 +34,7 @@ TEST_CASE("Construction of a message for game over", "[gameOverMessage][function
         ServerMessageParser parser = ServerMessageParser();
     
         //Act
-        QJsonObject message = parser.startMessage();
+        QJsonObject message = parser.gameOverMessage();
 
         CHECK(message.length() == 1);
 
@@ -53,7 +55,7 @@ TEST_CASE("Construction of a message for new host", "[newHostMessage][function]"
         ServerMessageParser parser = ServerMessageParser();
     
         //Act
-        QJsonObject message = parser.startMessage();
+        QJsonObject message = parser.newHostMessage();
 
         CHECK(message.length() == 1);
 
@@ -65,9 +67,9 @@ TEST_CASE("Construction of a message for new host", "[newHostMessage][function]"
 
 }
 
-TEST_CASE("Construction of a message for new host", "[userJoinedMessage][function]"){
+TEST_CASE("Construction of a message for user joined", "[userJoinedMessage][function]"){
     
-    SECTION("Message contians correct values fro TYPE and CONTENT."){
+    SECTION("The function constructs a message with a USER_JOINED value for TYPE and username value for USERNAME"){
         // Arrange 
         ServerMessageParser parser = ServerMessageParser();
         QString username = "Jason";
