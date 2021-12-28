@@ -29,13 +29,7 @@ void Server::parseMessage(const QJsonObject& message, Thread* thread) {
     switch(type) {
     case ServerMessageType::TEXT_MESSAGE: {
         std::cout<<"Text message"<<std::endl;
-        // TODO: Create a function for this:
-        Room* room = getRoomFromThread(thread);
-        if (room == nullptr) {
-            std::cerr << "This client is not in any room";
-            return;
-        }
-        room->broadcastMessage(message, thread);
+        broadcastMessage(message, thread);
         return;
     }
     case ServerMessageType::CREATE_ROOM: {
@@ -59,15 +53,7 @@ void Server::parseMessage(const QJsonObject& message, Thread* thread) {
     case ServerMessageType::CHOOSE_WORD: {
         std::cout<<"CHOOSE_WORD"<<std::endl;
         QVector<QString> ret = _serverMessageParser->fromChooseWordMessage(message);
-        // TODO: Create function for this:
-        Room* room = getRoomFromThread(thread);
-        if (room == nullptr) {
-            std::cerr << "This client is not in any room";
-            return;
-        }
-        room->setWordAndStartGame(ret[0]);
-
-        std::cout << "Room word: " << room->getWord().toStdString() << std::endl;
+        chooseWord(ret[0], thread);
         return;
     }
     case ServerMessageType::GET_ROOMS: {
@@ -78,20 +64,38 @@ void Server::parseMessage(const QJsonObject& message, Thread* thread) {
         return;
     }
     case ServerMessageType::CANVAS_MESSAGE: {
-        Room* room = getRoomFromThread(thread);
-        if (room == nullptr) {
-            std::cerr << "This client is not in any room";
-            return;
-        }
-        room->broadcastCanvas(message, thread);
+        broadcastCanvas(message, thread);
         return;
     }
     case ServerMessageType::ERROR: {
         std::cout<<"ERROR"<<std::endl;
-        std::cerr << "Error in server parse!" << std::endl;
+        std::cerr << "Message type is not valid" << std::endl;
         return;
     }
     }
+}
+
+Room* Server::getRoomFromThread(Thread* thread) {
+    if (thread->getRoomName() == "") {
+        return nullptr;
+    }
+    QString room_name = thread->getRoomName();
+    return _rooms.value(room_name);
+}
+
+void Server::broadcastMessage(const QJsonObject& message, Thread* thread) {
+    Room* room = getRoomFromThread(thread);
+    if (room == nullptr) {
+        std::cerr << "This client is not in any room";
+        return;
+    }
+    room->broadcastMessage(message, thread);
+}
+
+void Server::createRoom(const QString& username, const QString& room_name, int duration) {
+    Room* room = new Room(username, room_name, duration);
+    _rooms.insert(room_name, room);
+    std::cout << "Room created" << std::endl;
 }
 
 void Server::joinRoom(const QString& username, const QString& room_name, Thread* thread) {
@@ -107,13 +111,6 @@ void Server::joinRoom(const QString& username, const QString& room_name, Thread*
     room->joinClient(username, thread);
 }
 
-void Server::createRoom(const QString& username, const QString& room_name, int duration) {
-    Room* room = new Room(username, room_name, duration);
-    _rooms.insert(room_name, room);
-    std::cout << "Room created" << std::endl;
-
-}
-
 void Server::leaveRoom(Thread* thread) {
   Room *room = getRoomFromThread(thread);
 
@@ -127,6 +124,16 @@ void Server::leaveRoom(Thread* thread) {
   thread->setRoomName("");
 }
 
+void Server::chooseWord(const QString& word, Thread* thread) {
+    Room* room = getRoomFromThread(thread);
+    if (room == nullptr) {
+        std::cerr << "This client is not in any room";
+        return;
+    }
+    room->setWordAndStartGame(word);
+    std::cout << "Room word: " << room->getWord().toStdString() << std::endl;
+}
+
 QString Server::getRooms() {
     QString res = "";
     for (auto i = _rooms.begin(); i != _rooms.end(); i++) {
@@ -137,13 +144,13 @@ QString Server::getRooms() {
     return res;
 }
 
-Room* Server::getRoomFromThread(Thread* thread) {
-    if (thread->getRoomName() == "") {
-        //std::cerr << "This client is not in any room.";
-        return nullptr;
+void Server::broadcastCanvas(const QJsonObject& message, Thread* thread) {
+    Room* room = getRoomFromThread(thread);
+    if (room == nullptr) {
+        std::cerr << "This client is not in any room";
+        return;
     }
-    QString room_name = thread->getRoomName();
-    return _rooms.value(room_name);
+    room->broadcastCanvas(message, thread);
 }
 
 Server::~Server() {
@@ -151,4 +158,5 @@ Server::~Server() {
     _clients.clear();
     qDeleteAll(_rooms);
     _rooms.clear();
+    delete _serverMessageParser;
 }
