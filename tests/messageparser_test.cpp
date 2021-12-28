@@ -154,6 +154,29 @@ TEST_CASE("createRoomMessage - fuction that returns QJsonObject for creating new
     }
 }
 
+TEST_CASE("Construction of message for sending canvas content", "[canvasMessage][function]") {
+    
+    SECTION("When called with canvas content of type QString Then return QJsonObject in which TYPE is CANVAS_MESSAGE and CONTENT is set to given canvas content") {
+        // Arrange
+        MessageParser msgParser = MessageParser();
+        QString input = "test";
+
+        const QString expectedType = MessageType::CANVAS_MESSAGE;
+        const QString expectedContent = input;
+        const int expectedMsgLength = 2;
+
+        // Act
+        QJsonObject message = msgParser.canvasMessage(input);
+        const QString outputType = message[MessageType::TYPE].toString();
+        const QString outputContent = message[MessageType::CONTENT].toString();
+        const int outputMsgLength = message.length();
+
+        // Assert
+        CHECK(outputMsgLength == expectedMsgLength);
+        REQUIRE(outputType.compare(expectedType) == 0);
+        REQUIRE(outputContent.compare(expectedContent) == 0);
+    }
+}
 
 TEST_CASE("leeaveRoomMessage - fuction that returns QJsonObject for leaving room.", "[function]"){
     
