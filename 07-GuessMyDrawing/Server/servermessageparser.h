@@ -4,6 +4,7 @@
 #include<QJsonObject>
 #include "../MessageType.h"
 #include "ServerMessageEnum.h"
+#include <QVector>
 
 
 class ServerMessageParser
@@ -11,12 +12,12 @@ class ServerMessageParser
 public:
     ServerMessageParser();
 
-    QJsonObject startMessage();
-    QJsonObject userJoinedMessage(QString &username);
-    QJsonObject joinRoomMessage(QString &roomName);
-    QJsonObject gameOverMessage();
-    QJsonObject newHostMessage();
-    QJsonObject userLeftMessage(QString username);
+    QJsonObject toStartMessage();
+    QJsonObject toUserJoinedMessage(QString &username);
+    QJsonObject toJoinRoomMessage(QString &roomName);
+    QJsonObject toGameOverMessage();
+    QJsonObject toNewHostMessage();
+    QJsonObject toUserLeftMessage(QString username);
 
     ServerMessageType getTypeFromMessage(const QJsonObject& message);
     QJsonObject toGetRoomsMessage(const QString& rooms);
