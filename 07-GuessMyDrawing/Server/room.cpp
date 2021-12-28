@@ -12,6 +12,8 @@ Room::Room(QString username, QString room_name, int duration): name(room_name), 
 
 Room::~Room()
 {
+    qDeleteAll(players);
+    players.clear();
     delete parser;
 }
 

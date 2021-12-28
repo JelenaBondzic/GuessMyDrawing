@@ -10,6 +10,7 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include "thread.h"
+#include "ServerMessageEnum.h"
 
 class Server : public QTcpServer {
  Q_OBJECT
@@ -24,12 +25,16 @@ class Server : public QTcpServer {
  protected:
     void incomingConnection(qintptr socketDescriptor);
  private:
-    void createRoom(QString username, QString room_name, int duration);
-    void joinRoom(QString username, QString room_name, Thread* thread);
-    void leaveRoom(Thread* thread);
-    QString getRooms();
     Room* getRoomFromThread(Thread* thread);
-    Thread* getThreadFromId(quintptr id);
+    void broadcastMessage(const QJsonObject& message, Thread* thread);
+    void createRoom(const QString& username, const QString& room_name, int duration);
+    void joinRoom(const QString& username, const QString& room_name, Thread* thread);
+    void leaveRoom(Thread* thread);
+    void chooseWord(const QString& word, Thread* thread);
+    QString getRooms();
+    void broadcastCanvas(const QJsonObject& message, Thread* thread);
+
+    ServerMessageParser* _serverMessageParser;
     QMap<QString, Room*> _rooms;
     QVector<Thread*> _clients;
 };

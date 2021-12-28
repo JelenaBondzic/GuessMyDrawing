@@ -20,6 +20,7 @@ SOURCES += \
     thread.cpp
 
 HEADERS += \
+    ServerMessageEnum.h \
     server.h \
     room.h \
     servermainwindow.h \
