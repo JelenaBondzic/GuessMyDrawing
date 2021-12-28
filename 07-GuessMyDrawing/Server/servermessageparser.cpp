@@ -1,4 +1,5 @@
 #include "servermessageparser.h"
+#include <QVector>
 
 ServerMessageParser::ServerMessageParser()
 {

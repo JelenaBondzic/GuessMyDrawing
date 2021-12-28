@@ -1,5 +1,4 @@
 #include "server.h"
-#include "../MessageType.h"
 #include <iostream>
 
 Server::Server(QObject* parent):
