@@ -581,6 +581,33 @@ TEST_CASE("parseReceivedMessage - function returns correct enum for received mes
         REQUIRE(expected == actual);
     }
     
+    SECTION("When called with message of type QJsonObject for which TYPE is GET_ROOMS and CONTENT is not valid and with ret of type QVector<QString> Then ret size is 1 and contains element \"List of rooms is missing\" and return MessageReceivedType::ERROR") {
+    	// Arrange
+    	MessageParser msgParser = MessageParser();
+    	
+    	QJsonObject message;
+    	message[MessageType::TYPE] = MessageType::GET_ROOMS;
+    	// did not set message[MessageType::CONTENT] therefore CONTENT is not valid
+    	
+    	QVector<QString> ret;
+    	const int expectedLength = 1;
+  	
+  	const QString expectedElement = QString("List of rooms is missing");
+  		  	
+    	const MessageReceivedType expectedMessageReceivedType = MessageReceivedType::ERROR;
+    	
+    	// Act
+    	const MessageReceivedType outMessageReceivedType = msgParser.parseReceivedMessage(message, ret);
+    	const int outLength = ret.size();
+    	const QString outElement = QString(ret[expectedLength - 1]);
+    	
+    	// Assert
+    	REQUIRE(outLength == expectedLength);
+    	REQUIRE(outElement.compare(expectedElement) == 0);
+    	REQUIRE(outMessageReceivedType == expectedMessageReceivedType);
+    
+    }
+    
     SECTION("When called with message of type QJsonObject for which TYPE is CANVAS_MESSAGE and CONTENT is valid and with ret of type QVector<QString> Then ret size is 1 and ret[0] contains CONTENT and return MessageReceivedType::CANVAS_MESSAGE") {
     	// Arrange
     	MessageParser msgParser = MessageParser();
