@@ -74,6 +74,71 @@ TEST_CASE("fieldIsValid", "[function]"){
         // Assert
         REQUIRE(output == expectedOtput);
     }
+    
+    SECTION("When called with value of type QJsonValue that does not contain a string Then return false") {
+    	
+    	// Arrange
+    	MessageParser msgParser = MessageParser();
+    	const QJsonValue input = 42; // does not contain a string
+        
+        const bool expectedOutput = false;
+    	 
+    	// Act
+    	const bool output = msgParser.isFieldValid(input);
+    	
+    	// Assert
+    	REQUIRE(output == expectedOutput);
+    	
+    }
+    
+    SECTION("When called with value of type QJsonValue that is null Then return false") {
+    	
+    	// Arrange
+    	MessageParser msgParser = MessageParser();
+    	const QJsonValue input = QJsonValue::Null; 
+        
+        const bool expectedOutput = false;
+    	 
+    	// Act
+    	const bool output = msgParser.isFieldValid(input);
+    	
+    	// Assert
+    	REQUIRE(output == expectedOutput);
+    	
+    }
+    
+    SECTION("When called with value of type QJsonValue that is undefined Then return false") {
+    	
+    	// Arrange
+    	MessageParser msgParser = MessageParser();
+    	const QJsonValue input = QJsonValue::Undefined; 
+        
+        const bool expectedOutput = false;
+    	 
+    	// Act
+    	const bool output = msgParser.isFieldValid(input);
+    	
+    	// Assert
+    	REQUIRE(output == expectedOutput);
+    	
+    }
+    
+    SECTION("When called with value of type QJsonValue that contains a string Then return true") {
+    	
+    	// Arrange
+    	MessageParser msgParser = MessageParser();
+    	const QJsonValue input = QString("test");
+        
+        const bool expectedOutput = true;
+    	 
+    	// Act
+    	const bool output = msgParser.isFieldValid(input);
+    	
+    	// Assert
+    	REQUIRE(output == expectedOutput);
+    	
+    }
+    
 }
 
 
@@ -154,6 +219,29 @@ TEST_CASE("createRoomMessage - fuction that returns QJsonObject for creating new
     }
 }
 
+TEST_CASE("Construction of message for sending canvas content", "[canvasMessage][function]") {
+    
+    SECTION("When called with canvas content of type QString Then return QJsonObject in which TYPE is CANVAS_MESSAGE and CONTENT is set to given canvas content") {
+        // Arrange
+        MessageParser msgParser = MessageParser();
+        QString input = QString("test");
+
+        const QString expectedType = QString(MessageType::CANVAS_MESSAGE);
+        const QString expectedContent = input;
+        const int expectedMsgLength = 2;
+
+        // Act
+        QJsonObject message = msgParser.canvasMessage(input);
+        const QString outputType = message[MessageType::TYPE].toString();
+        const QString outputContent = message[MessageType::CONTENT].toString();
+        const int outputMsgLength = message.length();
+
+        // Assert
+        CHECK(outputMsgLength == expectedMsgLength);
+        REQUIRE(outputType.compare(expectedType) == 0);
+        REQUIRE(outputContent.compare(expectedContent) == 0);
+    }
+}
 
 TEST_CASE("leeaveRoomMessage - fuction that returns QJsonObject for leaving room.", "[function]"){
     
@@ -492,4 +580,155 @@ TEST_CASE("parseReceivedMessage - function returns correct enum for received mes
         REQUIRE(expectedLength == ret.length());
         REQUIRE(expected == actual);
     }
+    
+    SECTION("When called with message of type QJsonObject for which TYPE is GET_ROOMS and CONTENT is not valid and with ret of type QVector<QString> Then ret size is 1 and contains element \"List of rooms is missing\" and return MessageReceivedType::ERROR") {
+    	// Arrange
+    	MessageParser msgParser = MessageParser();
+    	
+    	QJsonObject message;
+    	message[MessageType::TYPE] = MessageType::GET_ROOMS;
+    	// did not set message[MessageType::CONTENT] therefore CONTENT is not valid
+    	
+    	QVector<QString> ret;
+    	const int expectedLength = 1;
+  	
+  	const QString expectedElement = QString("List of rooms is missing");
+  		  	
+    	const MessageReceivedType expectedMessageReceivedType = MessageReceivedType::ERROR;
+    	
+    	// Act
+    	const MessageReceivedType outMessageReceivedType = msgParser.parseReceivedMessage(message, ret);
+    	const int outLength = ret.size();
+    	
+    	REQUIRE(outLength == expectedLength); // to ensure not accessing out of bounds
+    	const QString outElement = QString(ret[outLength - 1]);
+    	
+    	// Assert
+    	REQUIRE(outElement.compare(expectedElement) == 0);
+    	REQUIRE(outMessageReceivedType == expectedMessageReceivedType);
+    
+    }
+    
+    SECTION("When called with message of type QJsonObject for which TYPE is CANVAS_MESSAGE and CONTENT is valid and with ret of type QVector<QString> Then ret size is 1 and ret[0] contains CONTENT and return MessageReceivedType::CANVAS_MESSAGE") {
+    	// Arrange
+    	MessageParser msgParser = MessageParser();
+    	const QString content = QString("");
+    	
+    	QJsonObject message;
+    	message[MessageType::TYPE] = MessageType::CANVAS_MESSAGE;
+    	message[MessageType::CONTENT] = content;
+    	
+    	QVector<QString> ret;
+    	const int expectedLength = 1;
+    	
+    	const QString expectedElement = content;
+    	
+    	const MessageReceivedType expectedMessageReceivedType = MessageReceivedType::CANVAS_MESSAGE;
+    	
+    	// Act
+    	const MessageReceivedType outMessageReceivedType = msgParser.parseReceivedMessage(message, ret);
+    	const int outLength = ret.size();
+    	
+    	REQUIRE(outLength == expectedLength); // to ensure not accessing out of bounds
+    	const QString outElement = QString(ret[outLength - 1]);
+    	
+    	// Assert
+    	REQUIRE(outElement.compare(expectedElement) == 0);
+    	REQUIRE(outMessageReceivedType == expectedMessageReceivedType);
+    }
+    
+    SECTION("When called with message of type QJsonObject for which TYPE is CANVAS_MESSAGE and CONTENT is not valid and with ret of type QVector<QString> Then ret size is 1 and contains element \"Canvas is missing!\" and return MessageReceivedType::ERROR") {
+    	// Arrange
+    	MessageParser msgParser = MessageParser();
+    	
+    	QJsonObject message;
+    	message[MessageType::TYPE] = MessageType::CANVAS_MESSAGE;
+    	// did not set message[MessageType::CONTENT] therefore CONTENT is not valid
+    	
+    	QVector<QString> ret;
+    	const int expectedLength = 1;
+  	
+  	const QString expectedElement = QString("Canvas is missing!");
+  		  	
+    	const MessageReceivedType expectedMessageReceivedType = MessageReceivedType::ERROR;
+    	
+    	// Act
+    	const MessageReceivedType outMessageReceivedType = msgParser.parseReceivedMessage(message, ret);
+    	const int outLength = ret.size();
+    	
+    	REQUIRE(outLength == expectedLength); // to ensure not accessing out of bounds
+    	const QString outElement = QString(ret[outLength - 1]);
+    	
+    	// Assert
+    	REQUIRE(outElement.compare(expectedElement) == 0);
+    	REQUIRE(outMessageReceivedType == expectedMessageReceivedType);
+    }
+    
+    SECTION("When called with message of type QJsonObject for wich TYPE is NEW_HOST and with ret of type QVector<QString> Then ret size does not change and equals to zero and return MessageReceivedType::NEW_HOST"){
+    	// Arrange
+    	MessageParser msgParser = MessageParser();
+    	
+    	QJsonObject message;
+    	message[MessageType::TYPE] = MessageType::NEW_HOST;
+    	
+    	QVector<QString> ret;
+    	const int expectedLength = 0;
+    	
+    	const MessageReceivedType expectedMessageReceivedType = MessageReceivedType::NEW_HOST;
+    	
+    	// Act
+    	const MessageReceivedType outMessageReceivedType = msgParser.parseReceivedMessage(message, ret);
+    	const int outLength = ret.size();
+    	
+    	// Assert
+    	REQUIRE(outLength == expectedLength);
+    	REQUIRE(outMessageReceivedType == expectedMessageReceivedType);	
+    	
+    }
+    
+    SECTION("When called with message of type QJsonObject for wich TYPE is GAME_OVER and with ret of type QVector<QString> Then ret size does not change and equals to zero and return MessageReceivedType::GAME_OVER"){
+    	// Arrange
+    	MessageParser msgParser = MessageParser();
+    	
+    	QJsonObject message;
+    	message[MessageType::TYPE] = MessageType::GAME_OVER;
+    	
+    	QVector<QString> ret;
+    	const int expectedLength = 0;
+    	
+    	const MessageReceivedType expectedMessageReceivedType = MessageReceivedType::GAME_OVER;
+    	
+    	// Act
+    	const MessageReceivedType outMessageReceivedType = msgParser.parseReceivedMessage(message, ret);
+    	const int outLength = ret.size();
+    	
+    	// Assert
+    	REQUIRE(outLength == expectedLength);
+    	REQUIRE(outMessageReceivedType == expectedMessageReceivedType);	
+    	
+    }
+    
+    SECTION("When called with message of type QJsonObject for wich TYPE is START and with ret of type QVector<QString> Then ret size does not change and equals to zero and return MessageReceivedType::GAME_START"){
+    	// Arrange
+    	MessageParser msgParser = MessageParser();
+    	
+    	QJsonObject message;
+    	message[MessageType::TYPE] = MessageType::START;
+    	
+    	QVector<QString> ret;
+    	const int expectedLength = 0;
+    	
+    	const MessageReceivedType expectedMessageReceivedType = MessageReceivedType::GAME_START;
+    	
+    	// Act
+    	const MessageReceivedType outMessageReceivedType = msgParser.parseReceivedMessage(message, ret);
+    	const int outLength = ret.size();
+    	
+    	// Assert
+    	REQUIRE(outLength == expectedLength);
+    	REQUIRE(outMessageReceivedType == expectedMessageReceivedType);	
+    	
+    }
+    
+    
 }
