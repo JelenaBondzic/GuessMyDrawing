@@ -3,9 +3,18 @@
 
 #include <QString>
 
-TEST_CASE("Construction of a message to start the game", "[toStartMessage][function]"){
+TEST_CASE("ServerMessageParser", "[class]"){
 
-    SECTION("The function constructs a message with a START value for TYPE"){
+
+    SECTION("The ServerMessageParser constructor successfully constructs the object"){
+
+    
+        // Arrange + Act + Assert
+        REQUIRE_NOTHROW(ServerMessageParser());
+
+    }
+
+    SECTION("toStartMessage method constructs a message with a START value for TYPE"){
 
         //Arrange
         ServerMessageParser parser = ServerMessageParser();
@@ -23,12 +32,7 @@ TEST_CASE("Construction of a message to start the game", "[toStartMessage][funct
     }
 
 
-
-}
-
-TEST_CASE("Construction of a message for game over", "[toGameOverMessage][function]"){
-
-    SECTION("The function constructs a message with a GAME_OVER value for TYPE"){
+    SECTION("toGameOverMessage method constructs a message with a GAME_OVER value for TYPE"){
 
         //Arrange
         ServerMessageParser parser = ServerMessageParser();
@@ -44,12 +48,7 @@ TEST_CASE("Construction of a message for game over", "[toGameOverMessage][functi
     }
 
 
-
-}
-
-TEST_CASE("Construction of a message for new host", "[toNewHostMessage][function]"){
-
-    SECTION("The function constructs a message with a NEW_HOST value for TYPE"){
+    SECTION("toNewHostMessage method constructs a message with a NEW_HOST value for TYPE"){
 
         //Arrange
         ServerMessageParser parser = ServerMessageParser();
@@ -64,12 +63,8 @@ TEST_CASE("Construction of a message for new host", "[toNewHostMessage][function
 
     }
 
-
-}
-
-TEST_CASE("Construction of a message for user joined", "[toUserJoinedMessage][function]"){
     
-    SECTION("The function constructs a message with a USER_JOINED value for TYPE and username value for USERNAME"){
+    SECTION("toUserJoinedMessage method constructs a message with a USER_JOINED value for TYPE and username value for USERNAME"){
         // Arrange 
         ServerMessageParser parser = ServerMessageParser();
         QString username = "Jason";
@@ -83,11 +78,9 @@ TEST_CASE("Construction of a message for user joined", "[toUserJoinedMessage][fu
         REQUIRE(message[MessageType::TYPE].toString().compare(MessageType::USER_JOINED)==0);
         REQUIRE(message[MessageType::USERNAME].toString().compare(username)==0);
     }
-}
 
-TEST_CASE("Construction of a message for joining room", "[toJoinRoomMessage][function]"){
     
-    SECTION("The function constructs a message with a JOIN_ROOM value for TYPE and roomName value for ROOM_NAME"){
+    SECTION("toJoinRoomMessage method constructs a message with a JOIN_ROOM value for TYPE and roomName value for ROOM_NAME"){
         // Arrange 
         ServerMessageParser parser = ServerMessageParser();
         QString roomName = "Room1";
@@ -101,11 +94,9 @@ TEST_CASE("Construction of a message for joining room", "[toJoinRoomMessage][fun
         REQUIRE(message[MessageType::TYPE].toString().compare(MessageType::JOIN_ROOM)==0);
         REQUIRE(message[MessageType::ROOM_NAME].toString().compare(roomName)==0);
     }
-}
 
-TEST_CASE("Construction of a message for user left", "[toUserLeftMessage][function]"){
-    
-    SECTION("The function constructs a message with a USER_LEFT value for TYPE and username value for USERNAME"){
+
+    SECTION("ToUserLeftMessage method constructs a message with a USER_LEFT value for TYPE and username value for USERNAME"){
         // Arrange 
         ServerMessageParser parser = ServerMessageParser();
         QString username = "Jason";
@@ -119,4 +110,6 @@ TEST_CASE("Construction of a message for user left", "[toUserLeftMessage][functi
         REQUIRE(message[MessageType::TYPE].toString().compare(MessageType::USER_LEFT)==0);
         REQUIRE(message[MessageType::USERNAME].toString().compare(username)==0);
     }
+
+
 }

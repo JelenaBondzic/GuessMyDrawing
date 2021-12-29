@@ -55,7 +55,7 @@
       <widget class="QLineEdit" name="lnInsertWord"/>
      </item>
      <item>
-      <widget class="QPushButton" name="myWord">
+      <widget class="QPushButton" name="pbUseMyWord">
        <property name="text">
         <string>Use my word</string>
        </property>

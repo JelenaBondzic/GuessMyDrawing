@@ -11,11 +11,17 @@ CONFIG += c++17 \
 HEADERS += ../07-GuessMyDrawing/Application/messageparser.h \
     ../07-GuessMyDrawing/Application/client.h \
     ../07-GuessMyDrawing/Server/servermessageparser.h \
+    ../07-GuessMyDrawing/Server/room.h \
+    ../07-GuessMyDrawing/Server/thread.h \
+
+
 
 
 SOURCES += ../07-GuessMyDrawing/Application/messageparser.cpp \
     ../07-GuessMyDrawing/Application/client.cpp \
     ../07-GuessMyDrawing/Server/servermessageparser.cpp \
-    test.cpp
+    ../07-GuessMyDrawing/Server/room.cpp \
+    ../07-GuessMyDrawing/Server/thread.cpp \
+    test.cpp\
 
 TARGET = test

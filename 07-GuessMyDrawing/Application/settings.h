@@ -20,6 +20,8 @@ public:
     ~Settings();
 
     void sendSettingsToCLient(QString username, QString roomName, int duration);
+    void disableInputs();
+
 
 signals:
     void signalThatGameWindowIsClosed();
@@ -28,9 +30,9 @@ private slots:
     void SaveClicked();
     void BackClicked();
 
-    void radioButton_3_clicked();
-    void radioButton_clicked();
-    void radioButton_2_clicked();
+    void timerDuration60_clicked();
+    void timerDuration90_clicked();
+    void timerDuration120_clicked();
 
     void leUsername_textChanged(const QString &arg1);
     void lnRoomName_textChanged(const QString &arg1);
@@ -43,6 +45,7 @@ private:
     int duration;
     QString roomName;
     QString username;
+
 
 
 };

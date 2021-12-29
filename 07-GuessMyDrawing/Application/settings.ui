@@ -55,21 +55,21 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QRadioButton" name="radioButton_2">
+       <widget class="QRadioButton" name="rBtn60">
         <property name="text">
          <string>60 sec</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="radioButton">
+       <widget class="QRadioButton" name="rBtn90">
         <property name="text">
          <string>90 sec</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="radioButton_3">
+       <widget class="QRadioButton" name="rBtn120">
         <property name="text">
          <string>120 sec</string>
         </property>

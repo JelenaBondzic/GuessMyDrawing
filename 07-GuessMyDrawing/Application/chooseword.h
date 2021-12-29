@@ -21,10 +21,12 @@ private slots:
     void pbFirstWord_clicked();
     void pbSecondWord_clicked();
     void pbThirdWord_clicked();
-    void myWord_clicked();
+    void pbUseMyWord_clicked();
     void pbCreateGame_clicked();
     void show_Window();
     void showPopUp();
+
+    void lnInsertWord_textEdited(const QString &arg1);
 
 private:
     Ui::ChooseWord *ui;
