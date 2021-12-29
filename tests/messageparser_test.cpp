@@ -568,4 +568,72 @@ TEST_CASE("parseReceivedMessage - function returns correct enum for received mes
     	REQUIRE(outElement.compare(expectedElement) == 0);
     	REQUIRE(outMessageReceivedType == expectedMessageReceivedType);
     }
+    
+    SECTION("When called with message of type QJsonObject for wich TYPE is NEW_HOST and with ret of type QVector<QString> Then ret size does not change and equals to zero and return MessageReceivedType::NEW_HOST"){
+    	// Arrange
+    	MessageParser msgParser = MessageParser();
+    	
+    	QJsonObject message;
+    	message[MessageType::TYPE] = MessageType::NEW_HOST;
+    	
+    	QVector<QString> ret;
+    	const int expectedLength = 0;
+    	
+    	const MessageReceivedType expectedMessageReceivedType = MessageReceivedType::NEW_HOST;
+    	
+    	// Act
+    	const MessageReceivedType outMessageReceivedType = msgParser.parseReceivedMessage(message, ret);
+    	const int outLength = ret.size();
+    	
+    	// Assert
+    	REQUIRE(outLength == expectedLength);
+    	REQUIRE(outMessageReceivedType == expectedMessageReceivedType);	
+    	
+    }
+    
+    SECTION("When called with message of type QJsonObject for wich TYPE is GAME_OVER and with ret of type QVector<QString> Then ret size does not change and equals to zero and return MessageReceivedType::GAME_OVER"){
+    	// Arrange
+    	MessageParser msgParser = MessageParser();
+    	
+    	QJsonObject message;
+    	message[MessageType::TYPE] = MessageType::GAME_OVER;
+    	
+    	QVector<QString> ret;
+    	const int expectedLength = 0;
+    	
+    	const MessageReceivedType expectedMessageReceivedType = MessageReceivedType::GAME_OVER;
+    	
+    	// Act
+    	const MessageReceivedType outMessageReceivedType = msgParser.parseReceivedMessage(message, ret);
+    	const int outLength = ret.size();
+    	
+    	// Assert
+    	REQUIRE(outLength == expectedLength);
+    	REQUIRE(outMessageReceivedType == expectedMessageReceivedType);	
+    	
+    }
+    
+    SECTION("When called with message of type QJsonObject for wich TYPE is START and with ret of type QVector<QString> Then ret size does not change and equals to zero and return MessageReceivedType::GAME_START"){
+    	// Arrange
+    	MessageParser msgParser = MessageParser();
+    	
+    	QJsonObject message;
+    	message[MessageType::TYPE] = MessageType::START;
+    	
+    	QVector<QString> ret;
+    	const int expectedLength = 0;
+    	
+    	const MessageReceivedType expectedMessageReceivedType = MessageReceivedType::GAME_START;
+    	
+    	// Act
+    	const MessageReceivedType outMessageReceivedType = msgParser.parseReceivedMessage(message, ret);
+    	const int outLength = ret.size();
+    	
+    	// Assert
+    	REQUIRE(outLength == expectedLength);
+    	REQUIRE(outMessageReceivedType == expectedMessageReceivedType);	
+    	
+    }
+    
+    
 }
