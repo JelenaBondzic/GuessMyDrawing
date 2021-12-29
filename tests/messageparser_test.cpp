@@ -74,6 +74,71 @@ TEST_CASE("fieldIsValid", "[function]"){
         // Assert
         REQUIRE(output == expectedOtput);
     }
+    
+    SECTION("When called with value of type QJsonValue that does not contain a string Then return false") {
+    	
+    	// Arrange
+    	MessageParser msgParser = MessageParser();
+    	const QJsonValue input = 42; // does not contain a string
+        
+        const bool expectedOutput = false;
+    	 
+    	// Act
+    	const bool output = msgParser.isFieldValid(input);
+    	
+    	// Assert
+    	REQUIRE(output == expectedOutput);
+    	
+    }
+    
+    SECTION("When called with value of type QJsonValue that is null Then return false") {
+    	
+    	// Arrange
+    	MessageParser msgParser = MessageParser();
+    	const QJsonValue input = QJsonValue::Null; 
+        
+        const bool expectedOutput = false;
+    	 
+    	// Act
+    	const bool output = msgParser.isFieldValid(input);
+    	
+    	// Assert
+    	REQUIRE(output == expectedOutput);
+    	
+    }
+    
+    SECTION("When called with value of type QJsonValue that is undefined Then return false") {
+    	
+    	// Arrange
+    	MessageParser msgParser = MessageParser();
+    	const QJsonValue input = QJsonValue::Undefined; 
+        
+        const bool expectedOutput = false;
+    	 
+    	// Act
+    	const bool output = msgParser.isFieldValid(input);
+    	
+    	// Assert
+    	REQUIRE(output == expectedOutput);
+    	
+    }
+    
+    SECTION("When called with value of type QJsonValue that contains a string Then return true") {
+    	
+    	// Arrange
+    	MessageParser msgParser = MessageParser();
+    	const QJsonValue input = QString("test");
+        
+        const bool expectedOutput = true;
+    	 
+    	// Act
+    	const bool output = msgParser.isFieldValid(input);
+    	
+    	// Assert
+    	REQUIRE(output == expectedOutput);
+    	
+    }
+    
 }
 
 
