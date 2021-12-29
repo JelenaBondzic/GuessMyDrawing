@@ -90,5 +90,7 @@ void ChooseWord::showPopUp()
 
 void ChooseWord::lnInsertWord_textEdited(const QString &arg1)
 {
+    Q_UNUSED(arg1);
+
     ui->pbUseMyWord->setDisabled(false);
 }

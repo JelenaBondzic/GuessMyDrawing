@@ -4,7 +4,7 @@
 #include <QRandomGenerator>
 
 
-Room::Room(QString username, QString room_name, int duration): name(room_name), duration(duration), host(username)
+Room::Room(QString firstHost, QString roomName, int duration): name(roomName), duration(duration), host(firstHost)
 {
   gameIsStarted = false;
   parser = new ServerMessageParser();
