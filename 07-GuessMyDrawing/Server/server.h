@@ -1,14 +1,12 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-#include "QString"
-#include "room.h"
+#include <QString>
 #include <QMap>
-#include <QDebug>
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QJsonObject>
-#include <QJsonDocument>
+#include "room.h"
 #include "thread.h"
 #include "ServerMessageEnum.h"
 
