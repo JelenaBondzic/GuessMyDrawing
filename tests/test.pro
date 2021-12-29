@@ -14,6 +14,7 @@ HEADERS += ../07-GuessMyDrawing/Application/messageparser.h \
     ../07-GuessMyDrawing/Server/server.h \
     ../07-GuessMyDrawing/Server/thread.h \
     ../07-GuessMyDrawing/Server/room.h \
+>>>>>>> tests/test.pro
 
 
 SOURCES += ../07-GuessMyDrawing/Application/messageparser.cpp \
@@ -23,5 +24,6 @@ SOURCES += ../07-GuessMyDrawing/Application/messageparser.cpp \
     ../07-GuessMyDrawing/Server/thread.cpp \
     ../07-GuessMyDrawing/Server/room.cpp \
     test.cpp
+>>>>>>> tests/test.pro
 
 TARGET = test

@@ -16,24 +16,18 @@ Settings::Settings(Game* game, Client* client, QWidget *parent) :
     connect(ui->pushButton_2, &QPushButton::clicked, this, &Settings::BackClicked);
     connect(ui->leUsername, &QLineEdit::textChanged, this,  &Settings::leUsername_textChanged);
     connect(ui->lnRoomName, &QLineEdit::textChanged, this, &Settings::lnRoomName_textChanged);
-    connect(ui->radioButton, &QRadioButton::clicked, this, &Settings::radioButton_clicked);
-    connect(ui->radioButton_2, &QRadioButton::clicked, this, &Settings::radioButton_2_clicked);
-    connect(ui->radioButton_3, &QRadioButton::clicked, this, &Settings::radioButton_3_clicked);
+    connect(ui->rBtn60, &QRadioButton::clicked, this, &Settings::timerDuration60_clicked);
+    connect(ui->rBtn90, &QRadioButton::clicked, this, &Settings::timerDuration90_clicked);
+    connect(ui->rBtn120, &QRadioButton::clicked, this, &Settings::timerDuration120_clicked);
     connect(client, &Client::errorConnecting, this, &Settings::showPopUp);
 
 
-    ui->pbSave->setDisabled(true);
-    ui->leUsername->setDisabled(true);
-    ui->radioButton->setDisabled(true);
-    ui->radioButton_2->setDisabled(true);
-    ui->radioButton_3->setDisabled(true);
+    disableInputs();
 
 }
 
 Settings::~Settings()
 {
-
-  std::cout << "Settings rooms destrucotr" << std::endl;
     delete ui;
 }
 
@@ -47,7 +41,8 @@ void Settings::SaveClicked()
 
     game->setWindowTitle(roomName);
     sendSettingsToCLient(username, roomName, duration);
-    ui->pbSave->setDisabled(true);
+
+    disableInputs();
 }
 
 void Settings::BackClicked(){
@@ -57,21 +52,21 @@ void Settings::BackClicked(){
     parent->show();
 }
 
-void Settings::radioButton_clicked()
+void Settings::timerDuration60_clicked()
 {
     duration = 60;
     ui->leUsername->setDisabled(false);
 
 }
 
-void Settings::radioButton_2_clicked()
+void Settings::timerDuration90_clicked()
 {
     duration = 90;
     ui->leUsername->setDisabled(false);
 
 }
 
-void Settings::radioButton_3_clicked()
+void Settings::timerDuration120_clicked()
 {
     duration = 120;
     ui->leUsername->setDisabled(false);
@@ -99,13 +94,25 @@ void Settings::lnRoomName_textChanged(const QString &arg1)
 {
     Q_UNUSED(arg1);
 
-    ui->radioButton->setDisabled(false);
-    ui->radioButton_2->setDisabled(false);
-    ui->radioButton_3->setDisabled(false);
+    ui->rBtn60->setDisabled(false);
+    ui->rBtn90->setDisabled(false);
+    ui->rBtn120->setDisabled(false);
 }
 
 void Settings::showPopUp()
 {
     hide();
+}
+
+void Settings::disableInputs()
+{
+    ui->pbSave->setDisabled(true);
+    ui->leUsername->setDisabled(true);
+    ui->rBtn60->setDisabled(true);
+    ui->rBtn90->setDisabled(true);
+    ui->rBtn120->setDisabled(true);
+    ui->leUsername->setText("");
+    ui->lnRoomName->setText("");
+
 }
 

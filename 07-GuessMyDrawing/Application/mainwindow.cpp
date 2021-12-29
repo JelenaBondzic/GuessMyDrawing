@@ -61,6 +61,8 @@ void MainWindow::JoinGameClicked() {
 void MainWindow::CreateNewGameClicked() {
     if (settings==nullptr)
         settings = new Settings(game, chatClient, this);
+
+    settings->disableInputs();
     settings->setModal(true);
  //   settings->show();
     settings->exec();

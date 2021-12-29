@@ -22,13 +22,11 @@ public:
 private slots:
     void listOfRooms_itemClicked(QListWidgetItem *item);
     void getActiveRooms(const QVector<QString>* r);
-//    void on_leUsername_editingFinished();
     void pbJoin_clicked();
     void JoinedRoom(bool p);
 
     void leUsername_textEdited(const QString &arg1);
     void showPopUp();
-  //  void notJoinedAlert();
 
 private:
     Ui::ExistingRooms *ui;

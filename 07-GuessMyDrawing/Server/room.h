@@ -22,6 +22,7 @@ private:
     QString host;
     bool gameIsStarted;
     ServerMessageParser *parser;
+    bool noMorePlayers;
 
     void chooseRandomHost();
     void gameOver(Thread* t);

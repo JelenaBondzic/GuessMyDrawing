@@ -63,10 +63,10 @@ void Room::leaveRoom(Thread* thread)
 bool Room::usernameIsTaken(QString username)
 {
     if(players.contains(username)){
-        return false;
+        return true;
     }
 
-    return true;
+    return false;
 }
 
 void Room::setWordAndStartGame(const QString &newChosenWord)
@@ -101,8 +101,10 @@ void Room::chooseRandomHost()
 
   int n = players.size();
   if (n == 0) {
+      noMorePlayers = true;
       return ;
   }
+  noMorePlayers = false;
   int index = QRandomGenerator::global()->bounded(0, n); // index random igraca
   for (auto it=players.begin(); it != players.end(); it++){
     if(index==0){
@@ -132,7 +134,7 @@ void Room::joinClient(QString username, Thread* thread){
 
     QJsonObject message;
 
-    if(!check){
+    if(check){
         QString msg = "";
         message = parser->toJoinRoomMessage(msg);
 
