@@ -599,10 +599,11 @@ TEST_CASE("parseReceivedMessage - function returns correct enum for received mes
     	// Act
     	const MessageReceivedType outMessageReceivedType = msgParser.parseReceivedMessage(message, ret);
     	const int outLength = ret.size();
-    	const QString outElement = QString(ret[expectedLength - 1]);
+    	
+    	REQUIRE(outLength == expectedLength); // to ensure not accessing out of bounds
+    	const QString outElement = QString(ret[outLength - 1]);
     	
     	// Assert
-    	REQUIRE(outLength == expectedLength);
     	REQUIRE(outElement.compare(expectedElement) == 0);
     	REQUIRE(outMessageReceivedType == expectedMessageReceivedType);
     
@@ -627,10 +628,11 @@ TEST_CASE("parseReceivedMessage - function returns correct enum for received mes
     	// Act
     	const MessageReceivedType outMessageReceivedType = msgParser.parseReceivedMessage(message, ret);
     	const int outLength = ret.size();
-    	const QString outElement = QString(ret[expectedLength - 1]);
+    	
+    	REQUIRE(outLength == expectedLength); // to ensure not accessing out of bounds
+    	const QString outElement = QString(ret[outLength - 1]);
     	
     	// Assert
-    	REQUIRE(outLength == expectedLength);
     	REQUIRE(outElement.compare(expectedElement) == 0);
     	REQUIRE(outMessageReceivedType == expectedMessageReceivedType);
     }
@@ -653,10 +655,11 @@ TEST_CASE("parseReceivedMessage - function returns correct enum for received mes
     	// Act
     	const MessageReceivedType outMessageReceivedType = msgParser.parseReceivedMessage(message, ret);
     	const int outLength = ret.size();
-    	const QString outElement = QString(ret[expectedLength - 1]);
+    	
+    	REQUIRE(outLength == expectedLength); // to ensure not accessing out of bounds
+    	const QString outElement = QString(ret[outLength - 1]);
     	
     	// Assert
-    	REQUIRE(outLength == expectedLength);
     	REQUIRE(outElement.compare(expectedElement) == 0);
     	REQUIRE(outMessageReceivedType == expectedMessageReceivedType);
     }
