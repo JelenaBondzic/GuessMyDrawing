@@ -59,6 +59,7 @@ void Client::leaveRoom()
 {
   sendMessage(parser->leaveRoomMessage());
   this->imHost = false;
+  this->shouldBecomeHost = false;
 }
 
 

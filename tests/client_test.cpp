@@ -6,16 +6,11 @@
 #include <QString>
 
 
-// POKRETANJE:
-// qmake test.pro
-// make 
-// dobija se izvrsni fajl test
-
-TEST_CASE("client", "[class][function]"){
+TEST_CASE("client", "[constructor]"){
 
     SECTION("Clinet is not host after creating."){
         // Arrange 
-        Client client = Client("milica");
+        Client client("milica");
         bool expectedOtput = false;
         
         // Act
@@ -26,9 +21,9 @@ TEST_CASE("client", "[class][function]"){
     }
     
     
-    SECTION("Clinet has messageSocket that is not nullptr adter creating."){
+    SECTION("Clinet has messageSocket that is not nullptr after creating."){
         // Arrange 
-        Client client = Client("milica");
+        Client client("milica");
         QTcpSocket * notExpectedOtput = nullptr;
         
         // Act
@@ -37,11 +32,12 @@ TEST_CASE("client", "[class][function]"){
         // Assert
         REQUIRE(output != notExpectedOtput);
     }
+}
     
-    
+TEST_CASE("client.joinRoom", "[function]"){
     SECTION("Client's name sets after joining room."){
         // Arrange 
-        Client client = Client("milica");
+        Client client("milica");
         QString name = "me";
         
         // Act
@@ -51,11 +47,12 @@ TEST_CASE("client", "[class][function]"){
         // Assert
         REQUIRE(name.compare(nameAfterJoin)==0);
     }
-    
-    
+}
+  
+TEST_CASE("client.leaveRoom", "[function]"){
     SECTION("Client who was host won't be host anymore after leaving room."){
         // Arrange 
-        Client client = Client("milica");
+        Client client("milica");
         client.imHost = true;
         
         // Act
@@ -66,10 +63,10 @@ TEST_CASE("client", "[class][function]"){
         REQUIRE(afterLeaving == false);
     }
 
-        
+            
     SECTION("Client who was not host is not host after leaving room."){
         // Arrange 
-        Client client = Client("milica");
+        Client client("milica");
         client.imHost = false;
         
         // Act
