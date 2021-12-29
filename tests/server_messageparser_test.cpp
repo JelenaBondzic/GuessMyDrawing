@@ -86,9 +86,10 @@ TEST_CASE("Construction of a message for user joined", "[userJoinedMessage][func
     }
 }
 
-TEST_CASE("getTypeFromMessage", "[getTypeFromMessage][function]") {
+
+TEST_CASE("ServerMessageParser", "[class]") {
     
-    SECTION("The function returns correct message type for a given message.") {
+    SECTION("The function getTypeFromMessage returns correct message type for a given message.") {
         // Arrange
         ServerMessageParser parser;
         QJsonObject message;
@@ -100,7 +101,7 @@ TEST_CASE("getTypeFromMessage", "[getTypeFromMessage][function]") {
         REQUIRE(expected_type == received_type);
     }
 
-    SECTION("When a message with invalid message type is passed the function returns an error message type.") {
+    SECTION("When a message with invalid message type is passed the function getTypeFromMessage returns an error message type.") {
         // Arrange
         ServerMessageParser parser;
         QJsonObject message;
@@ -111,11 +112,8 @@ TEST_CASE("getTypeFromMessage", "[getTypeFromMessage][function]") {
         // Assert
         REQUIRE(expected_type == received_type);
     }
-}
 
-TEST_CASE("toGetRoomsMessage", "[toGetRoomsMessage][function]") {
-
-    SECTION("The function converts given string of rooms to message correctly.") {
+    SECTION("The function toGetRoomsMessage converts given string of rooms to message correctly.") {
         // Arrange
         ServerMessageParser parser;
         const QString input_rooms = QString("test1, test2, test3");
@@ -127,7 +125,7 @@ TEST_CASE("toGetRoomsMessage", "[toGetRoomsMessage][function]") {
         REQUIRE(received_message[MessageType::CONTENT].toString().compare(input_rooms) == 0);
     }
 
-    SECTION("When an empty string of rooms is given the function returns correct message.") {
+    SECTION("When an empty string of rooms is given the function toGetRoomsMessage returns correct message.") {
         // Arrange
         ServerMessageParser parser;
         const QString input_rooms = QString("");
@@ -138,11 +136,8 @@ TEST_CASE("toGetRoomsMessage", "[toGetRoomsMessage][function]") {
         REQUIRE(received_message[MessageType::TYPE].toString().compare(MessageType::GET_ROOMS) == 0);
         REQUIRE(received_message[MessageType::CONTENT].toString().compare(input_rooms) == 0);
     }
-}
 
-TEST_CASE("fromJoinRoomMessage", "[fromJoinRoomMessage][function]") {
-
-    SECTION("Function converts a join room message to QVector<QString> correctly.") {
+    SECTION("Function fromJoinRoomMessage converts a join room message to QVector<QString> correctly.") {
         // Arrange
         ServerMessageParser parser;
         QJsonObject input_message;
@@ -158,11 +153,8 @@ TEST_CASE("fromJoinRoomMessage", "[fromJoinRoomMessage][function]") {
         CHECK(received_result.length() == 2);
         REQUIRE(expected_result == received_result);
     }
-}
 
-TEST_CASE("fromChooseWordMessage", "[fromChooseWordMessage][function]") {
-
-    SECTION("Function converts a choose word message to QVector<QString> correctly.") {
+    SECTION("Function fromChooseWordMessage converts a choose word message to QVector<QString> correctly.") {
         // Arrange
         ServerMessageParser parser;
         QJsonObject input_message;
@@ -176,10 +168,8 @@ TEST_CASE("fromChooseWordMessage", "[fromChooseWordMessage][function]") {
         CHECK(received_result.length() == 1);
         REQUIRE(expected_result == received_result);
     }
-}
 
-TEST_CASE("fromCreateRoomMessage", "[fromCreateRoomMessage][function]") {
-    SECTION("Function converts a create room message to QVector<QString> correctly.") {
+    SECTION("Function fromCreateRoomMessage converts a create room message to QVector<QString> correctly.") {
         // Arrange
         ServerMessageParser parser;
         QJsonObject input_message;
@@ -197,5 +187,6 @@ TEST_CASE("fromCreateRoomMessage", "[fromCreateRoomMessage][function]") {
         CHECK(received_result.length() == 3);
         REQUIRE(expected_result == received_result);
     }
+
 }
 
