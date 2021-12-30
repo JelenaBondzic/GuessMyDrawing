@@ -31,6 +31,16 @@ make
 ./Application/Application
 ```
 
+## Testing
+
+- Requirement: Download catch.hpp library 
+- After build go to tests dir and then run:
+``` bash
+qmake
+make
+./test
+```
+
 ## Developers
 
 - [Jelena Bondžić, 131/2018](https://gitlab.com/JelenaBondzic)
