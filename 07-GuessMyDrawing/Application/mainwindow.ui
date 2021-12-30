@@ -14,11 +14,7 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-image: url(:/img/guess.jpg) 0 0 0 0 strech strech;
-background-image: url(:/img/68-686824_m.jpg);
-
-
-</string>
+   <string notr="true">background-image: url(:/img/background.jpg);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
