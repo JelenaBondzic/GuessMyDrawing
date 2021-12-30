@@ -29,10 +29,10 @@ public:
   void disconnectFromHost();
 
   void send(const QString &text);
-  void joinRoom(QString username, QString room);
-  void createRoom(QString username, QString room_name, int duration);
+  void joinRoom(QString &username, QString &room);
+  void createRoom(QString &username, QString &room_name, int duration);
   void leaveRoom();
-  void chooseWord(QString word);
+  void chooseWord(QString &word);
   void getRooms();
   void sendCanvas(QString& canvas);
 

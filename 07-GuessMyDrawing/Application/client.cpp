@@ -43,13 +43,13 @@ void Client::send(const QString &text)
   sendMessage(parser->textMessage(text, mName));
 }
 
-void Client::joinRoom(QString username, QString roomName)
+void Client::joinRoom(QString &username, QString &roomName)
 {
   this->mName = username;
   sendMessage(parser->joinRoomMessage(username, roomName));
 }
 
-void Client::createRoom(QString username, QString room_name, int duration)
+void Client::createRoom(QString &username, QString &room_name, int duration)
 {
   this->mName = username;
   sendMessage(parser->createRoomMessage(username, room_name, duration));
@@ -63,7 +63,7 @@ void Client::leaveRoom()
 }
 
 
-void Client::chooseWord(QString word)
+void Client::chooseWord(QString &word)
 {
   sendMessage(parser->chooseWordMessage(word));
 }
