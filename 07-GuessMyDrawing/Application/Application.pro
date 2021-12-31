@@ -59,5 +59,4 @@ DISTFILES += \
     CMakeLists.txt
 
 RESOURCES += \
-    guess.qrc \
-    pctr2.qrc
+    resources/background.qrc
