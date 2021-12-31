@@ -44,7 +44,6 @@ void MainWindow::attemptConnection(qint16 port) {
 void MainWindow::closeEvent(QCloseEvent *event) {
     Q_UNUSED(event);
 
-    std::cout << "MainWindow close event!" << std::endl;
     exit(0);
 }
 
@@ -55,7 +54,6 @@ void MainWindow::JoinGameClicked() {
     existingRooms->setModal(true);
     //opening the second window
     existingRooms->exec();
-    std::cout << "DONE settings" << std::endl;
 }
 
 void MainWindow::CreateNewGameClicked() {
@@ -64,9 +62,7 @@ void MainWindow::CreateNewGameClicked() {
 
     settings->disableInputs();
     settings->setModal(true);
- //   settings->show();
     settings->exec();
-    std::cout << "DONE settings" << std::endl;
 }
 
 

@@ -69,7 +69,6 @@ void ChooseWord::pbCreateGame_clicked()
 {
     this->hide();
     client->chooseWord(chosenWord);
-    //client->createRoom(username, roomName, duration);
     game->show();
 }
 

@@ -89,7 +89,6 @@ void Room::checkChatWord(QString word, Thread* senderUser)
         gameOver(senderUser);
 
         QJsonObject message = parser->toNewHostMessage();
-       // message[MessageType::TYPE] = MessageType::NEW_HOST;
         senderUser->send(message);
     }
 
@@ -109,10 +108,8 @@ void Room::chooseRandomHost()
   for (auto it=players.begin(); it != players.end(); it++){
     if(index==0){
         QJsonObject message = parser->toNewHostMessage();
-      //  message[MessageType::TYPE] = MessageType::NEW_HOST;
         it.value()->send(message);
         host = it.key();
-      //  std::cout << " new random host " << host.toStdString() << std::endl;
         break;
       }
     index--;
@@ -122,7 +119,6 @@ void Room::chooseRandomHost()
 void Room::gameOver(Thread* t)
 {
   QJsonObject message = parser->toGameOverMessage();
-//  message[MessageType::TYPE] = MessageType::GAME_OVER;
   broadcastMessage(message, t);
   gameIsStarted = false;
 }

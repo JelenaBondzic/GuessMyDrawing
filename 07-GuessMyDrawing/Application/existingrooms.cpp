@@ -18,8 +18,6 @@ ExistingRooms::ExistingRooms(Game* game, Client* client, QWidget *parent) :
     connect(client, &Client::errorConnecting, this, &ExistingRooms::showPopUp);
 
 
-//    client->getRooms();
-
     ui->pbJoin->setDisabled(true);
     ui->listOfRooms->setDisabled(true);
 
@@ -27,7 +25,6 @@ ExistingRooms::ExistingRooms(Game* game, Client* client, QWidget *parent) :
 }
 ExistingRooms::~ExistingRooms()
 {
-  std::cout << "Existing rooms destrucotr" << std::endl;
     delete ui;
 }
 
@@ -47,7 +44,7 @@ void ExistingRooms::getActiveRooms(const QVector<QString> *r)
     for (int i=0; i< activeRooms->size() ; ++i) {
        ui->listOfRooms->addItem(activeRooms->at(i));
     }
-    // TODO check
+
     delete r;
 
 }
@@ -57,12 +54,6 @@ void ExistingRooms::getActiveRooms(const QVector<QString> *r)
 void ExistingRooms::pbJoin_clicked()
 {
 
-//    hide();
-//    QWidget *parent = this->parentWidget();
-//    parent->hide();
-   // std::cout << username.toStdString() << std::endl;
-
-   // hide();
     client->joinRoom(username, selectedRoom);
     game->setWindowTitle(selectedRoom);
     ui->pbJoin->setDisabled(true);
@@ -70,7 +61,6 @@ void ExistingRooms::pbJoin_clicked()
 
 void ExistingRooms::JoinedRoom(bool p)
 {
-  //  std::cout << "Ovde je p" << p << std::endl;
     if(p){
         hide();
         QWidget *parent = this->parentWidget();

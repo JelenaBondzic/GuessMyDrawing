@@ -35,7 +35,6 @@ private:
     QString username = "";
     QString selectedRoom;
     Game* game;
-  //  ChooseWord *chooseWord;
 
 };
 
