@@ -54,7 +54,6 @@ void Room::leaveRoom(Thread* thread)
 
         // ako je host ostao sam onda mora da mu se kaze da je i dalje host, jer je izgubio "host" privilegije sa gameOver()
         QJsonObject message = parser->toNewHostMessage();
-       // message[MessageType::TYPE] = MessageType::NEW_HOST;
         players[host]->send(message);
     }
 }
@@ -118,9 +117,9 @@ void Room::chooseRandomHost()
 
 void Room::gameOver(Thread* t)
 {
-  QJsonObject message = parser->toGameOverMessage();
-  broadcastMessage(message, t);
-  gameIsStarted = false;
+    QJsonObject message = parser->toGameOverMessage();
+    broadcastMessage(message, t);
+    gameIsStarted = false;
 }
 
 
@@ -134,7 +133,6 @@ void Room::joinClient(QString username, Thread* thread){
         QString msg = "";
         message = parser->toJoinRoomMessage(msg);
 
-       // message[MessageType::TYPE] = QString(MessageType::JOIN_ROOM);
         thread->send(message);
         return;
     }
@@ -174,7 +172,6 @@ void Room::joinClient(QString username, Thread* thread){
 void Room::start()
 {
     QJsonObject message = parser->toStartMessage();
-   //message[MessageType::TYPE] = MessageType::START;
 
     QMapIterator<QString, Thread*> i(players);
     while (i.hasNext()) {
