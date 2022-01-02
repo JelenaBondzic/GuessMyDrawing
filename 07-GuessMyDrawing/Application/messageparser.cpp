@@ -2,9 +2,7 @@
 #include <iostream>
 
 MessageParser::MessageParser()
-{
-
-}
+= default;
 
 QJsonObject MessageParser::textMessage(const QString &text, const QString& name)
 {
@@ -94,70 +92,77 @@ MessageReceivedType MessageParser::parseReceivedMessage(const QJsonObject &messa
       return MessageReceivedType::TEXT_MESSAGE;
     }
 
-  else if(typeVal.toString().compare(MessageType::USER_JOINED) == 0){
-    const QJsonValue username = message.value(MessageType::USERNAME);
-    if (!isFieldValid(username)){
-        ret.append("Username is missing");
-        return MessageReceivedType::ERROR; // username missing or invalid
-      }
-    ret.append(username.toString());
-    return MessageReceivedType::USER_JOINED;
-    }
+  if(typeVal.toString().compare(MessageType::USER_JOINED) == 0){
+const QJsonValue username = message.value(MessageType::USERNAME);
+if (!isFieldValid(username)){
+ret.append("Username is missing");
+return MessageReceivedType::ERROR; // username missing or invalid
+}
+ret.append(username.toString());
+return MessageReceivedType::USER_JOINED;
+}
 
-  else if(typeVal.toString().compare(MessageType::USER_LEFT) == 0){
-    const QJsonValue username = message.value(MessageType::USERNAME);
-    if (!isFieldValid(username)){
-        ret.append("Username is missing");
-        return MessageReceivedType::ERROR; // username missing or invalid
-      }
-    ret.append(username.toString());
-    return MessageReceivedType::USER_LEFT;
-    }
 
-  else if(typeVal.toString().compare(MessageType::JOIN_ROOM) == 0){
-    const QJsonValue room = message.value(MessageType::ROOM_NAME);
-    if (!isFieldValid(room) || room.toString().isEmpty()){
-        ret.append("Failed to join room!");
-      }
-    return MessageReceivedType::JOINED_ROOM;
-    }
-  else if(typeVal.toString().compare(MessageType::GET_ROOMS) == 0){
-    const QJsonValue rooms = message.value(MessageType::CONTENT);
-    if (!isFieldValid(rooms)){
-        ret.append("List of rooms is missing");
-        return MessageReceivedType::ERROR; // nema liste soba
-      }
+if(typeVal.toString().compare(MessageType::USER_LEFT) == 0){
+const QJsonValue username = message.value(MessageType::USERNAME);
+if (!isFieldValid(username)){
+ret.append("Username is missing");
+return MessageReceivedType::ERROR; // username missing or invalid
+}
+ret.append(username.toString());
+return MessageReceivedType::USER_LEFT;
+}
 
-    auto room_split = rooms.toString().split(",");
-    for(QString& r : room_split){
-        if (r.isEmpty()) continue;
-        ret.append(r);
-      }
-    return MessageReceivedType::GET_ROOMS;
-    }
 
-  else if(typeVal.toString().compare(MessageType::NEW_HOST) == 0){
-      return MessageReceivedType::NEW_HOST;
-    }
+if(typeVal.toString().compare(MessageType::JOIN_ROOM) == 0){
+const QJsonValue room = message.value(MessageType::ROOM_NAME);
+if (!isFieldValid(room) || room.toString().isEmpty()){
+ret.append("Failed to join room!");
+}
+return MessageReceivedType::JOINED_ROOM;
+}
+if(typeVal.toString().compare(MessageType::GET_ROOMS) == 0){
+const QJsonValue rooms = message.value(MessageType::CONTENT);
+if (!isFieldValid(rooms)){
+ret.append("List of rooms is missing");
+return MessageReceivedType::ERROR; // nema liste soba
+}
 
-  else if(typeVal.toString().compare(MessageType::GAME_OVER) == 0){
-      return MessageReceivedType::GAME_OVER;
-    }
 
-  else if(typeVal.toString().compare(MessageType::START) == 0){
-      return MessageReceivedType::GAME_START;
-    }
-  else if(typeVal.toString().compare(MessageType::CANVAS_MESSAGE)==0){
-      const QJsonValue canvas_content = message.value(MessageType::CONTENT);
-      if (!isFieldValid(canvas_content)){
-        ret.append("Canvas is missing!");
-        return MessageReceivedType::ERROR;
-        }
+auto room_split = rooms.toString().split(",");
+for(QString &r : room_split){
+if (r.isEmpty()) continue;
+ret.append(r);
+}
+return MessageReceivedType::GET_ROOMS;
+}
+
+
+if(typeVal.toString().compare(MessageType::NEW_HOST) == 0){
+return MessageReceivedType::NEW_HOST;
+}
+
+
+if(typeVal.toString().compare(MessageType::GAME_OVER) == 0){
+return MessageReceivedType::GAME_OVER;
+}
+
+
+if(typeVal.toString().compare(MessageType::START) == 0){
+return MessageReceivedType::GAME_START;
+}
+if(typeVal.toString().compare(MessageType::CANVAS_MESSAGE)==0){
+const QJsonValue canvas_content = message.value(MessageType::CONTENT);
+if (!isFieldValid(canvas_content)){
+ret.append("Canvas is missing!");
+return MessageReceivedType::ERROR;
+}
+
 
 //      ret.append(canvas_content.toString().toUtf8());
-      ret.append(canvas_content.toString());
-      return MessageReceivedType::CANVAS_MESSAGE;
-    }
+ret.append(canvas_content.toString());
+return MessageReceivedType::CANVAS_MESSAGE;
+}
 
   ret.append("Unknow type of message!");
   return MessageReceivedType::ERROR;

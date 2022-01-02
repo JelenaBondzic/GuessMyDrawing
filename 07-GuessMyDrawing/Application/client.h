@@ -72,7 +72,7 @@ private:
   MessageParser *parser;
 
   void jsonReceived(const QJsonObject &doc);
-  void sendMessage(QJsonObject msg);
+  void sendMessage(const QJsonObject& message);
 
   QHostAddress adress;
   quint16 port;

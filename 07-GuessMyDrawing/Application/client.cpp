@@ -1,11 +1,11 @@
 #include "client.h"
 #include "../MessageType.h"
 #include <iostream>
+#include <utility>
 
 Client::Client(QString name, QObject *parent):
   QObject(parent),
-  mName(name),
-  imHost(false),
+  mName(std::move(name)),
   messageSocket(new QTcpSocket(this)),
   parser(new MessageParser())
 {
@@ -163,7 +163,7 @@ void Client::jsonReceived(const QJsonObject &doc)
       }
 
     case MessageReceivedType::GET_ROOMS:{
-        QVector<QString> *room_list = new QVector<QString>;
+        auto *room_list = new QVector<QString>;
         for(QString& r : ret){
             room_list->push_back(r);
           }
@@ -219,7 +219,7 @@ void Client::jsonReceived(const QJsonObject &doc)
 }
 
 
-void Client::sendMessage(QJsonObject message)
+void Client::sendMessage(const QJsonObject& message)
 {
   auto msg = QJsonDocument(message).toJson(QJsonDocument::Compact);
   messageSocket->write(msg);
