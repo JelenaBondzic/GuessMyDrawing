@@ -2,9 +2,9 @@ name: test
 
 on:
     push:
-        branches: [ main ]
+        branches: [ master ]
     pull_request:
-        branches: [ main ]
+        branches: [ master ]
 
 jobs: 
   build_and_test: 
@@ -15,7 +15,7 @@ jobs:
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         
-      - name: create-build-dir
+      - nam: create-build-dir
         run: "mkdir build"
         
       - name: build-qmake
