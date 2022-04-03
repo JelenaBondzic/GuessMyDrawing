@@ -15,7 +15,7 @@ jobs:
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         
-      - nam: create-build-dir
+      - name: create-build-dir
         run: "mkdir build"
         
       - name: build-qmake
