@@ -1,0 +1,48 @@
+name: test
+
+on:
+    push:
+        branches: [ main ]
+    pull_request:
+        branches: [ main ]
+
+jobs: 
+  build_and_test: 
+    runs-on: ubuntu-latest
+    steps: 
+      - uses: actions/checkout@v2
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2
+        
+      - nam: create-build-dir
+        run: "mkdir build"
+        
+      - name: build-qmake
+        working-directory: build
+        run: qmake ../07-GuessMyDrawing/
+        
+      - name: build-make
+        working-directory: build
+        run: make
+        
+    # After build, we should run qmake and cmake for tests
+        
+      - name: create-test-build-dir
+        run: "mkdir build"
+        working-directory: ./tests
+        
+      - name: build-tests-qmake
+        run: "qmake .."
+        working-directory: ./tests/build
+        
+      - name: build-tests-cmake
+        run: make
+        working-directory: ./tests/build
+        
+      - name: run-tests
+        run: ./test
+        working-directory: ./tests/build
+        
+      - name: write-up
+        run: "echo All tests passed!"
